@@ -1,0 +1,17 @@
+body {
+    font-family: '微軟正黑體';
+}
+
+.bg {
+    background-image: url(../img/bg.jpg);
+}
+
+.bg-cover {
+    background-size: cover;
+    background-position: center center;
+}
+
+.bg-opacity {
+    background-color: black;
+    opacity: 0.5;
+}
