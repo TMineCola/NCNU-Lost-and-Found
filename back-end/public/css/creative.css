@@ -334,19 +334,17 @@ header.masthead p {
   z-index: 0 !important;
 }
 
-.modal-body a{
+.modal-body a {
   color: white;
-  text-align: left;
+  /* text-align: left; */
   border-radius: 5px;
   text-transform: none;
-  position: relative;
-  padding-left: 0;
+  /* padding-left: 0; */
 }
 
 .modal-body a i {
   width: 55px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
-  text-align: center;
 }
 
 .onl_btn-facebook {
@@ -354,12 +352,27 @@ header.masthead p {
   border-color: #172d5e;
 }
 
+.onl_btn-facebook:active,
+.onl_btn-facebook:hover {
+  background: #2d4373;
+}
+
 .onl_btn-google {
   background: #c32f10;
   border-color: #6b1301;
 }
 
+.onl_btn-google:active,
+.onl_btn-google:hover {
+  background: #971a11;
+}
+
 .onl_btn-github {
   background: #666666;
   border-color: #333333;
+}
+
+.onl_btn-github:active,
+.onl_btn-github:hover {
+  background: #383838;
 }
