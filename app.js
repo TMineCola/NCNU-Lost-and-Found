@@ -13,7 +13,7 @@ var mysql = require('mysql');
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
+  user: "lost",
   password: "password",
   database: "lost_found"
 });
