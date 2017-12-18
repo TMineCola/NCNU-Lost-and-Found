@@ -5,18 +5,36 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// var index = require('./routes/index');
-// var users = require('./routes/users');
+/* 預載路由處理方式 */
+var lost = require('./routes/lost');
+
+/* 連接MySQL */
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "lost_found"
+});
+
+con.connect(function(err) {
+  if(err) {
+    console.log("MySQL連線失敗");
+    console.error(err);
+    return;
+  }
+  console.log("MySQL連線成功");
+});
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-//  app.set('view engine', 'jade');
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,11 +42,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/vendor', express.static(__dirname + '/public/vendor'));
 
+// 將資料庫連線狀態帶入
+app.use(function(req, res, next) {
+  req.dbstatus = con;
+  next();
+});
+
+app.use('/api/lost', lost);
 app.get('/', function(req, res) {
   res.render('pages/index');
 });
-// app.use('/', index);
-// app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
