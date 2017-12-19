@@ -19,46 +19,112 @@ Date.prototype.toIsoString = function() {
       ':' + pad(tzo % 60);
 }
 
-/* 檢查Json */
-function isEmpty(obj) {
-  for(var prop in obj) {
-    if(obj.hasOwnProperty(prop))
-      return false;
-  }
-  return true;
+/* 檢測ID是否存在 */
+function _CheckID(db, id) {
+  let sql = "SELECT * FROM `property_lost` WHERE `ID` = ?";
+  return new Promise((resolve, reject) => {
+    db.query(sql, id, (err, result) => {
+        if (err) {
+          /* 查詢失敗時回傳訊息物件 */
+          reject({"message": "查詢 ID:" + id + " 遺失物資訊失敗"});
+        } else if(result.length == 0) {
+          /* 查詢不到指定ID時回傳訊息物件 */
+          reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
+        } else {
+          resolve({"message": "Success"});
+        }
+    });
+  });
 }
 
+/* 查詢全部文章 */
+function _Search(db) {
+  return new Promise((resolve, reject) => {
+    let sql ="SELECT * FROM property_lost";
+    db.query(sql, function (err, result, fields) {
+      if(err) {
+        /* 查詢失敗時回傳訊息物件 */
+        reject({"message": "查詢全部遺失物資訊失敗"});
+      } else {
+        /* 新增成功時回傳文章物件 */
+        resolve(result);
+      }
+    });
+  });
+}
 
-/* 檢查ID */
-function CheckExist(id) {
-  let db = req.dbstatus;
-  db.query("SELECT * FROM `property_lost` WHERE `ID` = ?", id, function (err, result, fields) {
-    if(err) {
-      /* 查詢失敗時顯示訊息 */
-      return 0;
-    } else if(result.length > 0) {
-      return 1;
-    } else {
-      /* 查無遺失物資訊時顯示訊息 */
-      return 0;
-    }
+/* 查詢指定ID文章 */
+function _SearchID(db, id) {
+  return new Promise((resolve, reject) => {
+    let sql = "SELECT * FROM property_lost WHERE ID = ?";
+    db.query(sql, id, function (err, result, fields) {
+      if(err) {
+        /* 查詢失敗時回傳訊息物件 */
+        reject({"message": "查詢全部遺失物資訊失敗"});
+      } else {
+        /* 新增成功時回傳文章物件 */
+        resolve(result);
+      }
+    });
+  });
+}
+
+function _Post(db, values) {
+  let sql = "INSERT INTO `property_lost` SET ?";
+  return new Promise((resolve, reject) => {
+    db.query(sql, values, function (err, result, fields) {
+      if(err) {
+        /* 新增失敗時回傳訊息物件 */
+        reject({"message": "新增遺失物失敗"});
+      } else {
+        /* 新增成功時回傳訊息物件 */
+        resolve({"message": "新增遺失物成功"});
+      }
+    });
+  });
+}
+
+/* 更新指定ID文章 */
+function _Update(db, values, id) {
+  let sql = "UPDATE `property_lost` SET ? WHERE `ID` = ?";
+  return new Promise((resolve, reject) => {
+    db.query(sql, [values, id], function (err, result) {
+      if(err) {
+        /* 新增失敗時回傳訊息物件 */
+        reject({"message": "遺失物更新失敗 (ID:" + id + ")"});
+      } else {
+        /* 新增成功時回傳訊息物件 */
+        resolve({"message": "遺失物更新成功 (ID:" + id + ")"});
+      }
+    });
+  });
+}
+
+/* 刪除指定ID文章 */
+function _Delete(db, id) {
+  let sql = "DELETE FROM `property_lost` WHERE `ID` = ?";
+  return new Promise((resolve, reject) => {
+    db.query(sql, id, function (err, result) {
+      if(err) {
+        /* 刪除失敗時回傳訊息物件 */
+        reject({"message": "遺失物刪除失敗 (ID:" + id + ")"});
+      } else {
+        /* 刪除成功時回傳訊息物件 */
+        resolve({"message": "遺失物刪除成功 (ID:" + id + ")"});
+      }
+    });
   });
 }
 
 /* 全部遺失物 */
 router.get('/', function(req, res, next) {
   let db = req.dbstatus;
-  /* 查詢失敗時顯示訊息 */
-  let errorObj = {
-    "message": "查詢全部遺失物資訊失敗"
-  };
-  db.query("SELECT * FROM property_lost", function (err, result, fields) {
-    if(err) {
-      throw err;
-      res.send(errorObj);
-    } else {
-      res.send(result);
-    }
+  _Search(db).then(postObj => {
+    res.send(postObj);
+    return;
+  }).catch(errorObj => {
+    res.send(errorObj);
+    return;
   });
 });
 
@@ -66,23 +132,12 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lost_id = req.params.id;
-  db.query("SELECT * FROM `property_lost` WHERE `ID` = ?", lost_id, function (err, result, fields) {
-    if(err) {
-      /* 查詢失敗時顯示訊息 */
-      let errorObj = {
-        "message": "查詢 ID:" + lost_id + " 遺失物資訊失敗"
-      };
-      res.send(errorObj);
-      console.error(err);
-    } else if(result.length > 0) {
-      res.send(result);
-    } else {
-      /* 查無遺失物資訊時顯示訊息 */
-      let errorObj = {
-        "message": "找不該遺失物資訊 (ID:"+ lost_id +")"
-      };
-      res.send(errorObj);
-    }
+  _SearchID(db, lost_id).then(postObj => {
+    res.send(postObj);
+    return;
+  }).catch(errorObj => {
+    res.send(errorObj);
+    return;
   });
 });
 
@@ -91,7 +146,7 @@ router.post('/', function(req, res, next) {
   let db = req.dbstatus;
   let nowTime = new Date().toIsoString();
   let lostObj = req.body;
-  let sql = "INSERT INTO `property_lost` SET ?";
+
   let values = {
     "name": lostObj.name,
     "classification_id": lostObj.classification_id,
@@ -101,20 +156,31 @@ router.post('/', function(req, res, next) {
     "time_interval_UB": lostObj.time_interval_UB,
     "description": lostObj.description
   };
-  db.query(sql, values, function (err, result, fields) {
-    if(err) {
-      /* 新增失敗時顯示訊息 */
-      let errorObj = {
-        "message": "新增遺失物失敗"
-      };
-      res.send(errorObj);
-    } else {
-      /* 新增成功時顯示訊息 */
-      let successObj = {
-        "message": "新增遺失物成功"
-      };
-      res.send(successObj);
+
+  /* 驗證修改資訊 */
+  let LessObj = {
+    "message": "資料不得為空 ("
+  };
+  let CheckNum = 0;
+  for(index in values) {
+    if(lostObj[index] == undefined && index != "description" && index != "registered_time") {
+      LessObj.message += index + ",";
+      CheckNum ++;
     }
+  }
+  if(CheckNum != 0) {
+    LessObj.message = LessObj.message.slice(0, -1);
+    LessObj.message += ")";
+    res.send(LessObj);
+    return;
+  }
+
+  _Post(db, values).then(successObj => {
+    res.send(successObj);
+    return;
+  }).catch(errorObj => {
+    res.send(errorObj);
+    return;
   });
 });
 
@@ -123,52 +189,61 @@ router.patch('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lost_id = req.params.id;
   let lostObj = req.body;
-  let sql = "UPDATE `property_lost` SET ? WHERE `ID` = ?";
-  let values = {
-    "name": lostObj.name,
-    "classification_id": lostObj.classification_id,
-    "location": lostObj.location,
-    "time_interval_LB": lostObj.time_interval_LB,
-    "time_interval_UB": lostObj.time_interval_UB,
-    "description": lostObj.description
-  };
-  db.query(sql, [values, lost_id], function (err, result, fields) {
-    if(err) {
-      /* 新增失敗時顯示訊息 */
-      let errorObj = {
-        "message": "遺失物更新失敗 (ID:" + lost_id + ")"
-      };
-      res.send(errorObj);
-    } else {
-      /* 新增成功時顯示訊息 */
-      let successObj = {
-        "message": "遺失物更新成功 (ID:" + lost_id + ")"
-      };
-      res.send(successObj);
+
+  /* 檢驗ID是否存在 */
+  _CheckID(db, lost_id).then(value => {
+    let values = {
+      "name": lostObj.name,
+      "classification_id": lostObj.classification_id,
+      "location": lostObj.location,
+      "time_interval_LB": lostObj.time_interval_LB,
+      "time_interval_UB": lostObj.time_interval_UB,
+      "description": lostObj.description
+    };
+    /* 驗證修改資訊 */
+    let LessObj = {
+      "message": "資料不得為空 ("
+    };
+    let CheckNum = 0;
+    for(index in values) {
+      if(lostObj[index] == undefined && index != "description") {
+        LessObj.message += index + ",";
+        CheckNum ++;
+      }
     }
+    if(CheckNum != 0) {
+      LessObj.message = LessObj.message.slice(0, -1);
+      LessObj.message += ")";
+      /* 如果缺少資料則將缺少欄位回傳並結束 */
+      res.send(LessObj);
+      return;
+    }
+    /* 執行更新 */
+    return _Update(db, values, lost_id);
+  }).then(successObj => {
+    res.send(successObj);
+    return;
+  }).catch(errorObj => {
+    res.send(errorObj);
   });
+
 });
 
 /* 刪除遺失物 */
 router.delete('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lost_id = req.params.id;
-  let sql = "DELETE FROM `property_lost` WHERE `ID` = ?";
-  db.query(sql, lost_id, function (err, result, fields) {
-    if(err) {
-      /* 刪除失敗時顯示訊息 */
-      let errorObj = {
-        "message": "遺失物刪除失敗 (ID:" + lost_id + ")"
-      };
-      res.send(errorObj);
-    } else {
-      /* 刪除成功時顯示訊息 */
-      let successObj = {
-        "message": "遺失物刪除成功 (ID:" + lost_id + ")"
-      };
-      res.send(successObj);
-    }
+  /* 檢驗ID是否存在 */
+  _CheckID(db, lost_id).then(value => {
+    return _Delete(db, lost_id);
+  }).then(successObj =>{
+    res.send(successObj);
+    return;
+  }).catch((errorObj) => {
+    res.send(errorObj);
+    return;
   });
+
 });
 
 module.exports = router;
