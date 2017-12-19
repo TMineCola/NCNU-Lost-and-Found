@@ -42,15 +42,32 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/vendor', express.static(__dirname + '/public/vendor'));
 
-// 將資料庫連線狀態帶入
+// 將資料庫連線狀態帶入
 app.use(function(req, res, next) {
   req.dbstatus = con;
   next();
 });
 
 app.use('/api/lost', lost);
+
+// 自訂路徑
 app.get('/', function(req, res) {
   res.render('pages/index');
+});
+app.get('/found', function(req, res) {
+  res.render('pages/found');
+});
+app.get('/lost', function(req, res) {
+  res.render('pages/lost');
+});
+app.get('/expired', function(req, res) {
+  res.render('pages/expired');
+});
+app.get('/claim', function(req, res) {
+  res.render('pages/claim');
+});
+app.get('/contact', function(req, res) {
+  res.render('pages/contact');
 });
 
 // catch 404 and forward to error handler

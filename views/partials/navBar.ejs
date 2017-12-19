@@ -1,0 +1,46 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="img/lost-items.png" width="32px" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <!-- 看到的是招領清單 -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/lost">尋找
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <!-- 看到的是願望清單 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/found">拾獲</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/expired">逾期</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/claim">公開認領</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">聯絡</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        操作
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="ml-auto">
+                <% include ../partials/login %>
+            </div>
+        </div>
+    </div>
+</nav>
