@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+.front1 {
+    background-image: url("../public/img/front1.jpg");
+}

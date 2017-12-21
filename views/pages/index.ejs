@@ -16,8 +16,8 @@
   <% include ../partials/navBar_landing %>
 
   <header class="masthead text-center text-white d-flex">
-    <div class="container my-auto">
-      <div class="row">
+    <div class="container my-auto ">
+      <div class="row p-5" style="background-color:rgba(0,0,0,0.6) ; border-radius:100px">
         <div class="col-lg-10 mx-auto">
           <h1 class="text-uppercase">
             <strong>遺失物協尋</strong>
@@ -25,9 +25,8 @@
           <hr>
         </div>
         <div class="col-lg-8 mx-auto">
-          <p class="text-faded mb-5">Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template
-            and start going, no strings attached!</p>
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
+          <p class="text-faded mb-5">歡迎使用我們的系統，這次是我們首次針對遺失物開發的系統！</p>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">看看說明吧！</a>
         </div>
       </div>
     </div>
@@ -36,12 +35,15 @@
   <section class="bg-primary" id="about">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 mx-auto text-center">
-          <h2 class="section-heading text-white">We've got what you need!</h2>
+        <div class="col-lg-8 mx-auto text-center" style="height:600px;">
+          <h2 class="section-heading text-white">使用說明</h2>
           <hr class="light my-4">
-          <p class="text-faded mb-4">Start Bootstrap has everything you need to get your new website up and running in no time! All of the templates
-            and themes on Start Bootstrap are open source, free to download, and easy to use. No strings attached!</p>
-          <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
+          <iframe src="https://hackmd.io/s/SygUzzYGM" frameborder="0" scrolling="yes" style="overflow:hidden;display:block; position: absolute; margin-top: -20px;height:450px; width: 100%;box-sizing:border-box"></iframe>
+          <!-- <img src="https://i.imgur.com/6KhXdAl.png"/> -->
+          <br/>
+          <hr class="light my-4">
+          <!-- 待修正 -->
+          <a class="btn btn-light btn-xl js-scroll-trigger" style="margin-top:400px;"href="#services">開始吧 !</a>
         </div>
       </div>
     </div>
@@ -51,7 +53,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading">At Your Service</h2>
+          <h2 class="section-heading">兩大服務</h2>
           <hr class="my-4">
         </div>
       </div>
@@ -61,20 +63,20 @@
         <div class="col-md-6 text-center">
           <div class="service-box mt-5 mx-auto">
             <i class="fa fa-4x fa-search text-primary mb-3 sr-icons"></i>
-            <h3 class="mb-3">物品遺失</h3>
+            <h3 class="mb-3">我的東西不見了</h3>
             <!-- <p class="text-muted mb-0">Our templates are updated regularly so they don't break.</p> -->
             <p>
-              <a class="btn btn-info" href="lost" role="button">go&raquo;</a>
+              <a class="btn btn-info" href="lost" role="button">快幫幫我Ｑ.Ｑ&raquo;</a>
             </p>
           </div>
         </div>
         <div class="col-md-6 text-center">
           <div class="service-box mt-5 mx-auto">
             <i class="fa fa-4x fa-plus text-primary mb-3 sr-icons"></i>
-            <h3 class="mb-3">拾獲物品</h3>
+            <h3 class="mb-3">我拾到東西了</h3>
             <!-- <p class="text-muted mb-0">You can use this theme as is, or you can make changes!</p> -->
             <p>
-              <a class="btn btn-info" href="found" role="button">go&raquo;</a>
+              <a class="btn btn-info" href="found" role="button">救救世人Ａ.Ａ&raquo;</a>
             </p>
           </div>
         </div>
@@ -86,22 +88,17 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto text-center">
-          <h2 class="section-heading">Let's Get In Touch!</h2>
+          <h2 class="section-heading">意見回饋</h2>
           <hr class="my-4">
-          <p class="mb-5">Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back
-            to you as soon as possible!</p>
+          <p class="mb-5">歡迎大家提出意見!</p>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-4 ml-auto text-center">
-          <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
-          <p>123-456-6789</p>
+            <a href="tel:0492910960"><i class="fa fa-phone fa-3x mb-3 sr-contact"></i></a>
         </div>
         <div class="col-lg-4 mr-auto text-center">
-          <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
-          <p>
-            <a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a>
-          </p>
+            <a href="mailto:guidance@ncnu.edu.tw"><i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i></a>
         </div>
       </div>
     </div>
