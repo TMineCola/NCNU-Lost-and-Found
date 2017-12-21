@@ -84,7 +84,7 @@ function _Post(db, values) {
   });
 }
 
-/* 更新指定ID文章 */
+/* 更新指定ID文章 */
 function _Update(db, values, id) {
   let sql = "UPDATE `property_lost` SET ? WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
@@ -116,7 +116,7 @@ function _Delete(db, id) {
   });
 }
 
-/* 全部遺失物 */
+/* 全部遺失物 */
 router.get('/', function(req, res, next) {
   let db = req.dbstatus;
   _Search(db).then(postObj => {
@@ -128,7 +128,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* 以ID查詢遺失物 */
+/* 以ID查詢遺失物 */
 router.get('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lost_id = req.params.id;
@@ -157,7 +157,7 @@ router.post('/', function(req, res, next) {
     "description": lostObj.description
   };
 
-  /* 驗證修改資訊 */
+  /* 驗證修改資訊 */
   let LessObj = {
     "message": "資料不得為空 ("
   };
@@ -200,7 +200,7 @@ router.patch('/:id', function(req, res, next) {
       "time_interval_UB": lostObj.time_interval_UB,
       "description": lostObj.description
     };
-    /* 驗證修改資訊 */
+    /* 驗證修改資訊 */
     let LessObj = {
       "message": "資料不得為空 ("
     };

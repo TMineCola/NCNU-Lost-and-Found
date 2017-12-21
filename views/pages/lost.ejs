@@ -12,8 +12,57 @@
 
 <body>
     <% include ../partials/navBar %>
-    <h1>東西不見</h1>
+    <div class="container">
+        <h1>東西不見</h1>
+        <div id="lost">
+            <div class="row">
+                <div class="col-4" v-for="list in lists">
+                    <div class="card" style="width: 20rem;">
+                        <div class="text-center">
+                            <img style="width: 80%;" class="card-img-top" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{ list.name }}</h4>
+                            <p class="card-text text-truncate">{{ isEmpty(list.description) }}</p>
+                            <div class="text-right">
+                                <a href="#" class="btn btn-primary">看更多</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <% include ../partials/bootstrap_js %>
+    <% include ../partials/vue_js %>
+    <script>
+        var app = new Vue({
+            el: '#lost',
+            data: {
+                lists: ''
+            },
+            // 網頁載入完成
+            created: function () {
+                var self = this;
+                axios.get('/api/lost/')
+                    .then(function (response) {
+                        console.log(response.data);
+                        self.lists = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            methods: {
+                isEmpty (text) {
+                    return text == null ? "空空如也" : text;
+                }
+            },
+            computed: {
+            }
+        })
+    </script>
 </body>
 
 </html>
