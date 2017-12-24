@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,69 @@
     <title>拾獲物品</title>
     <% include ../partials/bootstrap_css %>
 </head>
+
 <body>
+<<<<<<< HEAD
     <% include ../partials/bootstrap_js %>
     <% include ../partials/navBar %>
     <% include ../partials/add %>
     <% include ../partials/categories %>
     <h1>撿到東西</h1>
+=======
+    <% include ../partials/navBar %>
+    <div class="container">
+        <h1>撿到東西</h1>
+        <div id="lost">
+            <div class="row">
+                <div class="col-12" v-for="list in lists">
+                    <div class="row border rounded mb-2 p-2">
+                        <div class="col-md-3 mb-2 mb-md-0">
+                            <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
+                        </div>
+                        <div class="col-md-9">
+                            <h4 class="card-title">{{ list.name }}</h4>
+                            <p class="card-text text-truncate">{{ isEmpty(list.description) }}</p>
+                            <div class="text-right">
+                                <a href="#" class="btn btn-primary">看更多</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% include ../partials/bootstrap_js %>
+    <% include ../partials/vue_js %>
+    <script>
+        var app = new Vue({
+            el: '#lost',
+            data: {
+                lists: ''
+            },
+            // 網頁載入完成
+            created: function () {
+                var self = this;
+                axios.get('/api/found/')
+                    .then(function (response) {
+                        console.log(response.data);
+                        self.lists = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // 待加入跳轉到404頁面
+                    });
+            },
+            methods: {
+                isEmpty (text) {
+                    return text == null ? "空空如也" : text;
+                }
+            },
+            computed: {
+            }
+        })
+    </script>
+>>>>>>> cd169225615ccb9475fff7a0ed1512b4efb76a1e
 </body>
+
 </html>

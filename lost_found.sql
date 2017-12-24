@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost
--- 產生時間： 2017 年 12 月 20 日 01:29
+-- 產生時間： 2017 年 12 月 24 日 23:08
 -- 伺服器版本: 10.1.25-MariaDB
 -- PHP 版本： 5.6.31
 
@@ -39,14 +39,14 @@ CREATE TABLE `classification` (
 --
 
 INSERT INTO `classification` (`ID`, `name`, `description`) VALUES
-(1, '文具', NULL),
-(2, '工具', NULL),
-(3, '電子產品', NULL),
-(4, '現金與證件', NULL),
-(5, '生活用品', NULL),
-(6, '運動用品', NULL),
-(7, '衣服與鞋子', NULL),
-(8, '飾品與其他配件', NULL),
+(1, '衣物及鞋子', NULL),
+(2, '現金', NULL),
+(3, '書', NULL),
+(4, '電子產品', NULL),
+(5, '文具', NULL),
+(6, '卡片', NULL),
+(7, '雨具', NULL),
+(8, '生活用品', NULL),
 (9, '其他', NULL);
 
 -- --------------------------------------------------------
@@ -190,17 +190,17 @@ INSERT INTO `department` (`ID`, `name`, `contact_info`, `contact_info2`, `contac
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `property_lost`
+-- 資料表結構 `property_found`
 --
 
-CREATE TABLE `property_lost` (
+CREATE TABLE `property_found` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `classification_id` int(11) NOT NULL,
   `location` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `registered_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `time_interval_LB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `time_interval_UB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `registered_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_interval_LB` datetime NOT NULL,
+  `time_interval_UB` datetime NOT NULL,
   `department_id` int(11) DEFAULT NULL,
   `registrant_id` bigint(20) DEFAULT NULL,
   `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -209,13 +209,42 @@ CREATE TABLE `property_lost` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `property_lost`
+-- 資料表的匯出資料 `property_found`
 --
 
-INSERT INTO `property_lost` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`) VALUES
-(11, 'RAY PIG!!!', 4, 'Moli', '2017-12-18 13:53:27', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, NULL, 0, NULL),
-(15, 'RAY!!!', 2, 'Moli', '2017-12-18 16:07:24', '2017-03-31 10:00:00', '2017-12-18 16:07:24', NULL, NULL, NULL, 0, NULL),
-(16, 'RAY PIG!!!', 4, 'Moli', '2017-12-18 16:09:56', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, '很笨', 0, NULL);
+INSERT INTO `property_found` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`) VALUES
+(11, 'RAY PIG!!!', 4, 'Moli', '2017-12-18 21:53:27', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, NULL, 0, NULL),
+(15, 'RAY!!!', 2, 'Moli', '2017-12-19 00:07:24', '2017-03-31 18:00:00', '2017-12-19 00:07:24', NULL, NULL, NULL, 0, NULL),
+(16, 'RAY PIG!!!', 4, 'Moli', '2017-12-19 00:09:56', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, '很笨', 0, NULL),
+(17, 'RAY PIG!!!', 4, 'Moli', '2017-12-20 01:49:55', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, NULL, 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `property_lostwish`
+--
+
+CREATE TABLE `property_lostwish` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `classification_id` int(11) NOT NULL,
+  `location` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `registered_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_interval_LB` datetime DEFAULT NULL,
+  `time_interval_UB` datetime DEFAULT NULL,
+  `wisher_id` bigint(20) NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `state` tinyint(2) NOT NULL DEFAULT '0',
+  `image` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `property_lostwish`
+--
+
+INSERT INTO `property_lostwish` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image`) VALUES
+(1, 'tofind1', 5, '宿舍交誼廳', '2017-11-02 00:00:00', '2017-11-01 09:00:00', '2017-11-01 11:00:00', 1, '帽子一頂', 0, NULL),
+(2, 'esfsdfsdf', 1, 'asdasdas', '0000-00-00 00:00:00', '2017-11-01 01:00:00', '2017-11-02 13:00:00', 6, 'sdsdfsdfsdf', 0, '05.jpg');
 
 -- --------------------------------------------------------
 
@@ -242,35 +271,6 @@ INSERT INTO `property_state` (`ID`, `state`) VALUES
 (7, '拾得人領回'),
 (8, '公開招領中'),
 (9, '逾期超過九個月(其他）');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `property_toFind`
---
-
-CREATE TABLE `property_toFind` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `classification_id` int(11) NOT NULL,
-  `location` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `registered_time` date NOT NULL,
-  `time_interval_LB` datetime DEFAULT NULL,
-  `time_interval_UB` datetime DEFAULT NULL,
-  `department_id` int(11) DEFAULT NULL,
-  `registrant_id` bigint(20) NOT NULL,
-  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `state` tinyint(2) NOT NULL,
-  `image` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- 資料表的匯出資料 `property_toFind`
---
-
-INSERT INTO `property_toFind` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`) VALUES
-(1, 'tofind1', 5, '宿舍交誼廳', '2017-11-02', '2017-11-01 09:00:00', '2017-11-01 11:00:00', 9, 1, '帽子一頂', 0, NULL),
-(2, 'esfsdfsdf', 1, 'asdasdas', '0000-00-00', '2017-11-01 01:00:00', '2017-11-02 13:00:00', NULL, 6, 'sdsdfsdfsdf', 0, '05.jpg');
 
 -- --------------------------------------------------------
 
@@ -373,9 +373,16 @@ ALTER TABLE `department`
   ADD UNIQUE KEY `ID` (`ID`);
 
 --
--- 資料表索引 `property_lost`
+-- 資料表索引 `property_found`
 --
-ALTER TABLE `property_lost`
+ALTER TABLE `property_found`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `ID` (`ID`);
+
+--
+-- 資料表索引 `property_lostwish`
+--
+ALTER TABLE `property_lostwish`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
@@ -383,13 +390,6 @@ ALTER TABLE `property_lost`
 -- 資料表索引 `property_state`
 --
 ALTER TABLE `property_state`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `ID` (`ID`);
-
---
--- 資料表索引 `property_toFind`
---
-ALTER TABLE `property_toFind`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
@@ -429,20 +429,20 @@ ALTER TABLE `classification`
 ALTER TABLE `department`
   MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 --
--- 使用資料表 AUTO_INCREMENT `property_lost`
+-- 使用資料表 AUTO_INCREMENT `property_found`
 --
-ALTER TABLE `property_lost`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+ALTER TABLE `property_found`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- 使用資料表 AUTO_INCREMENT `property_lostwish`
+--
+ALTER TABLE `property_lostwish`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- 使用資料表 AUTO_INCREMENT `property_state`
 --
 ALTER TABLE `property_state`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- 使用資料表 AUTO_INCREMENT `property_toFind`
---
-ALTER TABLE `property_toFind`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- 使用資料表 AUTO_INCREMENT `register`
 --
