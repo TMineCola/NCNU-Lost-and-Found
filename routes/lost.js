@@ -21,7 +21,7 @@ Date.prototype.toIsoString = function() {
 
 /* 檢測ID是否存在 */
 function _CheckID(db, id) {
-  let sql = "SELECT * FROM `property_lost` WHERE `ID` = ?";
+  let sql = "SELECT * FROM `property_lostwish` WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
     db.query(sql, id, (err, result) => {
         if (err) {
@@ -40,13 +40,13 @@ function _CheckID(db, id) {
 /* 查詢全部遺失物 */
 function _Search(db) {
   return new Promise((resolve, reject) => {
-    let sql ="SELECT * FROM property_lost";
+    let sql ="SELECT * FROM property_lostwish";
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
         reject({"message": "查詢全部遺失物資訊失敗"});
       } else {
-        /* 新增成功時回傳文章物件 */
+        /* 新增成功時回傳遺失物物件 */
         resolve(result);
       }
     });
@@ -56,7 +56,7 @@ function _Search(db) {
 /* 查詢指定ID遺失物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT * FROM property_lost WHERE ID = ?";
+    let sql = "SELECT * FROM property_lostwish WHERE ID = ?";
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -65,7 +65,7 @@ function _SearchID(db, id) {
         /* 查詢不到指定ID時回傳訊息物件 */
         reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
       } else {
-        /* 新增成功時回傳文章物件 */
+        /* 新增成功時回傳遺失物物件 */
         resolve(result);
       }
     });
@@ -74,7 +74,7 @@ function _SearchID(db, id) {
 
 /* 新增遺失物 */
 function _Post(db, values) {
-  let sql = "INSERT INTO `property_lost` SET ?";
+  let sql = "INSERT INTO `property_lostwish` SET ?";
   return new Promise((resolve, reject) => {
     db.query(sql, values, function (err, result, fields) {
       if(err) {
@@ -90,7 +90,7 @@ function _Post(db, values) {
 
 /* 更新指定ID遺失物 */
 function _Update(db, values, id) {
-  let sql = "UPDATE `property_lost` SET ? WHERE `ID` = ?";
+  let sql = "UPDATE `property_lostwish` SET ? WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
     db.query(sql, [values, id], function (err, result) {
       if(err) {
@@ -106,7 +106,7 @@ function _Update(db, values, id) {
 
 /* 刪除指定ID遺失物 */
 function _Delete(db, id) {
-  let sql = "DELETE FROM `property_lost` WHERE `ID` = ?";
+  let sql = "DELETE FROM `property_lostwish` WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
     db.query(sql, id, function (err, result) {
       if(err) {
@@ -123,8 +123,8 @@ function _Delete(db, id) {
 /* 全部遺失物 */
 router.get('/', function(req, res, next) {
   let db = req.dbstatus;
-  _Search(db).then(lostObj => {
-    res.send(lostObj);
+  _Search(db).then(lostwishObj => {
+    res.send(lostwishObj);
     return;
   }).catch(errorObj => {
     res.status(404).send(errorObj);
@@ -135,9 +135,9 @@ router.get('/', function(req, res, next) {
 /* 以ID查詢遺失物 */
 router.get('/:id', function(req, res, next) {
   let db = req.dbstatus;
-  let lost_id = req.params.id;
-  _SearchID(db, lost_id).then(lostObj => {
-    res.send(lostObj);
+  let lostwish_id = req.params.id;
+  _SearchID(db, lostwish_id).then(lostwishObj => {
+    res.send(lostwishObj);
     return;
   }).catch(errorObj => {
     res.status(404).send(errorObj);
@@ -145,118 +145,117 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-/* 新增遺失物 */
-router.post('/', function(req, res, next) {
-  let db = req.dbstatus;
-  let nowTime = new Date().toIsoString();
-  let lostObj = req.body;
+// /* 新增遺失物 */
+// router.post('/', function(req, res, next) {
+//   let db = req.dbstatus;
+//   let nowTime = new Date().toIsoString();
+//   let lostwishObj = req.body;
 
-  var time_LB = lostObj.time_interval_LB;
-  var time_UB = lostObj.time_interval_UB;
-  /* 處理時間上下限相反的情況 */
-  if(time_LB > time_UB) {
-    let temp = time_LB;
-    time_LB = time_UB;
-    time_UB = temp;
-  }
+//   var time_LB = lostwishObj.time_interval_LB;
+//   var time_UB = lostwishObj.time_interval_UB;
+//   /* 處理時間上下限相反的情況 */
+//   if(time_LB > time_UB) {
+//     let temp = time_LB;
+//     time_LB = time_UB;
+//     time_UB = temp;
+//   }
 
-  let values = {
-    "name": lostObj.name,
-    "classification_id": lostObj.classification_id,
-    "location": lostObj.location,
-    "registered_time": nowTime,
-    "time_interval_LB": lostObj.time_interval_LB,
-    "time_interval_UB": lostObj.time_interval_UB,
-    "description": lostObj.description
-  };
+//   let values = {
+//     "name": lostwishObj.name,
+//     "classification_id": lostwishObj.classification_id,
+//     "location": lostwishObj.location,
+//     "registered_time": nowTime,
+//     "time_interval_LB": lostwishObj.time_interval_LB,
+//     "time_interval_UB": lostwishObj.time_interval_UB,
+//     "description": lostwishObj.description
+//   };
 
-  /* 驗證修改資訊 */
-  let LessObj = {
-    "message": "資料不得為空或缺少資料 ("
-  };
-  let CheckNum = 0;
-  for(index in values) {
-    if(lostObj[index] == undefined && index != "description" && index != "registered_time") {
-      LessObj.message += index + ",";
-      CheckNum ++;
-    }
-  }
-  if(CheckNum != 0) {
-    LessObj.message = LessObj.message.slice(0, -1);
-    LessObj.message += ")";
-    res.status(404).send(LessObj);
-    return;
-  }
+//   /* 驗證修改資訊 */
+//   let LessObj = {
+//     "message": "資料不得為空或缺少資料 ("
+//   };
+//   let CheckNum = 0;
+//   for(index in values) {
+//     if(lostwishObj[index] == undefined && index != "description" && index != "registered_time") {
+//       LessObj.message += index + ",";
+//       CheckNum ++;
+//     }
+//   }
+//   if(CheckNum != 0) {
+//     LessObj.message = LessObj.message.slice(0, -1);
+//     LessObj.message += ")";
+//     res.status(404).send(LessObj);
+//     return;
+//   }
 
-  _Post(db, values).then(successObj => {
-    res.send(successObj);
-    return;
-  }).catch(errorObj => {
-    res.status(404).send(errorObj);
-    return;
-  });
-});
+//   _Post(db, values).then(successObj => {
+//     res.send(successObj);
+//     return;
+//   }).catch(errorObj => {
+//     res.status(404).send(errorObj);
+//     return;
+//   });
+// });
 
-/* 修改遺失物資訊 */
-router.patch('/:id', function(req, res, next) {
-  let db = req.dbstatus;
-  let lost_id = req.params.id;
-  let lostObj = req.body;
+// /* 修改遺失物資訊 */
+// router.patch('/:id', function(req, res, next) {
+//   let db = req.dbstatus;
+//   let lostwish_id = req.params.id;
+//   let lostwishObj = req.body;
 
-  /* 檢驗ID是否存在 */
-  _CheckID(db, lost_id).then(value => {
-    var time_LB = lostObj.time_interval_LB;
-    var time_UB = lostObj.time_interval_UB;
-    /* 處理時間上下限相反的情況 */
-    if(time_LB > time_UB) {
-      let temp = time_LB;
-      time_LB = time_UB;
-      time_UB = temp;
-    }
-    let values = {
-      "name": lostObj.name,
-      "classification_id": lostObj.classification_id,
-      "location": lostObj.location,
-      "time_interval_LB": lostObj.time_interval_LB,
-      "time_interval_UB": lostObj.time_interval_UB,
-      "description": lostObj.description
-    };
-    /* 驗證修改資訊 */
-    let LessObj = {
-      "message": "資料不得為空或缺少資料 ("
-    };
-    let CheckNum = 0;
-    for(index in values) {
-      if(lostObj[index] == undefined && index != "description") {
-        LessObj.message += index + ",";
-        CheckNum ++;
-      }
-    }
-    if(CheckNum != 0) {
-      LessObj.message = LessObj.message.slice(0, -1);
-      LessObj.message += ")";
-      /* 如果缺少資料則將缺少欄位回傳並結束 */
-      res.status(404).send(LessObj);
-      return;
-    }
-    /* 執行更新 */
-    return _Update(db, values, lost_id);
-  }).then(successObj => {
-    res.send(successObj);
-    return;
-  }).catch(errorObj => {
-    res.status(404).send(errorObj);
-  });
-
-});
+//   /* 檢驗ID是否存在 */
+//   _CheckID(db, lostwish_id).then(value => {
+//     var time_LB = lostwishObj.time_interval_LB;
+//     var time_UB = lostwishObj.time_interval_UB;
+//     /* 處理時間上下限相反的情況 */
+//     if(time_LB > time_UB) {
+//       let temp = time_LB;
+//       time_LB = time_UB;
+//       time_UB = temp;
+//     }
+//     let values = {
+//       "name": lostwishObj.name,
+//       "classification_id": lostwishObj.classification_id,
+//       "location": lostwishObj.location,
+//       "time_interval_LB": lostwishObj.time_interval_LB,
+//       "time_interval_UB": lostwishObj.time_interval_UB,
+//       "description": lostwishObj.description
+//     };
+//     /* 驗證修改資訊 */
+//     let LessObj = {
+//       "message": "資料不得為空或缺少資料 ("
+//     };
+//     let CheckNum = 0;
+//     for(index in values) {
+//       if(lostwishObj[index] == undefined && index != "description") {
+//         LessObj.message += index + ",";
+//         CheckNum ++;
+//       }
+//     }
+//     if(CheckNum != 0) {
+//       LessObj.message = LessObj.message.slice(0, -1);
+//       LessObj.message += ")";
+//       /* 如果缺少資料則將缺少欄位回傳並結束 */
+//       res.status(404).send(LessObj);
+//       return;
+//     }
+//     /* 執行更新 */
+//     return _Update(db, values, lostwish_id);
+//   }).then(successObj => {
+//     res.send(successObj);
+//     return;
+//   }).catch(errorObj => {
+//     res.status(404).send(errorObj);
+//   });
+// });
 
 /* 刪除遺失物 */
 router.delete('/:id', function(req, res, next) {
   let db = req.dbstatus;
-  let lost_id = req.params.id;
+  let lostwish_id = req.params.id;
   /* 檢驗ID是否存在 */
-  _CheckID(db, lost_id).then(value => {
-    return _Delete(db, lost_id);
+  _CheckID(db, lostwish_id).then(value => {
+    return _Delete(db, lostwish_id);
   }).then(successObj =>{
     res.send(successObj);
     return;
