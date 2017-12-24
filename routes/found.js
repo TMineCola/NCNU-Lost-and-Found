@@ -46,7 +46,7 @@ function _Search(db) {
         /* 查詢失敗時回傳訊息物件 */
         reject({"message": "查詢全部拾獲物資訊失敗"});
       } else {
-        /* 新增成功時回傳文章物件 */
+        /* 新增成功時回傳拾獲物物件 */
         resolve(result);
       }
     });
@@ -65,7 +65,7 @@ function _SearchID(db, id) {
         /* 查詢不到指定ID時回傳訊息物件 */
         reject({"message": "找不到指定拾獲物 (ID:" + id + ")"});
       } else {
-        /* 新增成功時回傳文章物件 */
+        /* 新增成功時回傳拾獲物物件 */
         resolve(result);
       }
     });
