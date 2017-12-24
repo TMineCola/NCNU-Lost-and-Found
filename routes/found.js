@@ -26,10 +26,10 @@ function _CheckID(db, id) {
     db.query(sql, id, (err, result) => {
         if (err) {
           /* 查詢失敗時回傳訊息物件 */
-          reject({"message": "查詢 ID:" + id + " 遺失物資訊失敗"});
+          reject({"message": "查詢 ID:" + id + " 拾獲物資訊失敗"});
         } else if(result.length == 0) {
           /* 查詢不到指定ID時回傳訊息物件 */
-          reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
+          reject({"message": "找不到指定拾獲物 (ID:" + id + ")"});
         } else {
           resolve({"message": "Success"});
         }
@@ -37,14 +37,14 @@ function _CheckID(db, id) {
   });
 }
 
-/* 查詢全部遺失物 */
+/* 查詢全部拾獲物 */
 function _Search(db) {
   return new Promise((resolve, reject) => {
     let sql ="SELECT * FROM property_found";
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
-        reject({"message": "查詢全部遺失物資訊失敗"});
+        reject({"message": "查詢全部拾獲物資訊失敗"});
       } else {
         /* 新增成功時回傳文章物件 */
         resolve(result);
@@ -53,17 +53,17 @@ function _Search(db) {
   });
 }
 
-/* 查詢指定ID遺失物 */
+/* 查詢指定ID拾獲物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
     let sql = "SELECT * FROM property_found WHERE ID = ?";
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
-        reject({"message": "查詢全部遺失物資訊失敗"});
+        reject({"message": "查詢全部拾獲物資訊失敗"});
       } else if(result.length == 0) {
         /* 查詢不到指定ID時回傳訊息物件 */
-        reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
+        reject({"message": "找不到指定拾獲物 (ID:" + id + ")"});
       } else {
         /* 新增成功時回傳文章物件 */
         resolve(result);
@@ -72,55 +72,55 @@ function _SearchID(db, id) {
   });
 }
 
-/* 新增遺失物 */
+/* 新增拾獲物 */
 function _Post(db, values) {
   let sql = "INSERT INTO `property_found` SET ?";
   return new Promise((resolve, reject) => {
     db.query(sql, values, function (err, result, fields) {
       if(err) {
         /* 新增失敗時回傳訊息物件 */
-        reject({"message": "新增遺失物失敗"});
+        reject({"message": "新增拾獲物失敗"});
       } else {
         /* 新增成功時回傳訊息物件 */
-        resolve({"message": "新增遺失物成功"});
+        resolve({"message": "新增拾獲物成功"});
       }
     });
   });
 }
 
-/* 更新指定ID遺失物 */
+/* 更新指定ID拾獲物 */
 function _Update(db, values, id) {
   let sql = "UPDATE `property_found` SET ? WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
     db.query(sql, [values, id], function (err, result) {
       if(err) {
         /* 新增失敗時回傳訊息物件 */
-        reject({"message": "遺失物更新失敗 (ID:" + id + ")"});
+        reject({"message": "拾獲物更新失敗 (ID:" + id + ")"});
       } else {
         /* 新增成功時回傳訊息物件 */
-        resolve({"message": "遺失物更新成功 (ID:" + id + ")"});
+        resolve({"message": "拾獲物更新成功 (ID:" + id + ")"});
       }
     });
   });
 }
 
-/* 刪除指定ID遺失物 */
+/* 刪除指定ID拾獲物 */
 function _Delete(db, id) {
   let sql = "DELETE FROM `property_found` WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
     db.query(sql, id, function (err, result) {
       if(err) {
         /* 刪除失敗時回傳訊息物件 */
-        reject({"message": "遺失物刪除失敗 (ID:" + id + ")"});
+        reject({"message": "拾獲物刪除失敗 (ID:" + id + ")"});
       } else {
         /* 刪除成功時回傳訊息物件 */
-        resolve({"message": "遺失物刪除成功 (ID:" + id + ")"});
+        resolve({"message": "拾獲物刪除成功 (ID:" + id + ")"});
       }
     });
   });
 }
 
-/* 全部遺失物 */
+/* 全部拾獲物 */
 router.get('/', function(req, res, next) {
   let db = req.dbstatus;
   _Search(db).then(foundObj => {
@@ -132,7 +132,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* 以ID查詢遺失物 */
+/* 以ID查詢拾獲物 */
 router.get('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let found_id = req.params.id;
@@ -145,7 +145,7 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-/* 新增遺失物 */
+/* 新增拾獲物 */
 router.post('/', function(req, res, next) {
   let db = req.dbstatus;
   let nowTime = new Date().toIsoString();
@@ -197,7 +197,7 @@ router.post('/', function(req, res, next) {
   });
 });
 
-/* 修改遺失物資訊 */
+/* 修改拾獲物資訊 */
 router.patch('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let found_id = req.params.id;
@@ -250,7 +250,7 @@ router.patch('/:id', function(req, res, next) {
 
 });
 
-/* 刪除遺失物 */
+/* 刪除拾獲物 */
 router.delete('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let found_id = req.params.id;
