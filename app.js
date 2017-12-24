@@ -4,18 +4,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./env')
 
 /* 預載路由處理方式 */
 var lost = require('./routes/lost');
+var found = require('./routes/found');
 
 /* 連接MySQL */
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "lost",
-  password: "password",
-  database: "lost_found"
+  host: config.SQL_HOST,
+  user: config.SQL_USER,
+  password: config.SQL_PWD,
+  database: config.SQL_DB
 });
 
 con.connect(function(err) {
@@ -49,6 +51,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api/lost', lost);
+app.use('/api/found', found);
 
 // 自訂路徑
 app.get('/', function(req, res) {
@@ -81,11 +84,11 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = config.development === true ? err : {"message": "Page not found"};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json(res.locals.error);
 });
 
 module.exports = app;
