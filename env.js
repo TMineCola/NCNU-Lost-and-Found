@@ -5,7 +5,7 @@ var config = {
     development: false,
     // MySQL 帳號密碼
     SQL_HOST: "localhost",
-    SQL_USER: "root",
+    SQL_USER: "lost",
     SQL_PWD: "password",
     SQL_DB: "lost_found"
 };
