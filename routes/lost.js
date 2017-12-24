@@ -37,7 +37,7 @@ function _CheckID(db, id) {
   });
 }
 
-/* 查詢全部文章 */
+/* 查詢全部遺失物 */
 function _Search(db) {
   return new Promise((resolve, reject) => {
     let sql ="SELECT * FROM property_lost";
@@ -53,7 +53,7 @@ function _Search(db) {
   });
 }
 
-/* 查詢指定ID文章 */
+/* 查詢指定ID遺失物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
     let sql = "SELECT * FROM property_lost WHERE ID = ?";
@@ -72,6 +72,7 @@ function _SearchID(db, id) {
   });
 }
 
+/* 新增遺失物 */
 function _Post(db, values) {
   let sql = "INSERT INTO `property_lost` SET ?";
   return new Promise((resolve, reject) => {
@@ -87,7 +88,7 @@ function _Post(db, values) {
   });
 }
 
-/* 更新指定ID文章 */
+/* 更新指定ID遺失物 */
 function _Update(db, values, id) {
   let sql = "UPDATE `property_lost` SET ? WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
@@ -103,7 +104,7 @@ function _Update(db, values, id) {
   });
 }
 
-/* 刪除指定ID文章 */
+/* 刪除指定ID遺失物 */
 function _Delete(db, id) {
   let sql = "DELETE FROM `property_lost` WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
