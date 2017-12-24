@@ -151,6 +151,15 @@ router.post('/', function(req, res, next) {
   let nowTime = new Date().toIsoString();
   let lostObj = req.body;
 
+  var time_LB = lostObj.time_interval_LB;
+  var time_UB = lostObj.time_interval_UB;
+  /* 處理時間上下限相反的情況 */
+  if(time_LB > time_UB) {
+    let temp = time_LB;
+    time_LB = time_UB;
+    time_UB = temp;
+  }
+
   let values = {
     "name": lostObj.name,
     "classification_id": lostObj.classification_id,
@@ -196,6 +205,14 @@ router.patch('/:id', function(req, res, next) {
 
   /* 檢驗ID是否存在 */
   _CheckID(db, lost_id).then(value => {
+    var time_LB = lostObj.time_interval_LB;
+    var time_UB = lostObj.time_interval_UB;
+    /* 處理時間上下限相反的情況 */
+    if(time_LB > time_UB) {
+      let temp = time_LB;
+      time_LB = time_UB;
+      time_UB = temp;
+    }
     let values = {
       "name": lostObj.name,
       "classification_id": lostObj.classification_id,
