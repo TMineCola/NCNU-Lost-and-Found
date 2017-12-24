@@ -14,7 +14,6 @@
 
 <body id="page-top">
   <% include ../partials/navBar_landing %>
-
   <header class="masthead text-center text-white d-flex">
     <div class="container my-auto ">
       <div class="row p-5" style="background-color:rgba(0,0,0,0.6) ; border-radius:100px">
@@ -25,26 +24,33 @@
           <hr>
         </div>
         <div class="col-lg-8 mx-auto">
-          <p class="text-faded mb-5">歡迎使用我們的系統，這次是我們首次針對遺失物開發的系統！</p>
+          <h5 class="text-faded mb-5">歡迎使用我們的系統，這次是我們首次針對遺失物開發的系統！</h5>
           <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">看看說明吧！</a>
         </div>
       </div>
     </div>
   </header>
-
+  
   <section class="bg-primary" id="about">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 mx-auto text-center" style="height:600px;">
+        <div class="col-lg-8 mx-auto text-center">
           <h2 class="section-heading text-white">使用說明</h2>
           <hr class="light my-4">
-          <iframe src="https://hackmd.io/s/SygUzzYGM" frameborder="0" scrolling="yes" style="overflow:hidden;display:block; position: absolute; margin-top: -20px;height:450px; width: 100%;box-sizing:border-box"></iframe>
-          <!-- <img src="https://i.imgur.com/6KhXdAl.png"/> -->
-          <br/>
-          <hr class="light my-4">
+          <div style="overflow:auto;height:600px;">
+
+            <% include ../partials/document %>
+            <!-- <iframe src="https://hackmd.io/s/SygUzzYGM" frameborder="0" scrolling="yes" style="overflow:hidden;display:block; position: absolute; margin-top: -20px;height:450px; width: 100%;box-sizing:border-box"></iframe> -->
+            <!-- <img src="https://i.imgur.com/6KhXdAl.png"/> -->
+            <br/>
+          </div>
+          <!-- <hr class="light my-4"> -->
           <!-- 待修正 -->
-          <a class="btn btn-light btn-xl js-scroll-trigger" style="margin-top:400px;"href="#services">開始吧 !</a>
         </div>
+        <div class="col-lg-8 mx-auto text-center mt-5">
+            <a class="btn btn-light btn-xl js-scroll-trigger"href="#services">開始吧 !</a>
+        </div>
+      </div>
       </div>
     </div>
   </section>
