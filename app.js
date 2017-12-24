@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./env')
 
 /* 預載路由處理方式 */
 var lost = require('./routes/lost');
@@ -12,10 +13,10 @@ var lost = require('./routes/lost');
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "lost",
-  password: "password",
-  database: "lost_found"
+  host: config.SQL_HOST,
+  user: config.SQL_USER,
+  password: config.SQL_PWD,
+  database: config.SQL_DB
 });
 
 con.connect(function(err) {
