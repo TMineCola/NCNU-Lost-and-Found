@@ -8,6 +8,7 @@ var config = require('./env')
 
 /* 預載路由處理方式 */
 var lost = require('./routes/lost');
+var found = require('./routes/found');
 
 /* 連接MySQL */
 var mysql = require('mysql');
@@ -50,6 +51,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api/lost', lost);
+app.use('/api/found', found);
 
 // 自訂路徑
 app.get('/', function(req, res) {
