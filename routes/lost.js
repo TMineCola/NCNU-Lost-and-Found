@@ -61,6 +61,9 @@ function _SearchID(db, id) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
         reject({"message": "查詢全部遺失物資訊失敗"});
+      } else if(result.length == 0) {
+        /* 查詢不到指定ID時回傳訊息物件 */
+        reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
       } else {
         /* 新增成功時回傳文章物件 */
         resolve(result);
@@ -119,11 +122,11 @@ function _Delete(db, id) {
 /* 全部遺失物 */
 router.get('/', function(req, res, next) {
   let db = req.dbstatus;
-  _Search(db).then(postObj => {
-    res.send(postObj);
+  _Search(db).then(lostObj => {
+    res.send(lostObj);
     return;
   }).catch(errorObj => {
-    res.send(errorObj);
+    res.status(404).send(errorObj);
     return;
   });
 });
@@ -132,11 +135,11 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lost_id = req.params.id;
-  _SearchID(db, lost_id).then(postObj => {
-    res.send(postObj);
+  _SearchID(db, lost_id).then(lostObj => {
+    res.send(lostObj);
     return;
   }).catch(errorObj => {
-    res.send(errorObj);
+    res.status(404).send(errorObj);
     return;
   });
 });
@@ -159,7 +162,7 @@ router.post('/', function(req, res, next) {
 
   /* 驗證修改資訊 */
   let LessObj = {
-    "message": "資料不得為空 ("
+    "message": "資料不得為空或缺少資料 ("
   };
   let CheckNum = 0;
   for(index in values) {
@@ -171,7 +174,7 @@ router.post('/', function(req, res, next) {
   if(CheckNum != 0) {
     LessObj.message = LessObj.message.slice(0, -1);
     LessObj.message += ")";
-    res.send(LessObj);
+    res.status(404).send(LessObj);
     return;
   }
 
@@ -179,7 +182,7 @@ router.post('/', function(req, res, next) {
     res.send(successObj);
     return;
   }).catch(errorObj => {
-    res.send(errorObj);
+    res.status(404).send(errorObj);
     return;
   });
 });
@@ -202,7 +205,7 @@ router.patch('/:id', function(req, res, next) {
     };
     /* 驗證修改資訊 */
     let LessObj = {
-      "message": "資料不得為空 ("
+      "message": "資料不得為空或缺少資料 ("
     };
     let CheckNum = 0;
     for(index in values) {
@@ -215,7 +218,7 @@ router.patch('/:id', function(req, res, next) {
       LessObj.message = LessObj.message.slice(0, -1);
       LessObj.message += ")";
       /* 如果缺少資料則將缺少欄位回傳並結束 */
-      res.send(LessObj);
+      res.status(404).send(LessObj);
       return;
     }
     /* 執行更新 */
@@ -224,7 +227,7 @@ router.patch('/:id', function(req, res, next) {
     res.send(successObj);
     return;
   }).catch(errorObj => {
-    res.send(errorObj);
+    res.status(404).send(errorObj);
   });
 
 });
@@ -240,7 +243,7 @@ router.delete('/:id', function(req, res, next) {
     res.send(successObj);
     return;
   }).catch((errorObj) => {
-    res.send(errorObj);
+    res.status(404).send(errorObj);
     return;
   });
 
