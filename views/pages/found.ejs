@@ -16,8 +16,8 @@
     <!-- 下面的inclue若出錯可放回container下方，
     放上來，是因為，loading順序 -->
     <% include ../partials/bootstrap_js %>
-    <% include ../partials/categories %>
     <% include ../partials/vue_js %>
+    <% include ../partials/categories %>
     <div class="mt-5 container">
         <h1>協尋清單：（你拾到的東西有在這嗎？）</h1>
         <div id="found">
@@ -45,8 +45,6 @@
         </div>
     </div>
 
-    <% include ../partials/bootstrap_js %>
-    <% include ../partials/vue_js %>
     <script>
         var app = new Vue({
             el: '#found',
@@ -86,7 +84,7 @@
                 createFound () {
                     if(this.objIsEmpty(this.showFormData)){
                         console.log("有東西");
-                        axios.post('/api/lost', {
+                        axios.post('/api/found', {
                             "name": this.name,
                             "classification_id": this.fication,
                             "location": this.location,

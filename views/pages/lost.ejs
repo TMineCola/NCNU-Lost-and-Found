@@ -17,11 +17,9 @@
     放上來，是因為，loading順序 -->
     <% include ../partials/bootstrap_js %>
     <% include ../partials/vue_js %>
-    <% include ../partials/add %>
     <% include ../partials/categories %>
     <div class="container mt-5">
         <h1>招領清單：（你東西不見了？看看這）</h1>
-
         <div id="lost">
             <form class="mb-3">
                 <div class="form-group">
@@ -94,7 +92,7 @@
             // 網頁載入完成
             created: function () {
                 var self = this;
-                axios.get('/api/lost/')
+                axios.get('/api/found/')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
