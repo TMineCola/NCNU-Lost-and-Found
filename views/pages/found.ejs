@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-md-9">
                                 <h4 class="card-title">{{ list.name }}</h4>
-                                <p>{{ list.time_interval_LB.split("T")[0] }} ~ {{ list.time_interval_UB.split("T")[0] }}</p>
+                                <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
                                 <p>分類: {{ list.classification_id }}</p>
                                 <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p>
                                 <div class="text-right">
