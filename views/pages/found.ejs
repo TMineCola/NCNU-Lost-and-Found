@@ -20,8 +20,8 @@
     <% include ../partials/vue_js %>
     <div class="mt-5 container">
         <h1>協尋清單：（你拾到的東西有在這嗎？）</h1>
-        <div id="lost">
-            <div class="row">
+        <div id="found">
+            <div class="row" v-if="lists.length!=0">
                 <div class="col-12" v-for="list in lists">
                     <div class="row border rounded mb-2 p-2">
                         <div class="col-md-3 mb-2 mb-md-0">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-md-9">
                             <h4 class="card-title">{{ list.name }}</h4>
-                            <p class="card-text text-truncate">{{ isEmpty(list.description) }}</p>
+                            <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p>
                             <div class="text-right">
                                 <a href="#" class="btn btn-primary">看更多</a>
                             </div>
@@ -37,18 +37,30 @@
                     </div>
                 </div>
             </div>
+            <div v-else="lists.length==0">
+                <div class="alert alert-info">
+                    目前還沒有遺失物喔
+                </div>
+            </div>
         </div>
     </div>
+
+    <% include ../partials/bootstrap_js %>
+    <% include ../partials/vue_js %>
     <script>
         var app = new Vue({
-            el: '#lost',
+            el: '#found',
             data: {
-                lists: ''
+                lists: '',
+                name: '',
+                location: '',
+                description: '',
+                fication: '',
             },
             // 網頁載入完成
             created: function () {
                 var self = this;
-                axios.get('/api/found/')
+                axios.get('/api/lost/')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
@@ -59,11 +71,49 @@
                     });
             },
             methods: {
-                isEmpty (text) {
+                textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
+                },
+                objIsEmpty (obj) {
+                    let tmp = 1;
+                    for (let key in obj) {
+                        if (obj[key] == '') {
+                            tmp = 0;
+                        }
+                    }
+                    return tmp;
+                },
+                createFound () {
+                    if(this.objIsEmpty(this.showFormData)){
+                        console.log("有東西");
+                        axios.post('/api/lost', {
+                            "name": this.name,
+                            "classification_id": this.fication,
+                            "location": this.location,
+                            "time_interval_LB": "2017-03-31T10:00:00.000Z",
+                            "time_interval_UB": "2017-03-31T16:00:00.000Z",
+                            "description": this.description
+                        })
+                        .then(function (response) {
+                            console.log(response);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    }else {
+                        console.log("有東西沒填");
+                    }
                 }
             },
             computed: {
+                showFormData () {
+                    return {
+                        name: this.name,
+                        location: this.location,
+                        description: this.description,
+                        fication: this.fication
+                    }
+                }
             }
         })
     </script>
