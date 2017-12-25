@@ -23,13 +23,14 @@
         <div id="found">
             <% include ../partials/reportForm %>
             <div class="row" v-if="lists.length!=0">
-                <div class="col-12" v-for="list in lists">
+                <div class="col-12" v-for="list in chosenLists">
                     <div class="row border rounded mb-2 p-2">
                         <div class="col-md-3 mb-2 mb-md-0">
                             <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
                         </div>
                         <div class="col-md-9">
                             <h4 class="card-title">{{ list.name }}</h4>
+                            <p>{{ list.time_interval_LB.split("T")[0] }} ~ {{ list.time_interval_UB.split("T")[0] }}</p>
                             <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p>
                             <div class="text-right">
                                 <a href="#" class="btn btn-primary">看更多</a>
@@ -51,6 +52,7 @@
             el: '#found',
             data: {
                 lists: '',
+                chosenClass:　0,
                 formData: {
                     name: {
                         noValid: false,
@@ -137,6 +139,17 @@
                 }
             },
             computed: {
+                chosenLists () {
+                    // 過濾並回傳指定種類的清單內容
+                    // 若為0代表不須過慮,回傳所有
+                    if(this.chosenClass != 0){
+                        return this.lists.filter((val) => {
+                            return val.classification_id == this.chosenClass;
+                        });
+                    }else{
+                        return this.lists;
+                    }
+                }
             }
         })
     </script>
