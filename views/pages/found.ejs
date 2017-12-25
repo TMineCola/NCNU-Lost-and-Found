@@ -111,6 +111,18 @@
                         noValid: false,
                         value: ''
                     },
+                    date: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeLB: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeUB: {
+                        noValid: false,
+                        value: ''
+                    }
                 },
                 // 回報表單回饋訊息
                 feedBack: {
@@ -140,11 +152,20 @@
                     // 若為空則將將noValid改為是 反之則否
                     var check = 1;
                     for (let key in obj) {
-                        if (obj[key].value == '') {
-                            check = 0;
-                            obj[key].noValid = true;
+                        if(key != "timeLB" && key != "timeUB"){
+                            if (obj[key].value == '') {
+                                check = 0;
+                                obj[key].noValid = true;
+                            }else {
+                                obj[key].noValid = false;
+                            }
                         }else {
-                            obj[key].noValid = false;
+                            if (obj[key].value == '' || obj[key].value < 0 || obj[key].value > 24) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
                         }
                     }
                     return check;
@@ -157,8 +178,8 @@
                             "name": this.formData.name.value,
                             "classification_id": this.formData.fication.value,
                             "location": this.formData.location.value,
-                            "time_interval_LB": "2017-03-31T10:00:00.000Z",
-                            "time_interval_UB": "2017-03-31T16:00:00.000Z",
+                            "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
+                            "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
                             "description": this.formData.description.value
                         })
                         .then(function (response) {
