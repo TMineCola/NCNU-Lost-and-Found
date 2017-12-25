@@ -111,19 +111,19 @@
     <div class="col-lg-6 col-sm-8 col-md-8 col-md-offset-4" id="categories" style="width:500px;">
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 1);">
           <img class="quicklink" src="../img/icon/icon-01.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-01.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 2);">
           <img class="quicklink" src="../img/icon/icon-02.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-02.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 3);">
           <img class="quicklink" src="../img/icon/icon-03.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-03.png" />
           </a>
@@ -131,19 +131,19 @@
       </div>
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 4;">
           <img class="quicklink" src="../img/icon/icon-04.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-04.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 5);">
           <img class="quicklink" src="../img/icon/icon-05.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-05.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 6);">
           <img class="quicklink" src="../img/icon/icon-06.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-06.png" />
           </a>
@@ -151,19 +151,19 @@
       </div>
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 7);">
           <img class="quicklink" src="../img/icon/icon-07.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-07.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 8);">
           <img class="quicklink" src="../img/icon/icon-08.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-08.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#">
+          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 9);">
           <img class="quicklink" src="../img/icon/icon-09.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-09.png" />
           </a>
@@ -205,4 +205,13 @@
 
   // $('#test').css('top', `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
   // containerStyle.top = `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
+
+  function selectItemByValue(elmnt, value){
+
+for(var i=0; i < elmnt.options.length; i++)
+{
+  if(elmnt.options[i].value == value)
+    elmnt.selectedIndex = i;
+}
+}
 </script>
