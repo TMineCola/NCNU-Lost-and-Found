@@ -27,7 +27,7 @@
                         <li class="breadcrumb-item">
                             <a href="#" @click.prevent="showAll">全部</a>
                         </li>
-                        <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText }}</li>
+                        <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
                     </ol>
                 </nav>
             </div>
@@ -42,10 +42,10 @@
                             <div class="col-md-9">
                                 <h4 class="card-title">{{ list.name }}</h4>
                                 <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
-                                <p>分類: {{ list.classification_id }}</p>
+                                <p>分類: {{ classNumToText(list.classification_id) }}</p>
                                 <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p>
                                 <div class="text-right">
-                                    <a href="#" class="btn btn-primary" @click="showDetail(list)">看更多...</a>
+                                    <a href="#" class="btn btn-primary" @click.prevent="showDetail(list)">看更多...</a>
                                 </div>
                             </div>
                         </div>
@@ -209,13 +209,13 @@
                     console.log(list);
                     this.detail.isShowDetail = true;
                     this.detail.list = list;
+                },
+                classNumToText (classId) {
+                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
+                    return text[classId - 1];
                 }
             },
             computed: {
-                classNumToText () {
-                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
-                    return text[this.chosenClass - 1];
-                },
                 chosenLists () {
                     // 有分總類
                     if(this.chosenClass != 0){

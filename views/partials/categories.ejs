@@ -119,19 +119,19 @@
     <div class="col-lg-6 col-sm-8 col-md-8 col-md-offset-4" id="categories" >
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 1); app.chosenClass=1; app.formData.fication.value = 1">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 1; app.formData.fication.value = 1">
           <img class="quicklink" src="../img/icon/icon-01.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-01.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 2); app.chosenClass=2; app.formData.fication.value = 2">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 2; app.formData.fication.value = 2">
           <img class="quicklink" src="../img/icon/icon-02.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-02.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 3); app.chosenClass=3; app.formData.fication.value = 3">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 3; app.formData.fication.value = 3">
           <img class="quicklink" src="../img/icon/icon-03.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-03.png" />
           </a>
@@ -139,19 +139,19 @@
       </div>
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 4); app.chosenClass=4; app.formData.fication.value = 4">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 4; app.formData.fication.value = 4">
           <img class="quicklink" src="../img/icon/icon-04.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-04.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 5); app.chosenClass=5; app.formData.fication.value = 5">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 5; app.formData.fication.value = 5">
           <img class="quicklink" src="../img/icon/icon-05.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-05.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 6); app.chosenClass=6; app.formData.fication.value = 6">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 6; app.formData.fication.value = 6">
           <img class="quicklink" src="../img/icon/icon-06.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-06.png" />
           </a>
@@ -159,19 +159,19 @@
       </div>
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 7); app.chosenClass=7; app.formData.fication.value = 7">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 7; app.formData.fication.value = 7">
           <img class="quicklink" src="../img/icon/icon-07.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-07.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 8); app.chosenClass=8; app.formData.fication.value = 8">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 8; app.formData.fication.value = 8">
           <img class="quicklink" src="../img/icon/icon-08.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-08.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#" onclick="selectItemByValue(document.getElementById('fication'), 9); app.chosenClass=9; app.formData.fication.value = 9">
+          <a class="quicklink_link" href="#" onclick="app.chosenClass = 9; app.formData.fication.value = 9">
           <img class="quicklink" src="../img/icon/icon-09.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-09.png" />
           </a>
@@ -245,11 +245,11 @@
   // $('#test').css('top', `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
   // containerStyle.top = `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
 
-  function selectItemByValue(elmnt, value){
-    for(var i=0; i < elmnt.options.length; i++)
-    {
-      if(elmnt.options[i].value == value)
-        elmnt.selectedIndex = i;
-    }
-  }
+  // function selectItemByValue(elmnt, value){
+  //   for(var i=0; i < elmnt.options.length; i++)
+  //   {
+  //     if(elmnt.options[i].value == value)
+  //       elmnt.selectedIndex = i;
+  //   }
+  // }
 </script>
