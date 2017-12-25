@@ -27,7 +27,7 @@
                         <li class="breadcrumb-item">
                             <a href="#" @click="showAll">全部</a>
                         </li>
-                        <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ chosenClass }}</li>
+                        <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText }}</li>
                     </ol>
                 </nav>
             </div>
@@ -158,6 +158,10 @@
                 }
             },
             computed: {
+                classNumToText () {
+                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
+                    return text[this.chosenClass - 1];
+                },
                 chosenLists () {
                     // 有分總類
                     if(this.chosenClass != 0){
