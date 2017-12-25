@@ -22,7 +22,7 @@
         <h1>協尋清單：（或許有人在著急地找TA……）</h1>
         <div id="found">
             <% include ../partials/reportForm %>
-            <div class="row" v-if="lists.length!=0">
+            <div class="row" v-if="chosenLists.length!=0">
                 <div class="col-12" v-for="list in chosenLists">
                     <div class="row border rounded mb-2 p-2">
                         <div class="col-md-3 mb-2 mb-md-0">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div v-else="lists.length==0">
+            <div v-else="chosenLists.length==0">
                 <div class="alert alert-info">
                     目前還沒有遺失物喔
                 </div>
