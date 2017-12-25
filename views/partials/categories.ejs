@@ -201,17 +201,24 @@
       $("body").find("#try").append(
         '<div id="btn-toggleSetting"><i class="fa fa-bars" aria-hidden="true"></i></div>');
     });
+    $('.quicklink_link').click(function(){
+      $("body").find("#test").removeClass("tool_visible");
+      $("body").find("#blur").removeClass("blur");
+      $("body").find("#test").addClass("tool_invisible");
+      $("body").find("#btn-toggleSetting").remove();
+      $("body").find("#try").append(
+        '<div id="btn-toggleSetting_open"><i class="fa fa-bars" aria-hidden="true"></i></div>');
+    })
   });
 
   // $('#test').css('top', `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
   // containerStyle.top = `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
 
   function selectItemByValue(elmnt, value){
-
-for(var i=0; i < elmnt.options.length; i++)
-{
-  if(elmnt.options[i].value == value)
-    elmnt.selectedIndex = i;
-}
-}
+    for(var i=0; i < elmnt.options.length; i++)
+    {
+      if(elmnt.options[i].value == value)
+        elmnt.selectedIndex = i;
+    }
+  }
 </script>
