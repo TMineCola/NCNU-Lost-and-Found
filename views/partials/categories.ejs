@@ -1,6 +1,7 @@
 <style>
   .tool_visible {
-    background: #fff;
+    background-color:rgba(0, 0, 0, 0.2);
+    /* background: #fff; */
     position: absolute;
     width: 100%;
     z-index: 1;
@@ -9,11 +10,11 @@
   }
 
   .tool_invisible {
-    background: #fff;
+    background-color:rgba(255, 0, 0, 0.2);
     position: absolute;
     width: 100%;
     z-index: 1;
-    top: -402px;
+    top: -420px;
     transition: all .5s;
   }
 
@@ -22,44 +23,38 @@
     min-width: 110px;
     height: 110px;
     width: 110px;
+    z-index:2;
   }
 
   .quicklink {
     width: 110px;
     height: 110px;
+    z-index:2;
   }
 
   a.quicklink_link>img.quicklink_hover {
     display: none;
     width: 110px;
     height: 110px;
-<<<<<<< HEAD
-  }
-  /* try fixed, but no hover */
-
-  img.quicklink_hover {
-    display: none;
-    width: 110px;
-    height: 110px;
-  }
-=======
+    z-index:2;
 }
 /* try fixed, but no hover */
-img.quicklink_hover {
+/* img.quicklink_hover {
   display: none;
     width: 110px;
     height: 110px;
-}
->>>>>>> cd169225615ccb9475fff7a0ed1512b4efb76a1e
+    z-index:2;
+} */
 
   a.quicklink_link:hover>img.quicklink_hover {
     position: absolute;
     display: block;
     top: 0;
-    left: 0;
-    margin-left: 2px;
+    /* left: 0; */
+    /* margin-left: 2px; */
     width: 110px;
     height: 110px;
+    z-index:2;
   }
   /* .quicklink_title {
     position: absolute;
@@ -73,32 +68,36 @@ img.quicklink_hover {
     padding-left: 0.1em;
     padding-right: 0.1em;
     border-radius: 10px;
+    z-index:2;
   }
 
   @media (min-width:992px) {
     #categories {
-      max-width: 500px
+      background-color:transparent!important;
+      /* max-width: 500px */
     }
   }
 </style>
 
-<div class="pt-3 container tool_visible" id="test">
-  <div class="row mt-5"id="categories">
+<div class="container-fluid tool_visible" id="test">
+  <div class="row mt-5 pt-4" id="categories">
+    <div class="col-4"></div>
+    <div class="col-4 col-offset-4">
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-01.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-01.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-02.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-02.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-03.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-03.png" />
           </a>
@@ -106,19 +105,19 @@ img.quicklink_hover {
       </div>
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-04.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-04.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-05.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-05.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-06.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-06.png" />
           </a>
@@ -126,24 +125,26 @@ img.quicklink_hover {
       </div>
       <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-07.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-07.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-08.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-08.png" />
           </a>
         </div>
         <div class="quicklink_box d-flex justify-content-center">
-          <a class="quicklink_link" href="#"></a>
+          <a class="quicklink_link" href="#">
           <img class="quicklink" src="../img/icon/icon-09.png" />
           <img class="quicklink_hover" src="../img/icon/icon_hover-09.png" />
           </a>
         </div>
       </div>
+    </div>
+    <div class="col-4"></div>
   </div>
     <!-- toogle -->
     <div class="mt-2 row">
