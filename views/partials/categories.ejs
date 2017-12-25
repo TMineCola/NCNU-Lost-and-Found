@@ -110,6 +110,7 @@
 <div class="container-fluid blur" id="blur">
 </div>
 <div class="container-fluid tool_visible" id="test">
+  <!-- 第一條row: 九封格 -->
   <div class="row mt-5 pt-4">
     <div class="col-lg-3 col-sm-2 col-md-2"></div>
     <div class="col-lg-6 col-sm-8 col-md-8 col-md-offset-4" id="categories" style="width:500px;">
@@ -175,13 +176,21 @@
       </div>
     </div>
     <div class="col-lg-3 col-sm-2 col-md-2"></div>
-  </div>
-    <!-- toogle -->
-    <div class="mt-2 row">
-      <div class="text-center col-12" id="try">
-        <div id="btn-toggleSetting">
-          <i class="fa fa-bars" aria-hidden="true"></i>
+    <!-- 搜尋欄 -->
+    <div class="col-12 text-center mt-3">
+        <div class="input-group">
+          <input id="keyWord" type="text" class="form-control" placeholder="輸入關鍵字，用空白隔開(ex:黑色 帽子)" aria-label="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button" id="keyWordGo">Go!</button>
+          </span>
         </div>
+    </div>
+  </div>
+  <!-- toogle -->
+  <div class="mt-2 row">
+    <div class="text-center col-12" id="try">
+      <div id="btn-toggleSetting">
+        <i class="fa fa-bars" aria-hidden="true"></i>
       </div>
     </div>
   </div>
@@ -213,6 +222,17 @@
       $("body").find("#try").append(
         '<div id="btn-toggleSetting_open"><i class="fa fa-bars" aria-hidden="true"></i></div>');
     })
+
+    // 當關鍵字輸入後存到vue中做過濾
+    $("#keyWordGo").click(function () {
+      app.keyWord = $("#keyWord").val();
+    });
+    $("#keyWord").keyup(function (e) {
+      // enter
+      if(e.keyCode == 13){
+        app.keyWord = $("#keyWord").val();
+      }
+    });
   });
 
   // $('#test').css('top', `-${document.getElementById('ExchangeSetting').offsetHeight + 32}px`);
