@@ -9,12 +9,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div v-if="feedBack.submited" class="alert alert-warning" role="alert">
-                    <strong>修改成功!</strong>
-                </div>
-                <div v-if="feedBack.isError" class="alert alert-warning" role="alert">
-                    <strong>非常抱歉，伺服器發生錯誤，請稍後再試一次!</strong>
-                </div>
                 <form class="mb-3">
                     <div class="form-group">
                         <label for="fication">物品分類</label>
@@ -88,6 +82,12 @@
                     <!-- <div v-for="(value, key) in formData">
                         {{ key }}: {{ value.value }}
                     </div> -->
+                    <div v-if="feedBack.submited" class="alert alert-warning" role="alert">
+                        <strong>修改成功!</strong>
+                    </div>
+                    <div v-if="feedBack.isError" class="alert alert-warning" role="alert">
+                        <strong>非常抱歉，伺服器發生錯誤，請稍後再試一次!</strong>
+                    </div>
                     <button @click.prevent="editFound" type="submit" class="btn btn-primary">送出</button>
                 </form>
             </div>

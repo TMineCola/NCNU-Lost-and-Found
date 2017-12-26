@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-md-7">
                                 <h4>{{ detail.list.name }}</h4>
-                                <p>{{ detail.list.time_interval_LB.split("T")[0] }} ~ {{ detail.list.time_interval_UB.split("T")[0] }}</p>
+                                <p>{{ new Date(detail.list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(detail.list.time_interval_LB).toLocaleString().split(":")[0] }}時</p>
                                 <p>拾獲地點: {{ detail.list.location }}</p>
                                 <p>{{ textIsEmpty(detail.list.description) }}</p>
                                 <p>狀態: {{ detail.list.state }}</p>

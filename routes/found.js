@@ -40,7 +40,8 @@ function _CheckID(db, id) {
 /* 查詢全部拾獲物 */
 function _Search(db) {
   return new Promise((resolve, reject) => {
-    let sql ="SELECT * FROM property_found";
+    // 預設由新至舊
+    let sql ="SELECT * FROM property_found order by time_interval_LB DESC";
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
