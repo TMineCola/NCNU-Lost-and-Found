@@ -32,6 +32,7 @@
                 </nav>
             </div>
             <!-- 這邊到時候引入願望清單回報表單 -->
+            <% include ../partials/editForm %>
             <div class="row">
                 <template v-if="searchKeyWord.length!=0 && !detail.isShowDetail">
                     <div class="col-12" v-for="list in searchKeyWord">
@@ -46,6 +47,7 @@
                                 <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p>
                                 <div class="text-right">
                                     <a href="#" class="btn btn-primary" @click.prevent="showDetail(list)">看更多...</a>
+                                    <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
                                     <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
                                 </div>
                             </div>
@@ -95,41 +97,46 @@
                     isShowDetail: false,
                     list: ''
                 },
-                // formData: {
-                //     name: {
-                //         noValid: false,
-                //         value: ''
-                //     },
-                //     location: {
-                //         noValid: false,
-                //         value: ''
-                //     },
-                //     description: {
-                //         noValid: false,
-                //         value: ''
-                //     },
-                //     fication: {
-                //         noValid: false,
-                //         value: ''
-                //     },
-                //     date: {
-                //         noValid: false,
-                //         value: ''
-                //     },
-                //     timeLB: {
-                //         noValid: false,
-                //         value: ''
-                //     },
-                //     timeUB: {
-                //         noValid: false,
-                //         value: ''
-                //     }
-                // },
-                // // 回報表單回饋訊息
-                // feedBack: {
-                //     submited: 0,
-                //     isError: 0
-                // }
+                formData: {
+                    id: {
+                        // 只有在更新時才會更新
+                        noValid: false,
+                        value: 1
+                    },
+                    name: {
+                        noValid: false,
+                        value: ''
+                    },
+                    location: {
+                        noValid: false,
+                        value: ''
+                    },
+                    description: {
+                        noValid: false,
+                        value: ''
+                    },
+                    fication: {
+                        noValid: false,
+                        value: ''
+                    },
+                    date: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeLB: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeUB: {
+                        noValid: false,
+                        value: ''
+                    }
+                },
+                // 回報表單回饋訊息
+                feedBack: {
+                    submited: 0,
+                    isError: 0
+                }
             },
             // 網頁載入完成
             created: function () {
@@ -148,29 +155,29 @@
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
                 },
-                // formIsEmpty (obj) {
-                //     // 檢查傳入的物件是否有value沒填
-                //     // 若為空則將將noValid改為是 反之則否
-                //     var check = 1;
-                //     for (let key in obj) {
-                //         if(key != "timeLB" && key != "timeUB"){
-                //             if (obj[key].value == '') {
-                //                 check = 0;
-                //                 obj[key].noValid = true;
-                //             }else {
-                //                 obj[key].noValid = false;
-                //             }
-                //         }else {
-                //             if (obj[key].value == '' || obj[key].value < 0 || obj[key].value > 24) {
-                //                 check = 0;
-                //                 obj[key].noValid = true;
-                //             } else {
-                //                 obj[key].noValid = false;
-                //             }
-                //         }
-                //     }
-                //     return check;
-                // },
+                formIsEmpty (obj) {
+                    // 檢查傳入的物件是否有value沒填
+                    // 若為空則將將noValid改為是 反之則否
+                    var check = 1;
+                    for (let key in obj) {
+                        if(key != "timeLB" && key != "timeUB"){
+                            if (obj[key].value == '') {
+                                check = 0;
+                                obj[key].noValid = true;
+                            }else {
+                                obj[key].noValid = false;
+                            }
+                        }else {
+                            if (obj[key].value == '' || obj[key].value < 0 || obj[key].value > 24) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        }
+                    }
+                    return check;
+                },
                 // createFound () {
                 //     if(this.formIsEmpty(this.formData)){
                 //         console.log("有東西");
@@ -201,6 +208,36 @@
                 //         console.log("有東西沒填");
                 //     }
                 // },
+                editFound() {
+                    if (this.formIsEmpty(this.formData)) {
+                        console.log("有東西");
+                        var self = this;
+                        axios.patch('/api/found/' + this.formData.id.value , {
+                            "name": this.formData.name.value,
+                            "classification_id": this.formData.fication.value,
+                            "location": this.formData.location.value,
+                            "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
+                            "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
+                            "description": this.formData.description.value
+                        })
+                            .then(function (response) {
+                                console.log(response);
+                                self.feedBack.submited = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                self.feedBack.isError = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            });
+                    } else {
+                        console.log("有東西沒填");
+                    }
+                },
                 showAll () {
                     this.chosenClass = 0;
                     this.detail.isShowDetail = false;
@@ -225,6 +262,51 @@
                             .catch(function (error) {
                                 console.log(error);
                             });
+                    }
+                },
+                autoFillIn (list) {
+                    console.log(list);
+                    for (let key in this.formData) {
+                        switch (key) {
+                            case "id":
+                                this.formData[key].value = list.ID;
+                                break;
+                            case "name":
+                                this.formData[key].value = list.name;
+                                break;
+                            case "location":
+                                this.formData[key].value = list.location;
+                                break;
+                            case "description":
+                                this.formData[key].value = list.description;
+                                break;
+                            case "fication":
+                                this.formData[key].value = list.classification_id;
+                                break;
+                            case "date":
+                                // 將ISO8601轉本地時間，再取日期，之後將/換成-
+                                let tmp = new Date(list.time_interval_LB).toLocaleString().split(" ")[0];
+                                // 處理取出的日期不滿兩位數不會自動補0
+                                let str = '';
+                                for(let value of tmp.split("/")){
+                                    console.log(value);
+                                    if(value < 10 && value > 0){
+                                        str += "0" + value + "-";
+                                    }else{
+                                        str += value + "-";
+                                    }
+                                }
+                                // 刪除結尾多出的-號
+                                str = str.substring(0, str.length - 1);
+                                this.formData[key].value = str;
+                                break;
+                            case "timeLB":
+                                this.formData[key].value = new Date(list.time_interval_LB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                            case "timeUB":
+                                this.formData[key].value = new Date(list.time_interval_UB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                        }
                     }
                 }
             },
