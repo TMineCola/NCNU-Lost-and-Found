@@ -31,11 +31,18 @@
                     </ol>
                 </nav>
             </div>
+            <div class="col-12 mb-3">
+                時間排序
+                <select v-model.number="timeSort">
+                    <option value=1>新 => 舊</option>
+                    <option value=0>舊 => 新</option>
+                </select>
+            </div>
             <!-- 這邊到時候引入願望清單回報表單 -->
             <% include ../partials/editForm %>
             <div class="row">
                 <template v-if="searchKeyWord.length!=0 && !detail.isShowDetail">
-                    <div class="col-12" v-for="list in searchKeyWord">
+                    <div class="col-12" v-for="list in sortByTime">
                         <div class="row border rounded mb-2 p-2">
                             <div class="col-md-3 mb-2 mb-md-0">
                                 <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
@@ -91,6 +98,8 @@
                 lists: '',
                 // 九封格分類
                 chosenClass: 0,
+                // 是否由新到舊(預設為是)
+                timeSort: 1,
                 keyWord: '',
                 // 遺失物品細節
                 detail: {
@@ -326,8 +335,7 @@
                     } else if (this.chosenClass == 0 && this.keyWord.length == 0) {
                         // 沒劃分總類也沒關鍵字
                         return this.lists;
-                    }
-                    else if (this.chosenClass == 0 && this.keyWord.length != 0) {
+                    } else if (this.chosenClass == 0 && this.keyWord.length != 0) {
                         // 沒劃分總類但有關鍵字
                         let tmp = this.keyWord.split(" ");
                         let str = '';
@@ -337,7 +345,7 @@
                                 return str.match(value) != null;
                             }
                         });
-                    }else if (this.chosenClass != 0 && this.keyWord.length != 0){
+                    } else if (this.chosenClass != 0 && this.keyWord.length != 0){
                         // 有劃分總類也有關鍵字
                         let tmp = this.keyWord.split(" ");
                         let str = '';
@@ -347,6 +355,19 @@
                                 return str.match(value) != null;
                             }
                         });
+                    }
+                },
+                sortByTime () {
+                    if (this.timeSort) {
+                        // 預設
+                        return this.searchKeyWord.sort(function (a, b) { return Date.parse(b.time_interval_LB) - Date.parse(a.time_interval_LB) });
+                    } else {
+                        // 舊到新
+                        return this.searchKeyWord.sort(
+                            function (a, b) {
+                                return Date.parse(a.time_interval_LB) - Date.parse(b.time_interval_LB);
+                            }
+                        );
                     }
                 }
             }
