@@ -168,7 +168,8 @@ router.post('/', function(req, res, next) {
     "registered_time": nowTime,
     "time_interval_LB": foundObj.time_interval_LB,
     "time_interval_UB": foundObj.time_interval_UB,
-    "description": foundObj.description
+    "description": foundObj.description,
+    "image": foundObj.image
   };
 
   /* 驗證修改資訊 */

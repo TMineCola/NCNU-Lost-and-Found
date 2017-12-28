@@ -38,6 +38,7 @@
                     <div class="col-12" v-for="list in searchKeyWord">
                         <div class="row border rounded mb-2 p-2">
                             <div class="col-md-3 mb-2 mb-md-0">
+                                <!-- <img class="border rounded img-fluid" :src="list.image" alt="圖片顯示錯誤"> -->
                                 <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
                             </div>
                             <div class="col-md-9">
@@ -123,6 +124,11 @@
                     timeUB: {
                         noValid: false,
                         value: ''
+                    },
+                    image: {
+                        noValid: false,
+                        value: '',
+                        uploading: false
                     }
                 },
                 // 回報表單回饋訊息
@@ -181,7 +187,8 @@
                             "location": this.formData.location.value,
                             "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
                             "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
-                            "description": this.formData.description.value
+                            "description": this.formData.description.value,
+                            "image": this.formData.image.value
                         })
                         .then(function (response) {
                             console.log(response);
@@ -214,6 +221,35 @@
                 classNumToText (classId) {
                     let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
                     return text[classId - 1];
+                },
+                imageUpload (e) {
+                    let imageFile = e.target.files[0];
+                    if (imageFile.type.indexOf('image/') == -1) {
+                        alert('It must be a image');
+                        return;
+                    };
+                    let formData = new FormData();
+                    formData.append('image', imageFile);
+                    this.formData.image.uploading = true;
+                    fetch('https://api.imgur.com/3/image', {
+                        method: 'post',
+                        body: formData,
+                        headers: new Headers({
+                            'Authorization': 'Client-ID 3b927010e0363a1'
+                        })
+                    }).then((resp) => resp.json()).then((response) => {
+                        if (response.success) {
+                            let imageURL = response.data.link;
+                            let imageDEL = response.data.deletehash;
+                            console.log(imageURL, imageDEL);
+                            this.formData.image.value = imageURL;
+                            this.formData.image.uploading = false;
+                        } else {
+                            console.log(response);
+                            this.feedBack.isError = 1;
+                            this.formData.image.uploading = false;
+                        }
+                    });
                 }
             },
             computed: {

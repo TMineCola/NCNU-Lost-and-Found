@@ -10,29 +10,36 @@
             </div>
             <div class="modal-body">
                 <form class="mb-3">
-                  <div class="form-group">
-                      <label for="fication">物品分類</label>
-                      <select :class="{'is-invalid': formData.fication.noValid}" class="form-control" id="fication" v-model.number="formData.fication.value">
-                          <option disabled value="">請選擇</option>
-                          <option value="1">衣物</option>
-                          <option value="2">現金</option>
-                          <option value="3">書籍</option>
-                          <option value="4">3C</option>
-                          <option value="5">文具</option>
-                          <option value="6">卡片</option>
-                          <option value="7">雨具</option>
-                          <option value="8">生活</option>
-                          <option value="9">其他</option>
-                      </select>
-                      <div class="invalid-feedback">
-                          Please provide a valid fication.
-                      </div>
-                  </div>
-                  <div class="form-group">
+                    <div class="form-group">
+                        <label for="fication">物品分類</label>
+                        <select :class="{'is-invalid': formData.fication.noValid}" class="form-control" id="fication" v-model.number="formData.fication.value">
+                            <option disabled value="">請選擇</option>
+                            <option value="1">衣物</option>
+                            <option value="2">現金</option>
+                            <option value="3">書籍</option>
+                            <option value="4">3C</option>
+                            <option value="5">文具</option>
+                            <option value="6">卡片</option>
+                            <option value="7">雨具</option>
+                            <option value="8">生活</option>
+                            <option value="9">其他</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid fication.
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="name">請輸入物品名稱</label>
                         <input type="text" :class="{'is-invalid': formData.name.noValid}" class="form-control" id="name" v-model.trim="formData.name.value" placeholder="物品名稱...">
                         <div class="invalid-feedback">
                             Please provide a valid name.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">請上傳照片</label>
+                        <input type="file" :class="{'is-invalid': formData.image.noValid}" class="form-control" id="image" @change="imageUpload" accept="image/*">
+                        <div class="invalid-feedback">
+                            Please provide a valid photo.
                         </div>
                     </div>
                     <div class="form-group">
@@ -83,7 +90,7 @@
                     <div v-if="feedBack.isError" class="alert alert-warning" role="alert">
                         <strong>非常抱歉，伺服器發生錯誤，請稍後再試一次!</strong>
                     </div>
-                    <button @click.prevent="createFound" type="submit" class="btn btn-primary">送出</button>
+                    <button :disabled="formData.image.uploading" @click.prevent="createFound" type="submit" class="btn" :class="{'btn-primary': !formData.image.uploading, 'btn-warning': formData.image.uploading}" >{{ formData.image.uploading? '圖片上傳中...': '送出' }}</button>
                 </form>
             </div>
             <!-- <div class="modal-footer">
