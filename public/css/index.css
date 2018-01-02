@@ -1,0 +1,167 @@
+/* div 滑動效果 
+ * http://www.dch.ncnu.edu.tw/member/index.php?index_m1_id=6
+ */
+
+ul.itemList {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.itemList li .Img {
+    position: relative;
+    max-height: 500px;
+}
+
+ul.itemList li .Img a {
+    display: block;
+    overflow: hidden;
+}
+
+ul.itemList li .Img img {
+    display: block;
+    width: 100%;
+}
+
+ul.itemList li .Txt {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: -90px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 40px;
+    background: #FFF;
+    transition: all 0.5s ease;
+}
+
+ul.itemList li .item:hover .Txt {
+    margin-bottom: 0;
+}
+
+ul.itemList li .item:hover .Txt a {
+    background-color: red;
+}
+
+
+ul.itemList li .Txt h3 {
+    color: #4d7ead;
+    margin-bottom: 5px;
+}
+
+ul.itemList li .Txt h3 strong {
+    display: inline-block;
+    font-weight: normal;
+}
+
+ul.itemList li .Txt h3 strong a {
+    display: block;
+    font-size: 17px;
+    color: #3b4c82;
+}
+
+ul.itemList li .Txt h3 strong a:hover {
+    color: #da2441;
+}
+
+ul.itemList li .Txt h3 em {
+    font-weight: normal;
+    color: #444444;
+    font-size: 13px;
+    margin-left: 15px;
+}
+
+ul.itemList li .Txt p {
+    display: block;
+    position: relative;
+    padding-top: 20px;
+    font-size: 13px;
+    color: #444444;
+    line-height: 1.8;
+    height: 50px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    transition-delay: 0.2s;
+}
+
+ul.itemList li .item:hover .Txt p {
+    padding-top: 10px;
+    opacity: 1;
+}
+
+ul.itemList li .Txt p:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 62px;
+    height: 1px;
+    background: rgba(221, 38, 38, 0.6);
+}
+
+ul.itemList li .Txt p:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 1px;
+    background: #dd2626;
+}
+
+ul.itemList li .Txt a.btn {
+    position: absolute;
+    right: 30px;
+    top: -22px;
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: white;
+    background: #3b4c82;
+}
+
+ul.itemList li .Txt a.btn:hover {
+    background: #e9954b;
+}
+
+ul.itemList li .Txt a.btn:before {
+    /* content:""; */
+    position: absolute;
+    left: 50%;
+    margin-left: -6px;
+    top: 50%;
+    margin-top: -1px;
+    width: 12px;
+    height: 2px;
+    background: #fff; 
+}
+
+ul.itemList li .Txt a.btn:after {
+    /* content: ""; */
+    position: absolute;
+    top: 50%;
+    margin-top: -6px;
+    left: 50%;
+    margin-left: -1px;
+    height: 12px;
+    width: 2px;
+    background: #fff;
+}
+
+
+/***Hover效果1: 放大淡出***/
+
+.imh_opacity {
+    background: #000;
+    overflow: hidden;
+}
+
+.imh_opacity img {
+    transition: all 0.3s linear;
+    -webkit-backface-visibility: hidden;
+}
+
+.imh_opacity:hover img {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
