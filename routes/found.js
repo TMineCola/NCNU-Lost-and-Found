@@ -155,7 +155,7 @@ router.post('/', function(req, res, next) {
   var time_LB = foundObj.time_interval_LB;
   var time_UB = foundObj.time_interval_UB;
   /* 處理時間上下限相反的情況 */
-  if(time_LB > time_UB) {
+  if(Date.parse(time_LB) > Date.parse(time_UB)) {
     let temp = time_LB;
     time_LB = time_UB;
     time_UB = temp;
@@ -211,7 +211,7 @@ router.patch('/:id', function(req, res, next) {
     var time_LB = foundObj.time_interval_LB;
     var time_UB = foundObj.time_interval_UB;
     // 處理時間上下限相反的情況
-    if(time_LB > time_UB) {
+    if(Date.parse(time_LB) > Date.parse(time_UB)) {
       let temp = time_LB;
       time_LB = time_UB;
       time_UB = temp;
