@@ -41,7 +41,7 @@ function _CheckID(db, id) {
 function _Search(db) {
   return new Promise((resolve, reject) => {
     // 預設由新至舊
-    let sql ="SELECT * FROM property_found order by time_interval_LB DESC";
+    let sql ="SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM property_found order by time_interval_LB DESC";
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -57,7 +57,7 @@ function _Search(db) {
 /* 查詢指定ID拾獲物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT * FROM property_found WHERE ID = ?";
+    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM property_found WHERE ID = ?";
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -155,7 +155,7 @@ router.post('/', function(req, res, next) {
   var time_LB = foundObj.time_interval_LB;
   var time_UB = foundObj.time_interval_UB;
   /* 處理時間上下限相反的情況 */
-  if(time_LB > time_UB) {
+  if(Date.parse(time_LB) > Date.parse(time_UB)) {
     let temp = time_LB;
     time_LB = time_UB;
     time_UB = temp;
@@ -169,7 +169,8 @@ router.post('/', function(req, res, next) {
     "time_interval_LB": foundObj.time_interval_LB,
     "time_interval_UB": foundObj.time_interval_UB,
     "description": foundObj.description,
-    "image": foundObj.image
+    "image": foundObj.image,
+    "deleteHash": foundObj.deleteHash
   };
 
   /* 驗證修改資訊 */
@@ -209,8 +210,8 @@ router.patch('/:id', function(req, res, next) {
   _CheckID(db, found_id).then(value => {
     var time_LB = foundObj.time_interval_LB;
     var time_UB = foundObj.time_interval_UB;
-    /* 處理時間上下限相反的情況 */
-    if(time_LB > time_UB) {
+    // 處理時間上下限相反的情況
+    if(Date.parse(time_LB) > Date.parse(time_UB)) {
       let temp = time_LB;
       time_LB = time_UB;
       time_UB = temp;
@@ -223,6 +224,11 @@ router.patch('/:id', function(req, res, next) {
       "time_interval_UB": foundObj.time_interval_UB,
       "description": foundObj.description
     };
+    // 如果有圖片更動, 則攜帶image及deleteHash資料
+    if(foundObj['image'] != undefined) {
+      values['image'] = foundObj.image;
+      values['deleteHash'] = foundObj.image;
+    }
     /* 驗證修改資訊 */
     let LessObj = {
       "message": "資料不得為空或缺少資料 ("

@@ -128,7 +128,10 @@
                     image: {
                         noValid: false,
                         value: '',
-                        uploading: false
+                        uploading: false,
+                        // 包好的 form data
+                        imgData: {},
+                        deleteHash: ''
                     }
                 },
                 // 回報表單回饋訊息
@@ -159,7 +162,15 @@
                     // 若為空則將將noValid改為是 反之則否
                     var check = 1;
                     for (let key in obj) {
-                        if(key != "timeLB" && key != "timeUB"){
+                        if(key == "date"){
+                            var reg = /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/;
+                            if (obj[key].value.match(reg) == null) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        }else if(key != "timeLB" && key != "timeUB"){
                             if (obj[key].value == '') {
                                 check = 0;
                                 obj[key].noValid = true;
@@ -178,31 +189,34 @@
                     return check;
                 },
                 createFound () {
+                    var self = this;
                     if(this.formIsEmpty(this.formData)){
                         console.log("有東西");
-                        var self = this;
-                        axios.post('/api/found', {
-                            "name": this.formData.name.value,
-                            "classification_id": this.formData.fication.value,
-                            "location": this.formData.location.value,
-                            "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
-                            "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
-                            "description": this.formData.description.value,
-                            "image": this.formData.image.value
-                        })
-                        .then(function (response) {
-                            console.log(response);
-                            self.feedBack.submited = 1;
-                            setTimeout(function () {
-                                location.reload();
-                            }, 2000);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            self.feedBack.isError = 1;
-                            setTimeout(function () {
-                                location.reload();
-                            }, 2000);
+                        self.imageUpload(self.formData.image.imgData).then((res) => {
+                            axios.post('/api/found', {
+                                "name": self.formData.name.value,
+                                "classification_id": self.formData.fication.value,
+                                "location": self.formData.location.value,
+                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
+                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                "description": self.formData.description.value,
+                                "image": self.formData.image.value,
+                                "deleteHash": self.formData.image.deleteHash
+                            })
+                            .then(function (response) {
+                                // console.log(response);
+                                self.feedBack.submited = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                self.feedBack.isError = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            });
                         });
                     }else {
                         console.log("有東西沒填");
@@ -222,27 +236,40 @@
                     let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
                     return text[classId - 1];
                 },
-                imageUpload (e) {
+                imageDataSave (e) {
+                    // 將上傳前的圖片資訊存起來,等待表單提交時上傳
                     let imageFile = e.target.files[0];
                     if (imageFile.type.indexOf('image/') == -1) {
                         alert('It must be a image');
                         return;
-                    };
+                    }else{
+                        // 把圖片編碼存起來
+                        this.formData.image.imgData = imageFile;
+                        // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
+                        this.formData.image.value = "ok";
+                    }
+                },
+                imageUpload (imageFile) {
                     let formData = new FormData();
                     formData.append('image', imageFile);
+                    // 正要上傳,狀態改為是
                     this.formData.image.uploading = true;
-                    fetch('https://api.imgur.com/3/image', {
+                    return fetch('https://api.imgur.com/3/image', {
                         method: 'post',
                         body: formData,
                         headers: new Headers({
                             'Authorization': 'Client-ID 3b927010e0363a1'
                         })
-                    }).then((resp) => resp.json()).then((response) => {
+                    }).then((resp) => {
+                        return resp.json();
+                    }).then((response) => {
                         if (response.success) {
                             let imageURL = response.data.link;
                             let imageDEL = response.data.deletehash;
-                            console.log(imageURL, imageDEL);
+                            // console.log(imageURL, imageDEL);
                             this.formData.image.value = imageURL;
+                            this.formData.image.deleteHash = imageDEL;
+                            // 上傳完成,狀態改為否
                             this.formData.image.uploading = false;
                         } else {
                             console.log(response);
