@@ -196,7 +196,7 @@
                                 "deleteHash": self.formData.image.deleteHash
                             })
                             .then(function (response) {
-                                console.log(response);
+                                // console.log(response);
                                 self.feedBack.submited = 1;
                                 setTimeout(function () {
                                     location.reload();
@@ -258,7 +258,7 @@
                         if (response.success) {
                             let imageURL = response.data.link;
                             let imageDEL = response.data.deletehash;
-                            console.log(imageURL, imageDEL);
+                            // console.log(imageURL, imageDEL);
                             this.formData.image.value = imageURL;
                             this.formData.image.deleteHash = imageDEL;
                             // 上傳完成,狀態改為否
