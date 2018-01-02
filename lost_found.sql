@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- 主機: localhost
--- 產生時間： 2017 年 12 月 24 日 23:08
--- 伺服器版本: 10.1.25-MariaDB
--- PHP 版本： 5.6.31
+-- 主機: 127.0.0.1
+-- 產生時間： 2018-01-03 01:02:13
+-- 伺服器版本: 10.1.16-MariaDB
+-- PHP 版本： 5.6.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -205,18 +203,36 @@ CREATE TABLE `property_found` (
   `registrant_id` bigint(20) DEFAULT NULL,
   `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   `state` tinyint(2) NOT NULL DEFAULT '0',
-  `image` text
+  `image` text,
+  `deleteHash` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 資料表的匯出資料 `property_found`
 --
 
-INSERT INTO `property_found` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`) VALUES
-(11, 'RAY PIG!!!', 4, 'Moli', '2017-12-18 21:53:27', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, NULL, 0, NULL),
-(15, 'RAY!!!', 2, 'Moli', '2017-12-19 00:07:24', '2017-03-31 18:00:00', '2017-12-19 00:07:24', NULL, NULL, NULL, 0, NULL),
-(16, 'RAY PIG!!!', 4, 'Moli', '2017-12-19 00:09:56', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, '很笨', 0, NULL),
-(17, 'RAY PIG!!!', 4, 'Moli', '2017-12-20 01:49:55', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, NULL, 0, NULL);
+INSERT INTO `property_found` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`, `deleteHash`) VALUES
+(15, 'RAY!!!', 2, 'Moli', '2017-12-19 00:07:24', '2017-03-31 18:00:00', '2017-03-31 00:00:00', NULL, NULL, '可以更改了', 0, NULL, ''),
+(16, 'RAY PIG!!!', 4, 'Moli', '2017-12-19 00:09:56', '2017-03-31 18:00:00', '2017-04-01 00:00:00', NULL, NULL, '很笨', 0, NULL, ''),
+(18, '測試', 8, '測試', '2017-12-25 17:11:39', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, '測試', 0, 'https://i.imgur.com/r0FqevC.png', ''),
+(19, '飲料', 8, '飲料', '2017-12-25 19:29:07', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, '飲料好喝', 0, NULL, ''),
+(20, 'ewr', 1, 'wer', '2017-12-25 19:30:31', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, 'eweee', 0, NULL, ''),
+(22, '外套', 1, '停車場', '2017-12-25 19:35:12', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, '黑色', 0, NULL, ''),
+(23, '鉛筆', 5, '教室', '2017-12-26 02:04:15', '2017-03-31 10:00:00', '2017-03-31 16:00:00', NULL, NULL, '新的 haha~', 0, NULL, ''),
+(24, '時間', 1, '時間', '2017-12-26 06:04:56', '2017-12-14 14:00:00', '2017-12-14 16:00:00', NULL, NULL, 'ISO8601', 0, NULL, ''),
+(25, 'sdf', 2, 'sdf', '2017-12-26 06:05:38', '2017-12-13 01:00:00', '2017-12-13 01:00:00', NULL, NULL, '6666666666666666', 0, NULL, ''),
+(27, '水壺', 8, '教室', '2017-12-26 08:41:13', '2017-12-26 08:00:00', '2017-12-26 09:00:00', NULL, NULL, 'asd', 0, NULL, ''),
+(29, '手機', 5, '教室', '2017-12-27 00:49:21', '2017-12-27 16:00:00', '2017-12-27 17:00:00', NULL, NULL, 'iphone', 0, NULL, ''),
+(30, '雨傘', 7, '教室', '2017-12-28 17:44:15', '2017-12-28 16:00:00', '2017-12-28 18:00:00', NULL, NULL, '黃色', 0, 'https://i.imgur.com/kuOTCw9.png', ''),
+(31, '女友', 1, 'moli', '2017-12-28 18:48:20', '2017-12-28 16:00:00', '2017-12-28 17:00:00', NULL, NULL, 'cute', 0, 'https://i.imgur.com/6uayW1t.png', ''),
+(32, '45', 1, '123', '2017-12-28 22:13:57', '2017-12-01 01:00:00', '2017-12-01 02:00:00', NULL, NULL, '123', 0, 'https://i.imgur.com/tWeR9AX.png', ''),
+(33, '234', 1, '234', '2017-12-28 22:14:59', '2017-12-01 01:00:00', '2017-12-01 02:00:00', NULL, NULL, '123', 0, '', ''),
+(34, 'QQQ', 2, 'QQQ', '2017-12-28 22:17:21', '2017-12-09 01:00:00', '2017-12-09 12:00:00', NULL, NULL, 'QQQ', 0, '', ''),
+(35, '123', 2, '1231', '2017-12-28 22:21:13', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, '123', 0, '123', '123'),
+(36, '777', 1, '777', '2018-01-02 22:54:55', '2018-01-01 07:00:00', '2018-01-01 08:00:00', NULL, NULL, '777', 0, '123', 'qqq'),
+(37, '777', 1, '777', '2018-01-02 22:56:56', '2018-01-01 07:00:00', '2018-01-01 08:00:00', NULL, NULL, '777', 0, 'https://i.imgur.com/HvjgeNf.png', '7i6J0NlpsrFbIhW'),
+(38, 'Sam的很慢的筆電', 4, 'moli', '2018-01-02 22:59:10', '2018-01-02 23:00:00', '2018-01-02 22:00:00', NULL, NULL, '很慢!', 0, 'https://i.imgur.com/5C7SDc1.png', 'g5ZJpi4EaCudHpD'),
+(39, 'final', 1, 'final', '2018-01-02 23:33:23', '2018-01-02 02:00:00', '2018-01-02 03:00:00', NULL, NULL, '123', 0, 'https://i.imgur.com/fFW5E1M.png', '7uTfIYIeEHFzzkP');
 
 -- --------------------------------------------------------
 
@@ -243,8 +259,9 @@ CREATE TABLE `property_lostwish` (
 --
 
 INSERT INTO `property_lostwish` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image`) VALUES
-(1, 'tofind1', 5, '宿舍交誼廳', '2017-11-02 00:00:00', '2017-11-01 09:00:00', '2017-11-01 11:00:00', 1, '帽子一頂', 0, NULL),
-(2, 'esfsdfsdf', 1, 'asdasdas', '0000-00-00 00:00:00', '2017-11-01 01:00:00', '2017-11-02 13:00:00', 6, 'sdsdfsdfsdf', 0, '05.jpg');
+(1, 'tofind1', 5, '宿舍交誼廳', '2017-11-02 00:00:00', '2017-11-03 09:00:00', '2017-11-03 11:00:00', 1, '帽子一頂', 0, NULL),
+(2, 'esfsdfsdf', 1, 'asdasdas', '0000-00-00 00:00:00', '2017-11-01 01:00:00', '2017-11-01 13:00:00', 6, 'sdsdfsdfsdf', 1, 'NULL'),
+(3, 'qwwww', 5, 'www', '2017-11-02 00:00:00', '2017-11-02 09:00:00', '2017-11-02 13:00:00', 1, '測試', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -253,7 +270,7 @@ INSERT INTO `property_lostwish` (`ID`, `name`, `classification_id`, `location`, 
 --
 
 CREATE TABLE `property_state` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
+  `ID` tinyint(2) UNSIGNED NOT NULL,
   `state` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -262,15 +279,14 @@ CREATE TABLE `property_state` (
 --
 
 INSERT INTO `property_state` (`ID`, `state`) VALUES
-(1, '待送'),
-(2, '招領中'),
-(3, '逾期(6-9個月)'),
-(4, '逾期(>9個月）'),
-(5, '已銷毀'),
+(0, '待送行政'),
+(1, '找尋失主'),
+(2, '失主領回'),
+(3, '拾得人領回'),
+(4, '拾得人領回'),
+(5, '公開招領'),
 (6, '已認領'),
-(7, '拾得人領回'),
-(8, '公開招領中'),
-(9, '逾期超過九個月(其他）');
+(7, '行政處置');
 
 -- --------------------------------------------------------
 
@@ -432,17 +448,17 @@ ALTER TABLE `department`
 -- 使用資料表 AUTO_INCREMENT `property_found`
 --
 ALTER TABLE `property_found`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- 使用資料表 AUTO_INCREMENT `property_lostwish`
 --
 ALTER TABLE `property_lostwish`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- 使用資料表 AUTO_INCREMENT `property_state`
 --
 ALTER TABLE `property_state`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` tinyint(2) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- 使用資料表 AUTO_INCREMENT `register`
 --
@@ -457,8 +473,7 @@ ALTER TABLE `student`
 -- 使用資料表 AUTO_INCREMENT `teacher_staff`
 --
 ALTER TABLE `teacher_staff`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
-
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
