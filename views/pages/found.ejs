@@ -162,7 +162,15 @@
                     // 若為空則將將noValid改為是 反之則否
                     var check = 1;
                     for (let key in obj) {
-                        if(key != "timeLB" && key != "timeUB"){
+                        if(key == "date"){
+                            var reg = /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/;
+                            if (obj[key].value.match(reg) == null) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        }else if(key != "timeLB" && key != "timeUB"){
                             if (obj[key].value == '') {
                                 check = 0;
                                 obj[key].noValid = true;
