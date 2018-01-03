@@ -23,7 +23,7 @@ Date.prototype.toIsoString = function() {
 function _CheckID(db, id) {
   let sql = "SELECT * FROM `property_lostwish` WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
-    db.query(sql, id, (err, result) => {
+    db.query(sql, id, function (err, result) {
         if (err) {
           /* 查詢失敗時回傳訊息物件 */
           reject({"message": "查詢 ID:" + id + " 遺失物資訊失敗"});
