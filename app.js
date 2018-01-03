@@ -1,5 +1,3 @@
-import { userInfo } from 'os';
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
