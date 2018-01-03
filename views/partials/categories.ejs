@@ -1,15 +1,19 @@
 <style>
   .tool_visible {
-    background-color:rgba(0, 0, 0, 0.4);
+    /* background-color:rgba(0, 0, 0, 0.4); */
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
     width: 100%;
-    z-index: 1;
     top: 0px;
     transition: all .5s;
+    background-image: radial-gradient(ellipse farthest-corner at center bottom, rgba(5, 176, 255, 0.6) 5%, #000 100%);
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    z-index: 1;
+    /* https://codepen.io/Griggy/pen/ZLpbLB */
   }
 
   .tool_invisible {
@@ -96,12 +100,16 @@ button.quicklink_link {
     padding: 0!important;
   }
   #try:hover {
-    background-color: #e2e2e2;
+    /* background-color: #e2e2e2; */
+    background-color: #0000007a;
+    color: white;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius:25px;
   }
 </style>
 <div class="container-fluid blur" id="blur">
 </div>
-<div data-role="page" class="container tool_visible" id="test">
+<div data-role="page" class="container tool_visible" id="test"  style="border-bottom-left-radius: 25px;border-bottom-right-radius:25px;">
   <!-- 第一條row: 九封格 -->
   <div class="row mt-5 pt-4">
     <div class="col-lg-3 col-sm-2 col-md-2"></div>
