@@ -172,9 +172,11 @@ router.post('/', function(req, res, next) {
     "description": lostwishObj.description
   };
   // 如果有圖片上傳, 則攜帶image及deleteHash資料
-  if(lostwishObj['image'] != undefined) {
+  if(lostwishObj['image'] != undefined && lostwishObj['image'] != '') {
     values['image'] = lostwishObj.image;
     values['deleteHash'] = lostwishObj.deleteHash;
+  } else {
+    values['image'] = "http://127.0.0.1:3000/img/null.jpg";
   }
 
   /* 驗證修改資訊 */
