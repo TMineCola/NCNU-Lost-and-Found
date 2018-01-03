@@ -179,7 +179,7 @@ router.post('/', function(req, res, next) {
   };
   let CheckNum = 0;
   for(index in values) {
-    if(foundObj[index] == undefined && index != "description" && index != "registered_time") {
+    if(foundObj[index] == undefined && foundObj[index] != '' && index != "description" && index != "registered_time") {
       LessObj.message += index + ",";
       CheckNum ++;
     }
@@ -225,7 +225,7 @@ router.patch('/:id', function(req, res, next) {
       "description": foundObj.description
     };
     // 如果有圖片更動, 則攜帶image及deleteHash資料
-    if(foundObj['image'] != undefined) {
+    if(foundObj['image'] != undefined && foundObj['image'] != '') {
       values['image'] = foundObj.image;
       values['deleteHash'] = foundObj.image;
     }
