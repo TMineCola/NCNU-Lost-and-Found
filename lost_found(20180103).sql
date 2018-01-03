@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2018-01-03 14:44:47
+-- Generation Time: 2018-01-03 16:50:46
 -- 服务器版本： 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -183,7 +183,7 @@ INSERT INTO `property_state` (`ID`, `state`) VALUES
 (0, '待送行政'),
 (1, '找尋失主'),
 (2, '失主領回'),
-(3, '拾得人領回'),
+(3, '待拾得人領'),
 (4, '拾得人領回'),
 (5, '公開招領'),
 (6, '已認領'),
