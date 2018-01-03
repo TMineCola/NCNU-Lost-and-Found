@@ -43,6 +43,8 @@
     }
 </style>
 
+<% if(!user) { %>
+
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-info btn-large btn-block" data-toggle="modal" data-target="#loginModal">
     登錄
@@ -81,3 +83,12 @@
         </div>
     </div>
 </div>
+
+<% } else { %>
+    <div>
+        <img src="<%= user.photos[0].value %>" />
+        <button type="button" class="btn btn-info btn-large btn-block">
+            <%= user.displayName %>
+        </button>
+    </div>
+<% } %>
