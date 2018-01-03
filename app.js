@@ -58,8 +58,10 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
             let userObj = {
               "id": profile.id,
               "name": profile.displayName,
-              "access_token": accessToken
             };
+            if(accessToken != undefined || accessToken != '') {
+                userObj['access_token'] = accessToken;
+            }
             if(profile.emails[0] != undefined) {
               userObj['email'] = profile.emails[0].value;
             }

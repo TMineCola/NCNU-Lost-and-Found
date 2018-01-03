@@ -279,7 +279,7 @@ INSERT INTO `teacher_staff` (`ID`, `register_id`, `department_id`, `name`, `cont
 
 CREATE TABLE `user` (
   `id` varchar(255) NOT NULL,
-  `access_token` varchar(255) NOT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `session_key` varchar(255) DEFAULT NULL
