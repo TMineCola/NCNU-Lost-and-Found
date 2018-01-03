@@ -23,7 +23,7 @@ Date.prototype.toIsoString = function() {
 function _CheckID(db, id) {
   let sql = "SELECT * FROM `property_lostwish` WHERE `ID` = ?";
   return new Promise((resolve, reject) => {
-    db.query(sql, id, (err, result) => {
+    db.query(sql, id, function (err, result) {
         if (err) {
           /* 查詢失敗時回傳訊息物件 */
           reject({"message": "查詢 ID:" + id + " 遺失物資訊失敗"});
@@ -73,7 +73,24 @@ function _SearchID(db, id) {
     });
   });
 }
-
+/* 查詢指定state遺失物 */
+function _SearchState(db, state) {
+    return new Promise((resolve, reject) => {
+      let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image` FROM property_lostwish WHERE state = ?";
+      db.query(sql, state, function (err, result, fields) {
+        if(err) {
+          /* 查詢失敗時回傳訊息物件 */
+          reject({"message": "查詢全部遺失物資訊失敗"});
+        } else if(result.length == 0) {
+          /* 查詢不到指定ID時回傳訊息物件 */
+          reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
+        } else {
+          /* 新增成功時回傳遺失物物件 */
+          resolve(result);
+        }
+      });
+    });
+  }
 /* 新增遺失物 */
 function _Post(db, values) {
   let sql = "INSERT INTO `property_lostwish` SET ?";
@@ -135,7 +152,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* 以ID查詢遺失物 */
-router.get('/:id', function(req, res, next) {
+router.get('/id/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lostwish_id = req.params.id;
   _SearchID(db, lostwish_id).then(lostwishObj => {
@@ -145,6 +162,19 @@ router.get('/:id', function(req, res, next) {
     res.status(404).send(errorObj);
     return;
   });
+});
+
+/* 以state查詢遺失物 */
+router.get('/state/:state', function(req, res, next) {
+    let db = req.dbstatus;
+    let lostwish_id = req.params.state;
+    _SearchState(db, lostwish_id).then(lostwishObj => {
+        res.send(lostwishObj);
+        return;
+    }).catch(errorObj => {
+        res.status(404).send(errorObj);
+        return;
+    });
 });
 
 /* 新增遺失物 */
@@ -172,9 +202,11 @@ router.post('/', function(req, res, next) {
     "description": lostwishObj.description
   };
   // 如果有圖片上傳, 則攜帶image及deleteHash資料
-  if(lostwishObj['image'] != undefined) {
+  if(lostwishObj['image'] != undefined && lostwishObj['image'] != '') {
     values['image'] = lostwishObj.image;
     values['deleteHash'] = lostwishObj.deleteHash;
+  } else {
+    values['image'] = "http://127.0.0.1:3000/img/null.jpg";
   }
 
   /* 驗證修改資訊 */
