@@ -12,8 +12,378 @@
 
 <body>
     <% include ../partials/navBar %>
-    <h1>公開認領</h1>
+    <!-- 下面的inclue若出錯可放回container下方，
+        放上來，是因為，loading順序 -->
     <% include ../partials/bootstrap_js %>
+    <% include ../partials/vue_js %>
+    <% include ../partials/jqueryUi %>
+    <% include ../partials/categories %>
+    <div class="container" style="margin-top: 90px">
+        <h1>公開認領：（7日內限時認領，逾期物品將由行政處置）</h1>
+        <div id="lost">
+            <div class="col-12">
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#" @click.prevent="showAll">全部</a>
+                        </li>
+                        <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-12 mb-3">
+                時間排序
+                <select v-model.number="timeSort">
+                    <option value=1>新 => 舊</option>
+                    <option value=0>舊 => 新</option>
+                </select>
+            </div>
+            <!-- 這邊到時候引入願望清單回報表單 -->
+            <% include ../partials/editForm %>
+            <div class="row">
+                <template v-if="searchKeyWord.length!=0 && !detail.isShowDetail">
+                    <div class="col-12" v-for="list in sortByTime">
+                        <div class="row border rounded mb-2 p-2">
+                            <div class="col-md-3 mb-2 mb-md-0">
+                                <!-- <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap"> -->
+                                <img class="border rounded img-fluid" :src="list.image" alt="圖片載入錯誤">
+                            </div>
+                            <div class="col-md-9">
+                                <h4 class="card-title">{{ list.name }}</h4>
+                                <span class="badge badge-success mb-2">{{ classNumToText(list.classification_id) }}</span>
+                                <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
+                                <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
+                                <p class="card-text text-truncate">描述: {{ textIsEmpty(list.description) }}</p>
+                                <p class="card-text text-truncate">地點: {{ textIsEmpty(list.location) }}</p>
+                                <!-- <h4 class="card-title">{{ list.name }}</h4>
+                                <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
+                                <p>分類: {{ classNumToText(list.classification_id) }}</p>
+                                <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p> -->
+                                <div class="text-right">
+                                    <a href="#" class="btn btn-primary" @click.prevent="showDetail(list)">看更多...</a>
+                                    <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
+                                    <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template v-else-if="searchKeyWord.length==0 && !detail.isShowDetail">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            目前還沒有遺失物喔
+                        </div>
+                    </div>
+                </template>
+                <template v-else-if="detail.isShowDetail">
+                    <div class="col-12">
+                        <div class="row border p-3" style="position: relative">
+                            <div class="col-md-5">
+                                <img class="img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
+                            </div>
+                            <div class="col-md-7">
+                                <h4>{{ detail.list.name }}</h4>
+                                <p>{{ new Date(detail.list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(detail.list.time_interval_LB).toLocaleString().split(":")[0] }}時</p>
+                                <p>拾獲地點: {{ detail.list.location }}</p>
+                                <p>{{ textIsEmpty(detail.list.description) }}</p>
+                                <p>狀態: {{ detail.list.state }}</p>
+                            </div>
+                            <button @click="showAll" class="btn btn-info" style="position: absolute; top: 5px; right: 5px; cursor: pointer">
+                                <i class="fa fa-home fa-lg text-white" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#lost',
+            data: {
+                lists: '',
+                // 九封格分類
+                chosenClass: 0,
+                // 是否由新到舊(預設為是)
+                timeSort: 1,
+                keyWord: '',
+                // 遺失物品細節
+                detail: {
+                    isShowDetail: false,
+                    list: ''
+                },
+                formData: {
+                    id: {
+                        // 只有在更新時才會更新
+                        noValid: false,
+                        value: 1
+                    },
+                    name: {
+                        noValid: false,
+                        value: ''
+                    },
+                    location: {
+                        noValid: false,
+                        value: ''
+                    },
+                    description: {
+                        noValid: false,
+                        value: ''
+                    },
+                    fication: {
+                        noValid: false,
+                        value: ''
+                    },
+                    date: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeLB: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeUB: {
+                        noValid: false,
+                        value: ''
+                    }
+                },
+                // 回報表單回饋訊息
+                feedBack: {
+                    submited: 0,
+                    isError: 0
+                }
+            },
+            // 網頁載入完成
+            created: function () {
+                var self = this;
+                axios.get('/api/found/state/4')
+                    .then(function (response) {
+                        console.log(response.data);
+                        self.lists = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // 待加入跳轉到404頁面
+                    });
+            },
+            methods: {
+                textIsEmpty (text) {
+                    return text == null ? "空空如也" : text;
+                },
+                formIsEmpty (obj) {
+                    // 檢查傳入的物件是否有value沒填
+                    // 若為空則將將noValid改為是 反之則否
+                    var check = 1;
+                    for (let key in obj) {
+                        if(key != "timeLB" && key != "timeUB"){
+                            if (obj[key].value == '') {
+                                check = 0;
+                                obj[key].noValid = true;
+                            }else {
+                                obj[key].noValid = false;
+                            }
+                        }else {
+                            if (obj[key].value == '' || obj[key].value < 0 || obj[key].value > 24) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        }
+                    }
+                    return check;
+                },
+                // createFound () {
+                //     if(this.formIsEmpty(this.formData)){
+                //         console.log("有東西");
+                //         var self = this;
+                //         axios.post('/api/found', {
+                //             "name": this.formData.name.value,
+                //             "classification_id": this.formData.fication.value,
+                //             "location": this.formData.location.value,
+                //             "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
+                //             "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
+                //             "description": this.formData.description.value
+                //         })
+                //         .then(function (response) {
+                //             console.log(response);
+                //             self.feedBack.submited = 1;
+                //             setTimeout(function () {
+                //                 location.reload();
+                //             }, 2000);
+                //         })
+                //         .catch(function (error) {
+                //             console.log(error);
+                //             self.feedBack.isError = 1;
+                //             setTimeout(function () {
+                //                 location.reload();
+                //             }, 2000);
+                //         });
+                //     }else {
+                //         console.log("有東西沒填");
+                //     }
+                // },
+                editFound() {
+                    if (this.formIsEmpty(this.formData)) {
+                        console.log("有東西");
+                        var self = this;
+                        axios.patch('/api/found/state/4' + this.formData.id.value , {
+                            "name": this.formData.name.value,
+                            "classification_id": this.formData.fication.value,
+                            "location": this.formData.location.value,
+                            "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
+                            "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
+                            "description": this.formData.description.value
+                        })
+                            .then(function (response) {
+                                console.log(response);
+                                self.feedBack.submited = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                self.feedBack.isError = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            });
+                    } else {
+                        console.log("有東西沒填");
+                    }
+                },
+                showAll () {
+                    this.chosenClass = 0;
+                    this.detail.isShowDetail = false;
+                    this.formData.fication.value = '';
+                },
+                showDetail (list) {
+                    console.log(list);
+                    this.detail.isShowDetail = true;
+                    this.detail.list = list;
+                },
+                classNumToText (classId) {
+                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
+                    return text[classId - 1];
+                },
+                stateNumToText (stateId) {
+                    let text = ["待送行政", "找尋失主", "失主領回", "拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
+                    return text[stateId];
+                },
+                delDetail (id) {
+                    if(confirm("確定要刪除此則遺失物資訊?")){
+                        axios.delete('/api/found/'+id)
+                            .then(function (response) {
+                                console.log(response);
+                                location.reload();
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }
+                },
+                autoFillIn (list) {
+                    console.log(list);
+                    for (let key in this.formData) {
+                        switch (key) {
+                            case "id":
+                                this.formData[key].value = list.ID;
+                                break;
+                            case "name":
+                                this.formData[key].value = list.name;
+                                break;
+                            case "location":
+                                this.formData[key].value = list.location;
+                                break;
+                            case "description":
+                                this.formData[key].value = list.description;
+                                break;
+                            case "fication":
+                                this.formData[key].value = list.classification_id;
+                                break;
+                            case "date":
+                                // 將ISO8601轉本地時間，再取日期，之後將/換成-
+                                let tmp = new Date(list.time_interval_LB).toLocaleString().split(" ")[0];
+                                // 處理取出的日期不滿兩位數不會自動補0
+                                let str = '';
+                                for(let value of tmp.split("/")){
+                                    console.log(value);
+                                    if(value < 10 && value > 0){
+                                        str += "0" + value + "-";
+                                    }else{
+                                        str += value + "-";
+                                    }
+                                }
+                                // 刪除結尾多出的-號
+                                str = str.substring(0, str.length - 1);
+                                this.formData[key].value = str;
+                                break;
+                            case "timeLB":
+                                this.formData[key].value = new Date(list.time_interval_LB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                            case "timeUB":
+                                this.formData[key].value = new Date(list.time_interval_UB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                        }
+                    }
+                }
+            },
+            computed: {
+                chosenLists () {
+                    // 有分總類
+                    if(this.chosenClass != 0){
+                        return this.lists.filter((val) => {
+                            return val.classification_id == this.chosenClass;
+                        });
+                    }
+                },
+                searchKeyWord () {
+                    if (this.chosenClass != 0 && this.keyWord.length == 0) {
+                        // 有劃分總類但沒關鍵字
+                        return this.chosenLists;
+                    } else if (this.chosenClass == 0 && this.keyWord.length == 0) {
+                        // 沒劃分總類也沒關鍵字
+                        return this.lists;
+                    } else if (this.chosenClass == 0 && this.keyWord.length != 0) {
+                        // 沒劃分總類但有關鍵字
+                        let tmp = this.keyWord.split(" ");
+                        let str = '';
+                        return this.lists.filter((val) => {
+                            str = val.name + val.location + val.description;
+                            for (let value of tmp) {
+                                return str.match(value) != null;
+                            }
+                        });
+                    } else if (this.chosenClass != 0 && this.keyWord.length != 0){
+                        // 有劃分總類也有關鍵字
+                        let tmp = this.keyWord.split(" ");
+                        let str = '';
+                        return this.chosenLists.filter((val) => {
+                            str = val.name + val.location + val.description;
+                            for (let value of tmp) {
+                                return str.match(value) != null;
+                            }
+                        });
+                    }
+                },
+                sortByTime () {
+                    if (this.timeSort) {
+                        // 預設
+                        return this.searchKeyWord.sort(function (a, b) { return Date.parse(b.time_interval_LB) - Date.parse(a.time_interval_LB) });
+                    } else {
+                        // 舊到新
+                        return this.searchKeyWord.sort(
+                            function (a, b) {
+                                return Date.parse(a.time_interval_LB) - Date.parse(b.time_interval_LB);
+                            }
+                        );
+                    }
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>
