@@ -8,9 +8,6 @@ var config = {
     SQL_USER: "",
     SQL_PWD: "",
     SQL_DB: "",
-    // Facebook API
-    FB_ID: "",
-    FB_SECRET: ""
 };
 
 module.exports = config;
