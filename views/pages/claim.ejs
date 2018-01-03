@@ -194,36 +194,6 @@
                     }
                     return check;
                 },
-                // createFound () {
-                //     if(this.formIsEmpty(this.formData)){
-                //         console.log("有東西");
-                //         var self = this;
-                //         axios.post('/api/found', {
-                //             "name": this.formData.name.value,
-                //             "classification_id": this.formData.fication.value,
-                //             "location": this.formData.location.value,
-                //             "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
-                //             "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
-                //             "description": this.formData.description.value
-                //         })
-                //         .then(function (response) {
-                //             console.log(response);
-                //             self.feedBack.submited = 1;
-                //             setTimeout(function () {
-                //                 location.reload();
-                //             }, 2000);
-                //         })
-                //         .catch(function (error) {
-                //             console.log(error);
-                //             self.feedBack.isError = 1;
-                //             setTimeout(function () {
-                //                 location.reload();
-                //             }, 2000);
-                //         });
-                //     }else {
-                //         console.log("有東西沒填");
-                //     }
-                // },
                 editFound() {
                     if (this.formIsEmpty(this.formData)) {
                         console.log("有東西");
@@ -269,7 +239,7 @@
                     return text[classId - 1];
                 },
                 stateNumToText (stateId) {
-                    let text = ["待送行政", "找尋失主", "失主領回", "拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
+                    let text = ["待送行政", "找尋失主", "失主領回", "待拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
                     return text[stateId];
                 },
                 delDetail (id) {
