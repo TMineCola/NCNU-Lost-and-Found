@@ -34,7 +34,7 @@
             </div>
             <% include ../partials/reportForm %>
             <div class="row">
-                <template v-if="searchKeyWord.length!=0 && !detail.isShowDetail">
+                <template v-if="searchKeyWord.length!=0">
                     <div class="col-12" v-for="list in searchKeyWord">
                         <div class="row border rounded mb-2 p-2">
                             <div class="col-md-3 mb-2 mb-md-0">
@@ -47,43 +47,24 @@
                                 <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
                                 <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
                                 <p class="card-text d-none d-md-block">描述: {{ textIsEmpty(list.description) }}</p>
-                                <p style="cursor: pointer" class="card-text text-truncate d-block d-md-none" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">描述: {{ textIsEmpty(list.description) }}</p>
+                                <p class="card-text text-truncate d-block d-md-none">
+                                    <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">描述 <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                                    {{ textIsEmpty(list.description) }}
+                                </p>
                                 <div class="collapse" :id="list.ID">
-                                    <div class="card card-body mb-3">
+                                    <div class="card card-body mb-3 bg-light">
                                         {{ textIsEmpty(list.description) }}
                                     </div>
                                 </div>
                                 <p class="card-text text-truncate">地點: {{ textIsEmpty(list.location) }}</p>
-                                <div class="text-right">
-                                    <a href="#" class="btn btn-primary" @click.prevent="showDetail(list)">看更多...</a>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </template>
-                <template v-else-if="searchKeyWord.length==0 && !detail.isShowDetail">
+                <template v-else-if="searchKeyWord.length==0">
                     <div class="col-12">
                         <div class="alert alert-info">
                             目前還沒有遺失物喔
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="detail.isShowDetail">
-                    <div class="col-12">
-                        <div class="row border p-3" style="position: relative">
-                            <div class="col-md-5">
-                                <img class="img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
-                            </div>
-                            <div class="col-md-7">
-                                <h4>{{ detail.list.name }}</h4>
-                                <p>{{ detail.list.time_interval_LB.split("T")[0] }} ~ {{ detail.list.time_interval_UB.split("T")[0] }}</p>
-                                <p>拾獲地點: {{ detail.list.location }}</p>
-                                <p>{{ textIsEmpty(detail.list.description) }}</p>
-                                <p>狀態: {{ detail.list.state }}</p>
-                            </div>
-                            <button @click="showAll" class="btn btn-info" style="position: absolute; top: 5px; right: 5px; cursor: pointer">
-                                <i class="fa fa-home fa-lg text-white" aria-hidden="true"></i>
-                            </button>
                         </div>
                     </div>
                 </template>
@@ -99,11 +80,6 @@
                 // 九封格分類
                 chosenClass: 0,
                 keyWord: '',
-                // 遺失物品細節
-                detail: {
-                    isShowDetail: false,
-                    list: ''
-                },
                 formData: {
                     name: {
                         noValid: false,
@@ -233,13 +209,7 @@
                 },
                 showAll () {
                     this.chosenClass = 0;
-                    this.detail.isShowDetail = false;
                     this.formData.fication.value = '';
-                },
-                showDetail (list) {
-                    console.log(list);
-                    this.detail.isShowDetail = true;
-                    this.detail.list = list;
                 },
                 classNumToText (classId) {
                     let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
