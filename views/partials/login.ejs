@@ -70,11 +70,6 @@
                     <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
                     <span>使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
                 </a>
-                <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-github d-flex justify-content-md-start justify-content-center align-items-center"
-                    role="button" title="Github">
-                    <i class="d-none d-md-inline-block fa fa-github fa-2x mr-2"></i>
-                    <span>使用&nbsp;&nbsp;&nbsp;&nbsp;Github&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
-                </a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消登錄</button>
@@ -85,10 +80,7 @@
 </div>
 
 <% } else { %>
-    <div>
-        <img src="<%= user.photos[0].value %>" />
-        <button type="button" class="btn btn-info btn-large btn-block">
-            <%= user.displayName %>
-        </button>
-    </div>
+        <a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="http://localhost:3000/logout" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:25px;">
+            <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> " style='border-radius:25px;height:25px;width:25px;'/>
+        </a>
 <% } %>
