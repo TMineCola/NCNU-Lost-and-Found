@@ -73,6 +73,25 @@ function _SearchID(db, id) {
   });
 }
 
+/* 查詢指定state遺失物 */
+function _SearchState(db, state) {
+    return new Promise((resolve, reject) => {
+      let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image` FROM property_found WHERE state = ? order by time_interval_LB DESC";
+      db.query(sql, state, function (err, result, fields) {
+        if(err) {
+          /* 查詢失敗時回傳訊息物件 */
+          reject({"message": "查詢全部遺失物資訊失敗"});
+        } else if(result.length == 0) {
+          /* 查詢不到指定ID時回傳訊息物件 */
+          reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
+        } else {
+          /* 新增成功時回傳遺失物物件 */
+          resolve(result);
+        }
+      });
+    });
+  }
+
 /* 新增拾獲物 */
 function _Post(db, values) {
   let sql = "INSERT INTO `property_found` SET ?";
@@ -144,6 +163,19 @@ router.get('/:id', function(req, res, next) {
     res.status(404).send(errorObj);
     return;
   });
+});
+
+/* 以state查詢遺失物 */
+router.get('/state/:state', function(req, res, next) {
+    let db = req.dbstatus;
+    let lostwish_id = req.params.state;
+    _SearchState(db, found_id).then(foundObj => {
+        res.send(foundObj);
+        return;
+    }).catch(errorObj => {
+        res.status(404).send(errorObj);
+        return;
+    });
 });
 
 /* 新增拾獲物 */
