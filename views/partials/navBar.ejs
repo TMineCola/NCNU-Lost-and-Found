@@ -38,9 +38,15 @@
                     </div>
                 </li>
             </ul>
-            <div class="ml-auto">
-                <% include ../partials/login %>
-            </div>
+            <ul class="navbar-nav navbar-right ml-auto">
+                <li class="nav-item dropdown">
+                  <% include ../partials/login %>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="#">編輯我的清單</a>
+                      <a class="dropdown-item" href="#">編輯其他問題</a>
+                  </div>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
