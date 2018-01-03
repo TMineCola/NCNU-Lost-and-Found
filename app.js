@@ -62,7 +62,7 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
             if(accessToken != undefined || accessToken != '') {
                 userObj['access_token'] = accessToken;
             }
-            if(profile.emails[0] != undefined) {
+            if(profile.emails != undefined) {
               userObj['email'] = profile.emails[0].value;
             }
             sql = "INSERT INTO `user` SET ?";
@@ -145,7 +145,8 @@ app.get('/contact', function(req, res) {
 
 app.get('/login/facebook', passport.authenticate('facebook', { scope : ["email"] }));
 app.get('/login/facebook/return', passport.authenticate('facebook', { failureRedirect: '/' }), function(req, res) {
-  res.redirect('/');
+  //res.redirect('/');
+  res.send(req.user);
 });
 app.get('/logout', function(req, res){
   req.logout();
