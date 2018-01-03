@@ -89,6 +89,7 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 /* 預載路由處理方式 */
 var lost = require('./routes/lost');
 var found = require('./routes/found');
+var contact = require('./routes/contact');
 
 var app = express();
 
@@ -160,6 +161,7 @@ function isLoggedIn(req, res, next) {
 // API路由
 app.use('/api/lost', lost);
 app.use('/api/found', found);
+app.use('/api/contact', contact);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

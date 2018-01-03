@@ -135,7 +135,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* 以ID查詢遺失物 */
-router.get('/:id', function(req, res, next) {
+router.get('/id/:id', function(req, res, next) {
   let db = req.dbstatus;
   let lostwish_id = req.params.id;
   _SearchID(db, lostwish_id).then(lostwishObj => {
