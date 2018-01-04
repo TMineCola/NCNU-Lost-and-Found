@@ -11,8 +11,8 @@
             <div class="modal-body">
                 <form class="mb-3">
                     <div class="form-group">
-                        <label for="fication">物品分類</label>
-                        <select :class="{'is-invalid': formData.fication.noValid}" class="form-control" id="fication" v-model.number="formData.fication.value">
+                        <label for="fication2">物品分類</label>
+                        <select :class="{'is-invalid': formData.fication.noValid}" class="form-control" id="fication2" v-model.number="formData.fication.value">
                             <option disabled value="">請選擇</option>
                             <option value="1">衣物</option>
                             <option value="2">現金</option>
@@ -29,33 +29,41 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name">請輸入物品名稱</label>
-                        <input type="text" :class="{'is-invalid': formData.name.noValid}" class="form-control" id="name" v-model.trim="formData.name.value"
+                        <label for="name2">請輸入物品名稱</label>
+                        <input type="text" :class="{'is-invalid': formData.name.noValid}" class="form-control" id="name2" v-model.trim="formData.name.value"
                             placeholder="物品名稱...">
                         <div class="invalid-feedback">
                             Please provide a valid name.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="location">請輸入拾獲地點</label>
-                        <input type="text" :class="{'is-invalid': formData.location.noValid}" class="form-control" id="location" v-model.trim="formData.location.value"
+                        <label for="image2">請上傳照片</label>
+                        <input type="file" :class="{'is-invalid': formData.image.noValid}" class="form-control" id="image2" @change="imageDataSave"
+                            accept="image/*">
+                        <div class="invalid-feedback">
+                            Please provide a valid photo.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="location2">請輸入拾獲地點</label>
+                        <input type="text" :class="{'is-invalid': formData.location.noValid}" class="form-control" id="location2" v-model.trim="formData.location.value"
                             placeholder="拾獲地點...">
                         <div class="invalid-feedback">
                             Please provide a valid location.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editDay">拾獲日期</label>
-                        <input type="text" :class="{'is-invalid': formData.date.noValid}" class="form-control" id="editDay" :value="formData.date.value" placeholder="ex:2017-12-25">
+                        <label for="editDay2">拾獲日期</label>
+                        <input type="text" :class="{'is-invalid': formData.date.noValid}" class="form-control" id="editDay2" :value="formData.date.value" placeholder="ex:2017-12-25">
                         <div class="invalid-feedback">
                             Please provide a valid date.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="time">拾獲時間(小時)</label>
+                        <label for="time2">拾獲時間(小時)</label>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="number" :class="{'is-invalid': formData.timeLB.noValid}" class="form-control" id="time" v-model.number="formData.timeLB.value"
+                                <input type="number" :class="{'is-invalid': formData.timeLB.noValid}" class="form-control" id="time2" v-model.number="formData.timeLB.value"
                                     placeholder="ex:下午2點 => 14">
                                 <div class="invalid-feedback">
                                     Please provide a valid time.
@@ -71,29 +79,22 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description">簡單描述物品(外觀、顏色、特徵)</label>
-                        <input type="text" :class="{'is-invalid': formData.description.noValid}" class="form-control" id="description" v-model.trim="formData.description.value"
+                        <label for="description2">簡單描述物品(外觀、顏色、特徵)</label>
+                        <input type="text" :class="{'is-invalid': formData.description.noValid}" class="form-control" id="description2" v-model.trim="formData.description.value"
                             placeholder="物品描述...">
                         <div class="invalid-feedback">
                             Please provide a valid description.
                         </div>
                     </div>
-                    <!-- <div v-for="(value, key) in formData">
-                        {{ key }}: {{ value.value }}
-                    </div> -->
-                    <div v-if="feedBack.submited" class="alert alert-warning" role="alert">
+                    <div v-if="feedBack.submited" class="alert alert-success" role="alert">
                         <strong>修改成功!</strong>
                     </div>
                     <div v-if="feedBack.isError" class="alert alert-warning" role="alert">
                         <strong>非常抱歉，伺服器發生錯誤，請稍後再試一次!</strong>
                     </div>
-                    <button @click.prevent="editFound" type="submit" class="btn btn-primary">送出</button>
+                    <button :disabled="formData.image.uploading" @click.prevent="editFound()" type="submit" class="btn" :class="{'btn-primary': !formData.image.uploading, 'btn-warning': formData.image.uploading}">{{ formData.image.uploading? '圖片上傳中...': '送出' }}</button>
                 </form>
             </div>
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
         </div>
     </div>
 </div>

@@ -22,80 +22,9 @@
     <div class="container" style="margin-top: 90px">
         <h1>招領清單：（你東西不見了嗎？希望能幫到你）</h1>
         <div id="lost">
-            <div class="col-12">
-                <nav aria-label="breadcrumb" role="navigation">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="#" @click.prevent="showAll">全部</a>
-                        </li>
-                        <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
-                    </ol>
-                </nav>
-            </div>
-            <div class="col-12 mb-3">
-                時間排序
-                <select v-model.number="timeSort">
-                    <option value=1>新 => 舊</option>
-                    <option value=0>舊 => 新</option>
-                </select>
-            </div>
-            <!-- 這邊到時候引入願望清單回報表單 -->
+            <% include ../partials/reportForm %>
             <% include ../partials/editForm %>
-            <div class="row">
-                <template v-if="searchKeyWord.length!=0 && !detail.isShowDetail">
-                    <div class="col-12" v-for="list in sortByTime">
-                        <div class="row border rounded mb-2 p-2">
-                            <div class="col-md-3 mb-2 mb-md-0">
-                                <!-- <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap"> -->
-                                <img class="border rounded img-fluid" :src="list.image" alt="圖片載入錯誤">
-                            </div>
-                            <div class="col-md-9">
-                                <h4 class="card-title">{{ list.name }}</h4>
-                                <span class="badge badge-success mb-2">{{ classNumToText(list.classification_id) }}</span>
-                                <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
-                                <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
-                                <p class="card-text text-truncate">描述: {{ textIsEmpty(list.description) }}</p>
-                                <p class="card-text text-truncate">地點: {{ textIsEmpty(list.location) }}</p>
-                                <!-- <h4 class="card-title">{{ list.name }}</h4>
-                                <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0] }}時</p>
-                                <p>分類: {{ classNumToText(list.classification_id) }}</p>
-                                <p class="card-text text-truncate">{{ textIsEmpty(list.description) }}</p> -->
-                                <div class="text-right">
-                                    <a href="#" class="btn btn-primary" @click.prevent="showDetail(list)">看更多...</a>
-                                    <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
-                                    <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="searchKeyWord.length==0 && !detail.isShowDetail">
-                    <div class="col-12">
-                        <div class="alert alert-info">
-                            目前還沒有遺失物喔
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="detail.isShowDetail">
-                    <div class="col-12">
-                        <div class="row border p-3" style="position: relative">
-                            <div class="col-md-5">
-                                <img class="img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap">
-                            </div>
-                            <div class="col-md-7">
-                                <h4>{{ detail.list.name }}</h4>
-                                <p>{{ new Date(detail.list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(detail.list.time_interval_LB).toLocaleString().split(":")[0] }}時</p>
-                                <p>拾獲地點: {{ detail.list.location }}</p>
-                                <p>{{ textIsEmpty(detail.list.description) }}</p>
-                                <p>狀態: {{ detail.list.state }}</p>
-                            </div>
-                            <button @click="showAll" class="btn btn-info" style="position: absolute; top: 5px; right: 5px; cursor: pointer">
-                                <i class="fa fa-home fa-lg text-white" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                </template>
-            </div>
+            <% include ../partials/page %>
         </div>
     </div>
 
@@ -109,11 +38,6 @@
                 // 是否由新到舊(預設為是)
                 timeSort: 1,
                 keyWord: '',
-                // 遺失物品細節
-                detail: {
-                    isShowDetail: false,
-                    list: ''
-                },
                 formData: {
                     id: {
                         // 只有在更新時才會更新
@@ -147,6 +71,14 @@
                     timeUB: {
                         noValid: false,
                         value: ''
+                    },
+                    image: {
+                        noValid: false,
+                        value: '',
+                        uploading: false,
+                        // 包好的 form data
+                        imgData: {},
+                        deleteHash: ''
                     }
                 },
                 // 回報表單回饋訊息
@@ -172,19 +104,31 @@
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
                 },
-                formIsEmpty (obj) {
+                formIsEmpty(obj) {
                     // 檢查傳入的物件是否有value沒填
                     // 若為空則將將noValid改為是 反之則否
                     var check = 1;
                     for (let key in obj) {
-                        if(key != "timeLB" && key != "timeUB"){
+                        if(key == "image"){
+                            // 不檢查是否上傳圖片
+                            obj[key].noValid = false;
+                        }else if (key == "date") {
+                            // YYYY-MM-DD
+                            var reg = /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/;
+                            if (obj[key].value.match(reg) == null) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        } else if (key != "timeLB" && key != "timeUB") {
                             if (obj[key].value == '') {
                                 check = 0;
                                 obj[key].noValid = true;
-                            }else {
+                            } else {
                                 obj[key].noValid = false;
                             }
-                        }else {
+                        } else {
                             if (obj[key].value == '' || obj[key].value < 0 || obj[key].value > 24) {
                                 check = 0;
                                 obj[key].noValid = true;
@@ -195,75 +139,70 @@
                     }
                     return check;
                 },
-                // createFound () {
-                //     if(this.formIsEmpty(this.formData)){
-                //         console.log("有東西");
-                //         var self = this;
-                //         axios.post('/api/found', {
-                //             "name": this.formData.name.value,
-                //             "classification_id": this.formData.fication.value,
-                //             "location": this.formData.location.value,
-                //             "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
-                //             "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
-                //             "description": this.formData.description.value
-                //         })
-                //         .then(function (response) {
-                //             console.log(response);
-                //             self.feedBack.submited = 1;
-                //             setTimeout(function () {
-                //                 location.reload();
-                //             }, 2000);
-                //         })
-                //         .catch(function (error) {
-                //             console.log(error);
-                //             self.feedBack.isError = 1;
-                //             setTimeout(function () {
-                //                 location.reload();
-                //             }, 2000);
-                //         });
-                //     }else {
-                //         console.log("有東西沒填");
-                //     }
-                // },
-                editFound() {
-                    if (this.formIsEmpty(this.formData)) {
+                createFound () {
+                    this.feedBack.submited = 0;
+                    this.feedBack.isError = 0;
+                    if(this.formIsEmpty(this.formData)){
                         console.log("有東西");
                         var self = this;
-                        axios.patch('/api/found/' + this.formData.id.value , {
-                            "name": this.formData.name.value,
-                            "classification_id": this.formData.fication.value,
-                            "location": this.formData.location.value,
-                            "time_interval_LB": this.formData.date.value + "T" + this.formData.timeLB.value + ":00:00.000Z",
-                            "time_interval_UB": this.formData.date.value + "T" + this.formData.timeUB.value + ":00:00.000Z",
-                            "description": this.formData.description.value
-                        })
+                        if(self.formData.image.value == "ok"){
+                            self.imageUpload(self.formData.image.imgData).then((res) => {
+                                axios.post('/api/lost', {
+                                    "name": self.formData.name.value,
+                                    "classification_id": self.formData.fication.value,
+                                    "location": self.formData.location.value,
+                                    "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
+                                    "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                    "description": self.formData.description.value,
+                                    "image": self.formData.image.value,
+                                    "deleteHash": self.formData.image.deleteHash
+                                })
+                                .then(function (response) {
+                                    console.log(response);
+                                    self.feedBack.submited = 1;
+                                    // setTimeout(function () {
+                                    //     location.reload();
+                                    // }, 2000);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    self.feedBack.isError = 1;
+                                    // setTimeout(function () {
+                                    //     location.reload();
+                                    // }, 2000);
+                                });
+                            });
+                        }else {
+                            axios.post('/api/lost', {
+                                "name": self.formData.name.value,
+                                "classification_id": self.formData.fication.value,
+                                "location": self.formData.location.value,
+                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
+                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                "description": self.formData.description.value
+                            })
                             .then(function (response) {
                                 console.log(response);
                                 self.feedBack.submited = 1;
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 2000);
+                                // setTimeout(function () {
+                                //     location.reload();
+                                // }, 2000);
                             })
                             .catch(function (error) {
                                 console.log(error);
                                 self.feedBack.isError = 1;
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 2000);
+                                // setTimeout(function () {
+                                //     location.reload();
+                                // }, 2000);
                             });
-                    } else {
+                        }
+                    }else {
                         console.log("有東西沒填");
                     }
                 },
                 showAll () {
                     this.chosenClass = 0;
-                    this.detail.isShowDetail = false;
                     this.formData.fication.value = '';
-                },
-                showDetail (list) {
-                    console.log(list);
-                    this.detail.isShowDetail = true;
-                    this.detail.list = list;
                 },
                 classNumToText (classId) {
                     let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
@@ -285,7 +224,112 @@
                             });
                     }
                 },
+                imageDataSave(e) {
+                    // 將上傳前的圖片資訊存起來,等待表單提交時上傳
+                    let imageFile = e.target.files[0];
+                    if (imageFile.type.indexOf('image/') == -1) {
+                        alert('It must be a image');
+                        return;
+                    } else {
+                        // 把圖片編碼存起來
+                        this.formData.image.imgData = imageFile;
+                        // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
+                        this.formData.image.value = "ok";
+                    }
+                },
+                imageUpload(imageFile) {
+                    let formData = new FormData();
+                    formData.append('image', imageFile);
+                    // 正要上傳,狀態改為是
+                    this.formData.image.uploading = true;
+                    return fetch('https://api.imgur.com/3/image', {
+                        method: 'post',
+                        body: formData,
+                        headers: new Headers({
+                            'Authorization': 'Client-ID 3b927010e0363a1'
+                        })
+                    }).then((resp) => {
+                        return resp.json();
+                    }).then((response) => {
+                        if (response.success) {
+                            let imageURL = response.data.link;
+                            let imageDEL = response.data.deletehash;
+                            // console.log(imageURL, imageDEL);
+                            this.formData.image.value = imageURL;
+                            this.formData.image.deleteHash = imageDEL;
+                            // 上傳完成,狀態改為否
+                            this.formData.image.uploading = false;
+                        } else {
+                            console.log(response);
+                            this.feedBack.isError = 1;
+                            this.formData.image.uploading = false;
+                        }
+                    });
+                },
+                editFound() {
+                    this.feedBack.submited = 0;
+                    this.feedBack.isError = 0;
+                    if (this.formIsEmpty(this.formData)) {
+                        console.log("有東西");
+                        var self = this;
+                        if (self.formData.image.value == "ok") {
+                            self.imageUpload(self.formData.image.imgData).then((res) => {
+                                axios.patch('/api/found/' + this.formData.id.value, {
+                                    "name": self.formData.name.value,
+                                    "classification_id": self.formData.fication.value,
+                                    "location": self.formData.location.value,
+                                    "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
+                                    "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                    "description": self.formData.description.value,
+                                    "image": self.formData.image.value,
+                                    "deleteHash": self.formData.image.deleteHash
+                                })
+                                .then(function (response) {
+                                    console.log(response);
+                                    self.feedBack.submited = 1;
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    self.feedBack.isError = 1;
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                });
+                            });
+                        } else {
+                            axios.patch('/api/found/' + self.formData.id.value, {
+                                "name": self.formData.name.value,
+                                "classification_id": self.formData.fication.value,
+                                "location": self.formData.location.value,
+                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
+                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                "description": self.formData.description.value
+                            })
+                            .then(function (response) {
+                                console.log(response);
+                                self.feedBack.submited = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                self.feedBack.isError = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        }
+                    } else {
+                        console.log("有東西沒填");
+                    }
+                },
                 autoFillIn (list) {
+                    this.feedBack.submited = 0;
+                    this.feedBack.isError = 0;
                     console.log(list);
                     for (let key in this.formData) {
                         switch (key) {
@@ -326,6 +370,9 @@
                                 break;
                             case "timeUB":
                                 this.formData[key].value = new Date(list.time_interval_UB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                            case "image":
+                                this.formData[key].value = list.image;
                                 break;
                         }
                     }

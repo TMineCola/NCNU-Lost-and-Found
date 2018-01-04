@@ -171,7 +171,7 @@ router.post('/', function(req, res, next) {
     "time_interval_UB": lostwishObj.time_interval_UB,
     "description": lostwishObj.description
   };
-  // 如果有圖片上傳, 則攜帶image及deleteHash資料
+  // 如果有圖片上傳, 則攜帶image及deleteHash資料
   if(lostwishObj['image'] != undefined && lostwishObj['image'] != '') {
     values['image'] = lostwishObj.image;
     values['deleteHash'] = lostwishObj.deleteHash;
@@ -230,8 +230,8 @@ router.patch('/:id', function(req, res, next) {
       "time_interval_UB": lostwishObj.time_interval_UB,
       "description": lostwishObj.description
     };
-    // 如果有圖片上傳或修改, 則攜帶image及deleteHash資料
-    if(lostwishObj['image'] != undefined) {
+    // 如果有圖片上傳或修改, 則攜帶image及deleteHash資料
+    if(lostwishObj['image'] != undefined && lostwishObj['image'] != '') {
       values['image'] = lostwishObj.image;
       values['deleteHash'] = lostwishObj.deleteHash;
     }

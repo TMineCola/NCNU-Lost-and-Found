@@ -256,10 +256,10 @@ router.patch('/:id', function(req, res, next) {
       "time_interval_UB": foundObj.time_interval_UB,
       "description": foundObj.description
     };
-    // 如果有圖片更動, 則攜帶image及deleteHash資料
+    // 如果有圖片更動, 則攜帶image及deleteHash資料
     if(foundObj['image'] != undefined && foundObj['image'] != '') {
       values['image'] = foundObj.image;
-      values['deleteHash'] = foundObj.image;
+      values['deleteHash'] = foundObj.deleteHash;
     }
     /* 驗證修改資訊 */
     let LessObj = {
