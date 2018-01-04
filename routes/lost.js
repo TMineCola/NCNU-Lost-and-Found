@@ -20,6 +20,8 @@ Date.prototype.toIsoString = function() {
       ':' + pad(tzo % 60);
 }
 
+/* 檢查ISO8601合法性 */
+
 /* 檢測ID是否存在 */
 function _CheckID(db, id) {
   let sql = "SELECT * FROM `property_lostwish` WHERE `ID` = ?";
@@ -151,13 +153,13 @@ router.get('/id/:id', function(req, res, next) {
 /* 新增遺失物 */
 router.post('/', function(req, res, next) {
   let db = req.dbstatus;
-  let nowTime = new Date();
+  let nowTime = new Date().toIsoString();
   let lostwishObj = req.body;
 
   let time_LB = lostwishObj.time_interval_LB;
   let time_UB = lostwishObj.time_interval_UB;
   /* 處理時間上下限相反的情況 */
-  if(Date.parse(time_LB) > Date.parse(time_UB)) {
+  if(time_LB > time_UB) {
     let temp = time_LB;
     time_LB = time_UB;
     time_UB = temp;
@@ -168,8 +170,8 @@ router.post('/', function(req, res, next) {
     "classification_id": lostwishObj.classification_id,
     "location": lostwishObj.location,
     "registered_time": nowTime,
-    "time_interval_LB": lostwishObj.time_interval_LB,
-    "time_interval_UB": lostwishObj.time_interval_UB,
+    "time_interval_LB": time_LB,
+    "time_interval_UB": time_UB,
     "description": lostwishObj.description
   };
   // 如果有圖片上傳, 則攜帶image及deleteHash資料

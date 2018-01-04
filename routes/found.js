@@ -182,13 +182,13 @@ router.get('/state/:state', function(req, res, next) {
 /* 新增拾獲物 */
 router.post('/', function(req, res, next) {
   let db = req.dbstatus;
-  let nowTime = new Date();
+  let nowTime = new Date().toISOString();
   let foundObj = req.body;
 
   let time_LB = foundObj.time_interval_LB;
   let time_UB = foundObj.time_interval_UB;
   /* 處理時間上下限相反的情況 */
-  if(Date.parse(time_LB) > Date.parse(time_UB)) {
+  if(time_LB > time_UB) {
     let temp = time_LB;
     time_LB = time_UB;
     time_UB = temp;
@@ -199,8 +199,8 @@ router.post('/', function(req, res, next) {
     "classification_id": foundObj.classification_id,
     "location": foundObj.location,
     "registered_time": nowTime,
-    "time_interval_LB": foundObj.time_interval_LB,
-    "time_interval_UB": foundObj.time_interval_UB,
+    "time_interval_LB": time_LB,
+    "time_interval_UB": time_UB,
     "description": foundObj.description,
     "image": foundObj.image,
     "deleteHash": foundObj.deleteHash
