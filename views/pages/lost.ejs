@@ -90,14 +90,28 @@
             // 網頁載入完成
             created: function () {
                 var self = this;
-                axios.get('/api/found/')
+                axios.get('/api/found/state/0')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
+                        
                     })
                     .catch(function (error) {
                         console.log(error);
                         // 待加入跳轉到404頁面
+                    }).then((res) => {
+                      axios.get('/api/found/state/1')
+                    .then(function (response) {
+                        console.log(response.data);
+                        for(let val of response.data){
+                          self.lists.push(val);
+                        }
+                        
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // 待加入跳轉到404頁面
+                    }); 
                     });
             },
             methods: {
@@ -211,6 +225,14 @@
                 stateNumToText (stateId) {
                     let text = ["待送行政", "找尋失主", "失主領回", "待拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
                     return text[stateId];
+                },
+                departNumToText (departId) {
+                  if(departId < 1){
+                    return '不詳';
+                  } else {
+                    let text = ["校長室", "秘書室", "主計室", "教務處處本部", "教務處註冊組", "教務處課務組", "學務處生輔組", "圖書館"];
+                    return text[departId];
+                  }
                 },
                 delDetail (id) {
                     if(confirm("確定要刪除此則遺失物資訊?")){
