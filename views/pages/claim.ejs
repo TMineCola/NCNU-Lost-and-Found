@@ -149,6 +149,14 @@
                     let text = ["待送行政", "找尋失主", "失主領回", "待拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
                     return text[stateId];
                 },
+                departNumToText (departId) {
+                  if(departId < 1){
+                    return '不詳';
+                  } else {
+                    let text = ["校長室", "秘書室", "主計室", "教務處處本部", "教務處註冊組", "教務處課務組", "學務處生輔組", "圖書館"];
+                    return text[departId];
+                  }
+                },
                 delDetail (id) {
                     if(confirm("確定要刪除此則遺失物資訊?")){
                         axios.delete('/api/found/'+id)
