@@ -41,7 +41,8 @@
                             {{ textIsEmpty(list.description) }}
                         </div>
                     </div>
-                    <p class="card-text text-truncate">地點: {{ textIsEmpty(list.location) }}</p>
+                    <p class="card-text text-truncate">拾獲地點: {{ textIsEmpty(list.location) }}</p>
+                    <p class="card-text text-truncate">目前地點: {{ departNumToText(list.department_id) }}</p>
                     <div class="text-right">
                         <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
                         <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
