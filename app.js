@@ -140,6 +140,9 @@ app.get('/claim', function(req, res) {
 app.get('/contact', function(req, res) {
   res.render('pages/contact', { user : req.user });
 });
+app.get('/editor_found', function(req, res) {
+    res.render('pages/editor_found', { user : req.user });
+  });
 
 // 驗證路由
 

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="國立暨南國際大學遺失物系統">
-    <title>物品遺失</title>
+    <title>公開認領</title>
     <% include ../partials/bootstrap_css %>
 </head>
 
@@ -17,12 +17,10 @@
     <% include ../partials/bootstrap_js %>
     <% include ../partials/vue_js %>
     <% include ../partials/jqueryUi %>
-    <% include ../partials/categories %>
-    <% include ../partials/add %>
+    <% include ../partials/categories_hide %>
     <div class="container" style="margin-top: 90px">
-        <h1>招領清單：（你東西不見了嗎？希望能幫到你）</h1>
-        <div id="lost">
-            <% include ../partials/reportForm %>
+        <h1>管理者編輯清單：</h1>
+        <div id="editor">
             <% include ../partials/editForm %>
             <% include ../partials/page %>
         </div>
@@ -30,7 +28,7 @@
 
     <script>
         var app = new Vue({
-            el: '#lost',
+            el: '#editor',
             data: {
                 lists: '',
                 // 九封格分類
@@ -90,28 +88,14 @@
             // 網頁載入完成
             created: function () {
                 var self = this;
-                axios.get('/api/found/state/0')
+                axios.get('/api/found/')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
-                        
                     })
                     .catch(function (error) {
                         console.log(error);
                         // 待加入跳轉到404頁面
-                    }).then((res) => {
-                      axios.get('/api/found/state/1')
-                    .then(function (response) {
-                        console.log(response.data);
-                        for(let val of response.data){
-                          self.lists.push(val);
-                        }
-                        
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        // 待加入跳轉到404頁面
-                    }); 
                     });
             },
             methods: {
@@ -152,67 +136,6 @@
                         }
                     }
                     return check;
-                },
-                createFound () {
-                    this.feedBack.submited = 0;
-                    this.feedBack.isError = 0;
-                    if(this.formIsEmpty(this.formData)){
-                        console.log("有東西");
-                        var self = this;
-                        if(self.formData.image.value == "ok"){
-                            self.imageUpload(self.formData.image.imgData).then((res) => {
-                                axios.post('/api/lost', {
-                                    "name": self.formData.name.value,
-                                    "classification_id": self.formData.fication.value,
-                                    "location": self.formData.location.value,
-                                    "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                    "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
-                                    "description": self.formData.description.value,
-                                    "image": self.formData.image.value,
-                                    "deleteHash": self.formData.image.deleteHash
-                                })
-                                .then(function (response) {
-                                    console.log(response);
-                                    self.feedBack.submited = 1;
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                    self.feedBack.isError = 1;
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
-                                });
-                            });
-                        }else {
-                            axios.post('/api/lost', {
-                                "name": self.formData.name.value,
-                                "classification_id": self.formData.fication.value,
-                                "location": self.formData.location.value,
-                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
-                                "description": self.formData.description.value
-                            })
-                            .then(function (response) {
-                                console.log(response);
-                                self.feedBack.submited = 1;
-                                // setTimeout(function () {
-                                //     location.reload();
-                                // }, 2000);
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                                self.feedBack.isError = 1;
-                                // setTimeout(function () {
-                                //     location.reload();
-                                // }, 2000);
-                            });
-                        }
-                    }else {
-                        console.log("有東西沒填");
-                    }
                 },
                 showAll () {
                     this.chosenClass = 0;

@@ -26,7 +26,7 @@
                 <div class="col-md-9">
                     <h4 class="card-title">{{ list.name }}</h4>
                     <span class="badge badge-success mb-2">{{ classNumToText(list.classification_id) }}</span>
-                    <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
+                    <!-- <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span> -->
                     <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
                         }}時</p>
                     <p class="card-text d-none d-md-block">描述: {{ textIsEmpty(list.description) }}</p>
@@ -41,8 +41,7 @@
                             {{ textIsEmpty(list.description) }}
                         </div>
                     </div>
-                    <p class="card-text text-truncate">拾獲地點: {{ textIsEmpty(list.location) }}</p>
-                    <p class="card-text text-truncate">目前地點: {{ departNumToText(list.department_id) }}</p>
+                    <p class="card-text text-truncate">地點: {{ textIsEmpty(list.location) }}</p>
                     <div class="text-right">
                         <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
                         <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
