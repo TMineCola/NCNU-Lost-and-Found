@@ -1,66 +1,102 @@
 <style>
-    .tool_visible {
-      /* background-color:rgba(0, 0, 0, 0.4); */
-      position: absolute;
-      margin-left: auto;
-      margin-right: auto;
-      left: 0;
-      right: 0;
-      width: 100%;
-      top: 0px;
-      transition: all .5s;
-      background-image: radial-gradient(ellipse farthest-corner at center bottom, rgba(5, 176, 255, 0.6) 5%, #000 100%);
-      background-size: 100% 100%;
-      background-attachment: fixed;
-      z-index: 1;
-      /* https://codepen.io/Griggy/pen/ZLpbLB */
-    }
-  
-    .tool_invisible {
-      background-color:rgba(23, 162, 184, 0.6);
-      position: absolute;
-      margin-left: auto;
-      margin-right: auto;
-      left: 0;
-      right: 0;
-      width: 100%;
-      z-index: 1;
-      top: -420px;
-      transition: all .5s;
-      color: white;
-    }
-  
-    .quicklink_box {
-      position: relative;
-      min-width: 110px;
-      height: 110px;
-      width: 110px;
-      z-index:2;
-    }
-  
-    .quicklink {
-      width: 110px;
-      height: 110px;
-      z-index:2;
-      border-radius: 25px;
-    }
-  
-  button.quicklink_link {
-    padding: 0px !important;
-    background: transparent;
-    border: 0px;
+  .tool_visible {
+    /* background-color:rgba(0, 0, 0, 0.4); */
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 0px;
+    transition: all .5s;
+    background-image: radial-gradient(ellipse farthest-corner at center bottom, rgba(5, 176, 255, 0.6) 5%, #000 100%);
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    z-index: 1;
+    /* https://codepen.io/Griggy/pen/ZLpbLB */
   }
-  
+
+  .tool_invisible {
+    background-color:rgba(23, 162, 184, 0.6);
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1;
+    top: -420px;
+    transition: all .5s;
+    color: white;
+  }
+
+  .quicklink_box {
+    position: relative;
+    min-width: 100px;
+    height: 100px;
+    width: 100px;
+    z-index:2;
+  }
+
+  .quicklink {
+    width: 100px;
+    height: 100px;
+    z-index:2;
+    border-radius: 25px;
+  }
+
+button.quicklink_link {
+  padding: 0px !important;
+  background: transparent;
+  border: 0px;
+}
+
+  img.quicklink_hover {
+    position: absolute;
+    display: block;
+    top: 0;
+    left:0;
+    width: 100px;
+    height: 100px;
+    z-index:2;
+    border-radius: 25px;
+    opacity: 0;
+  }
+  img.quicklink {
+    position: absolute;
+    display: block;
+    top: 0;
+    left:0;
+    width: 100px;
+    height: 100px;
+    z-index:1;
+    border-radius: 25px;
+  }
+
+  /* @media (min-width:568px) {
+    #categories {
+      max-width: 400px;
+      margin: auto auto;
+    }
+  } */
+  @media only screen and (min-width:992px),only screen and (min-width:992px)  {
+    #categories {
+      /* background-color:transparent!important; */
+      max-width: 500px;
+      margin: auto auto;
+    }
+  }
+  @media  (min-width:768px)  {
     img.quicklink_hover {
-      position: absolute;
-      display: block;
-      top: 0;
-      left:0;
-      width: 110px;
-      height: 110px;
-      z-index:2;
-      border-radius: 25px;
-      opacity: 0;
+    position: absolute;
+    display: block;
+    top: 0;
+    left:0;
+    width: 110px;
+    height: 110px;
+    z-index:2;
+    border-radius: 25px;
+    opacity: 0;
     }
     img.quicklink {
       position: absolute;
@@ -72,20 +108,22 @@
       z-index:1;
       border-radius: 25px;
     }
-  
-    /* @media (min-width:568px) {
-      #categories {
-        max-width: 400px;
-        margin: auto auto;
-      }
-    } */
-    @media only screen and (min-width:992px),only screen and (min-width:992px)  {
-      #categories {
-        /* background-color:transparent!important; */
-        max-width: 500px;
-        margin: auto auto;
-      }
+    .quicklink_box {
+      position: relative;
+      min-width: 110px;
+      height: 110px;
+      width: 110px;
+      z-index:2;
     }
+
+    .quicklink {
+      width: 110px;
+      height: 110px;
+      z-index:2;
+      border-radius: 25px;
+    }
+  }
+
     .blur {
       content: '';
       top: 0; right: 0; bottom: 0; left: 0;
