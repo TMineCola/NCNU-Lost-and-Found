@@ -58,7 +58,7 @@ function _Search(db) {
 /* 查詢指定ID拾獲物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM `property_found` WHERE `ID` = ?";
+    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`, `department_id` FROM `property_found` WHERE `ID` = ?";
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -77,7 +77,7 @@ function _SearchID(db, id) {
 /* 查詢指定state遺失物 */
 function _SearchState(db, state) {
     return new Promise((resolve, reject) => {
-      let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM `property_found` WHERE `state` = ? order by time_interval_LB DESC";
+      let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`,`department_id` FROM `property_found` WHERE `state` = ? order by time_interval_LB DESC";
       db.query(sql, state, function (err, result, fields) {
         if(err) {
           /* 查詢失敗時回傳訊息物件 */
