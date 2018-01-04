@@ -147,7 +147,6 @@
                             let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
                             let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
                             let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
-                            console.log(time_LB + " " + time_UB);
                             axios.post('/api/found', {
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
@@ -161,16 +160,16 @@
                             .then(function (response) {
                                 console.log(response);
                                 self.feedBack.submited = 1;
-                                // setTimeout(function () {
-                                //     location.reload();
-                                // }, 2000);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
                             })
                             .catch(function (error) {
                                 console.log(error);
                                 self.feedBack.isError = 1;
-                                // setTimeout(function () {
-                                //     location.reload();
-                                // }, 2000);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
                             });
                         });
                     }else {
@@ -256,16 +255,16 @@
                                 .then(function (response) {
                                     console.log(response);
                                     self.feedBack.submited = 1;
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
                                 })
                                 .catch(function (error) {
                                     console.log(error);
                                     self.feedBack.isError = 1;
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
                                 });
                             });
                         }else {
@@ -280,16 +279,16 @@
                             .then(function (response) {
                                 console.log(response);
                                 self.feedBack.submited = 1;
-                                // setTimeout(function () {
-                                //     location.reload();
-                                // }, 2000);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
                             })
                             .catch(function (error) {
                                 console.log(error);
                                 self.feedBack.isError = 1;
-                                // setTimeout(function () {
-                                //     location.reload();
-                                // }, 2000);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
                             });
                         }
                     } else {
