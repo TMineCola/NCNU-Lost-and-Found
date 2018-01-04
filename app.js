@@ -106,9 +106,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
+  name: 'ncnu-lost&found',
   secret: 'ilovencnulostandfound',
   resave: true,
-  saveUninitialized: true
+  rolling: true,
+  saveUninitialized: true,
+  cookie: { maxAge: 600 * 1000 }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -123,6 +126,7 @@ app.use(function(req, res, next) {
 
 // 網頁路由
 app.get('/', function(req, res) {
+  // console.log(req.session.userid);
   res.render('pages/index', { user : req.user });
 });
 app.get('/found', function(req, res) {
