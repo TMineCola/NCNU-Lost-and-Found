@@ -1,26 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var config = require('../config/env');
-
-/* ISO8601 處理格式 */
-Date.prototype.toIsoString = function() {
-  var tzo = -this.getTimezoneOffset(),
-      dif = tzo >= 0 ? '+' : '-',
-      pad = function(num) {
-          var norm = Math.abs(Math.floor(num));
-          return (norm < 10 ? '0' : '') + norm;
-      };
-  return this.getFullYear() +
-      '-' + pad(this.getMonth() + 1) +
-      '-' + pad(this.getDate()) +
-      'T' + pad(this.getHours()) +
-      ':' + pad(this.getMinutes()) +
-      ':' + pad(this.getSeconds()) +
-      dif + pad(tzo / 60) +
-      ':' + pad(tzo % 60);
-}
-
-/* 檢查ISO8601合法性 */
+var moment = require('moment');
 
 /* 檢測ID是否存在 */
 function _CheckID(db, id) {
@@ -153,7 +134,6 @@ router.get('/id/:id', function(req, res, next) {
 /* 新增遺失物 */
 router.post('/', function(req, res, next) {
   let db = req.dbstatus;
-  let nowTime = new Date().toIsoString();
   let lostwishObj = req.body;
 
   let time_LB = lostwishObj.time_interval_LB;
@@ -169,7 +149,7 @@ router.post('/', function(req, res, next) {
     "name": lostwishObj.name,
     "classification_id": lostwishObj.classification_id,
     "location": lostwishObj.location,
-    "registered_time": nowTime,
+    "registered_time": moment().toISOString(true),
     "time_interval_LB": time_LB,
     "time_interval_UB": time_UB,
     "description": lostwishObj.description
@@ -191,6 +171,12 @@ router.post('/', function(req, res, next) {
     if((values[index] == undefined || values[index] == '') && index != "description" && index != "registered_time") {
       LessObj.message += index + ",";
       CheckNum ++;
+    } else if(index == "time_interval_LB" || index == "time_interval_UB"){
+      // 判斷時間是否符合 ISO8601格式
+      if(!moment(values[index], moment.ISO_8601, true).isValid()) {
+        LessObj.message += index + "(時間格式不符),";
+        CheckNum ++;
+      }
     }
   }
   if(CheckNum != 0) {
@@ -220,17 +206,18 @@ router.patch('/:id', function(req, res, next) {
     var time_LB = lostwishObj.time_interval_LB;
     var time_UB = lostwishObj.time_interval_UB;
     /* 處理時間上下限相反的情況 */
-    if(Date.parse(time_LB) > Date.parse(time_UB)) {
+    if(time_LB > time_UB) {
       let temp = time_LB;
       time_LB = time_UB;
       time_UB = temp;
     }
+
     let values = {
       "name": lostwishObj.name,
       "classification_id": lostwishObj.classification_id,
       "location": lostwishObj.location,
-      "time_interval_LB": lostwishObj.time_interval_LB,
-      "time_interval_UB": lostwishObj.time_interval_UB,
+      "time_interval_LB": time_LB,
+      "time_interval_UB": time_UB,
       "description": lostwishObj.description
     };
     // 如果有圖片上傳或修改, 則攜帶image及deleteHash資料
@@ -247,6 +234,12 @@ router.patch('/:id', function(req, res, next) {
       if(lostwishObj[index] == undefined && index != "description") {
         LessObj.message += index + ",";
         CheckNum ++;
+      } else if(index == "time_interval_LB" || index == "time_interval_UB"){
+        // 判斷時間是否符合 ISO8601格式
+        if(!moment(values[index], moment.ISO_8601, true).isValid()) {
+          LessObj.message += index + "(時間格式不符),";
+          CheckNum ++;
+        }
       }
     }
     if(CheckNum != 0) {
