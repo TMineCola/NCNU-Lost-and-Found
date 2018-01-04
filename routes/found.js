@@ -41,7 +41,7 @@ function _CheckID(db, id) {
 function _Search(db) {
   return new Promise((resolve, reject) => {
     // 預設由新至舊
-    let sql ="SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM property_found order by time_interval_LB DESC";
+    let sql ="SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM `property_found` order by time_interval_LB DESC";
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -57,7 +57,7 @@ function _Search(db) {
 /* 查詢指定ID拾獲物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM property_found WHERE ID = ?";
+    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM `property_found` WHERE `ID` = ?";
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -76,14 +76,14 @@ function _SearchID(db, id) {
 /* 查詢指定state遺失物 */
 function _SearchState(db, state) {
     return new Promise((resolve, reject) => {
-      let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM property_found WHERE state = ? order by time_interval_LB DESC";
+      let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image` FROM `property_found` WHERE `state` = ? order by time_interval_LB DESC";
       db.query(sql, state, function (err, result, fields) {
         if(err) {
           /* 查詢失敗時回傳訊息物件 */
           reject({"message": "查詢全部拾獲物資訊失敗"});
         } else if(result.length == 0) {
           /* 查詢不到指定ID時回傳訊息物件 */
-          reject({"message": "找不到指定拾獲物 (狀態:" + state + ")"});
+          reject({"message": "找不到指定狀態拾獲物 (狀態:" + state + ")"});
         } else {
           /* 新增成功時回傳拾獲物物件 */
           resolve(result);
