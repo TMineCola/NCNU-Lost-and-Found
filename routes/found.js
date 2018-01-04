@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var config = require('../config/env');
 
 /* ISO8601 處理格式 */
 Date.prototype.toIsoString = function() {
