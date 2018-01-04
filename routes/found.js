@@ -181,11 +181,11 @@ router.get('/state/:state', function(req, res, next) {
 /* 新增拾獲物 */
 router.post('/', function(req, res, next) {
   let db = req.dbstatus;
-  let nowTime = new Date().toIsoString();
+  let nowTime = new Date();
   let foundObj = req.body;
 
-  var time_LB = foundObj.time_interval_LB;
-  var time_UB = foundObj.time_interval_UB;
+  let time_LB = foundObj.time_interval_LB;
+  let time_UB = foundObj.time_interval_UB;
   /* 處理時間上下限相反的情況 */
   if(Date.parse(time_LB) > Date.parse(time_UB)) {
     let temp = time_LB;
