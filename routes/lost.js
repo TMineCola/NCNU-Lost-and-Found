@@ -27,7 +27,7 @@ function _CheckID(db, id) {
     db.query(sql, id, function (err, result) {
         if (err) {
           /* 查詢失敗時回傳訊息物件 */
-          reject({"message": "查詢 ID:" + id + " 遺失物資訊失敗"});
+          reject(config.development === true ? {"message": "查詢 ID:" + id + " 遺失物資訊失敗", err} : {"message": "查詢 ID:" + id + " 遺失物資訊失敗"});
         } else if(result.length == 0) {
           /* 查詢不到指定ID時回傳訊息物件 */
           reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
@@ -46,8 +46,7 @@ function _Search(db) {
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
-        console.log(err);
-        reject({"message": "查詢全部遺失物資訊失敗"});
+        reject(config.development === true ? {"message": "查詢全部遺失物資訊失敗", err} : {"message": "查詢全部遺失物資訊失敗"});
       } else {
         /* 新增成功時回傳遺失物物件 */
         resolve(result);
@@ -63,7 +62,7 @@ function _SearchID(db, id) {
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
-        reject({"message": "查詢全部遺失物資訊失敗"});
+        reject(config.development === true ? {"message": "查詢全部遺失物資訊失敗", err} : {"message": "查詢全部遺失物資訊失敗"});
       } else if(result.length == 0) {
         /* 查詢不到指定ID時回傳訊息物件 */
         reject({"message": "找不到指定遺失物 (ID:" + id + ")"});
@@ -82,7 +81,7 @@ function _Post(db, values) {
     db.query(sql, values, function (err, result, fields) {
       if(err) {
         /* 新增失敗時回傳訊息物件 */
-        reject({"message": "新增遺失物失敗"});
+        reject(config.development === true ? {"message": "新增遺失物失敗", err} : {"message": "新增遺失物失敗"});
       } else {
         /* 新增成功時回傳訊息物件 */
         resolve({"message": "新增遺失物成功"});
@@ -98,7 +97,7 @@ function _Update(db, values, id) {
     db.query(sql, [values, id], function (err, result) {
       if(err) {
         /* 新增失敗時回傳訊息物件 */
-        reject({"message": "遺失物更新失敗 (ID:" + id + ")"});
+        reject(config.development === true ? {"message": "遺失物更新失敗 (ID:" + id + ")", err} : {"message": "遺失物更新失敗 (ID:" + id + ")"});
       } else {
         /* 新增成功時回傳訊息物件 */
         resolve({"message": "遺失物更新成功 (ID:" + id + ")"});
@@ -115,6 +114,7 @@ function _Delete(db, id) {
       if(err) {
         /* 刪除失敗時回傳訊息物件 */
         reject({"message": "遺失物刪除失敗 (ID:" + id + ")"});
+        reject(config.development === true ? {"message": "遺失物刪除失敗 (ID:" + id + ")", err} : {"message": "遺失物刪除失敗 (ID:" + id + ")"});
       } else {
         /* 刪除成功時回傳訊息物件 */
         resolve({"message": "遺失物刪除成功 (ID:" + id + ")"});

@@ -26,7 +26,7 @@ function _CheckID(db, id) {
     db.query(sql, id, (err, result) => {
         if (err) {
           /* 查詢失敗時回傳訊息物件 */
-          reject({"message": "查詢 ID:" + id + " 拾獲物資訊失敗"});
+          reject(config.development === true ? {"message": "查詢 ID:" + id + " 拾獲物資訊失敗", err} : {"message": "查詢 ID:" + id + " 拾獲物資訊失敗"});
         } else if(result.length == 0) {
           /* 查詢不到指定ID時回傳訊息物件 */
           reject({"message": "找不到指定拾獲物 (ID:" + id + ")"});
@@ -45,7 +45,7 @@ function _Search(db) {
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
-        reject({"message": "查詢全部拾獲物資訊失敗"});
+        reject(config.development === true ? {"message": "查詢全部拾獲物資訊失敗", err} : {"message": "查詢全部拾獲物資訊失敗"});
       } else {
         /* 新增成功時回傳拾獲物物件 */
         resolve(result);
@@ -61,7 +61,7 @@ function _SearchID(db, id) {
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
-        reject({"message": "查詢全部拾獲物資訊失敗"});
+        reject(config.development === true ? {"message": "查詢全部拾獲物資訊失敗", err} : {"message": "查詢全部拾獲物資訊失敗"});
       } else if(result.length == 0) {
         /* 查詢不到指定ID時回傳訊息物件 */
         reject({"message": "找不到指定拾獲物 (ID:" + id + ")"});
@@ -80,7 +80,7 @@ function _SearchState(db, state) {
       db.query(sql, state, function (err, result, fields) {
         if(err) {
           /* 查詢失敗時回傳訊息物件 */
-          reject({"message": "查詢全部拾獲物資訊失敗"});
+          reject(config.development === true ? {"message": "查詢全部拾獲物資訊失敗", err} : {"message": "查詢全部拾獲物資訊失敗"});
         } else if(result.length == 0) {
           /* 查詢不到指定ID時回傳訊息物件 */
           reject({"message": "找不到指定狀態拾獲物 (狀態:" + state + ")"});
@@ -99,7 +99,7 @@ function _Post(db, values) {
     db.query(sql, values, function (err, result, fields) {
       if(err) {
         /* 新增失敗時回傳訊息物件 */
-        reject({"message": "新增拾獲物失敗"});
+        reject(config.development === true ? {"message": "新增拾獲物失敗", err} : {"message": "新增拾獲物失敗"});
       } else {
         /* 新增成功時回傳訊息物件 */
         resolve({"message": "新增拾獲物成功"});
@@ -115,7 +115,7 @@ function _Update(db, values, id) {
     db.query(sql, [values, id], function (err, result) {
       if(err) {
         /* 新增失敗時回傳訊息物件 */
-        reject({"message": "拾獲物更新失敗 (ID:" + id + ")"});
+        reject(config.development === true ? {"message": "拾獲物更新失敗 (ID:" + id + ")", err} : {"message": "拾獲物更新失敗 (ID:" + id + ")"});
       } else {
         /* 新增成功時回傳訊息物件 */
         resolve({"message": "拾獲物更新成功 (ID:" + id + ")"});
@@ -131,7 +131,7 @@ function _Delete(db, id) {
     db.query(sql, id, function (err, result) {
       if(err) {
         /* 刪除失敗時回傳訊息物件 */
-        reject({"message": "拾獲物刪除失敗 (ID:" + id + ")"});
+        reject(config.development === true ? {"message": "拾獲物刪除失敗 (ID:" + id + ")", err} : {"message": "拾獲物刪除失敗 (ID:" + id + ")"});
       } else {
         /* 刪除成功時回傳訊息物件 */
         resolve({"message": "拾獲物刪除成功 (ID:" + id + ")"});
