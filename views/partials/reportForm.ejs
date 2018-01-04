@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name">請輸入物品名稱</label>
+                        <label for="name">物品名稱</label>
                         <input type="text" :class="{'is-invalid': formData.name.noValid}" class="form-control" id="name" v-model.trim="formData.name.value" placeholder="物品名稱...">
                         <div class="invalid-feedback">
                             Please provide a valid name.
@@ -43,22 +43,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="location">請輸入拾獲地點</label>
+                        <label for="location">拾獲/遺失地點</label>
                         <input type="text" :class="{'is-invalid': formData.location.noValid}" class="form-control" id="location" v-model.trim="formData.location.value" placeholder="拾獲地點...">
                         <div class="invalid-feedback">
                             Please provide a valid location.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="day">拾獲日期</label>
-                        <!-- <input type="date" :class="{'is-invalid': formData.date.noValid}" class="form-control" id="day" v-model="formData.date.value" placeholder="ex:2017-12-25"> -->
+                        <label for="day">拾獲/遺失日期</label>
                         <input type="text" :class="{'is-invalid': formData.date.noValid}" class="form-control" id="day" placeholder="ex:2017-12-25">
                         <div class="invalid-feedback">
                             Please provide a valid date.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="time">拾獲時段(小時)</label>
+                        <label for="time">拾獲/遺失時段(小時)</label>
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="number" :class="{'is-invalid': formData.timeLB.noValid}" class="form-control" id="time" v-model.number="formData.timeLB.value" placeholder="ex:下午2點 => 14">
@@ -81,9 +80,6 @@
                             Please provide a valid description.
                         </div>
                     </div>
-                    <!-- <div v-for="(value, key) in formData">
-                        {{ key }}: {{ value.value }}
-                    </div> -->
                     <div v-if="feedBack.submited" class="alert alert-warning" role="alert">
                         <strong>感謝您的回報，世界會更好!</strong>
                     </div>
@@ -93,10 +89,6 @@
                     <button :disabled="formData.image.uploading" @click.prevent="createFound" type="submit" class="btn" :class="{'btn-primary': !formData.image.uploading, 'btn-warning': formData.image.uploading}" >{{ formData.image.uploading? '圖片上傳中...': '送出' }}</button>
                 </form>
             </div>
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
         </div>
     </div>
 </div>
