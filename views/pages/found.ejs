@@ -143,18 +143,23 @@
                         console.log("有東西");
                         var self = this;
                         self.imageUpload(self.formData.image.imgData).then((res) => {
+                            let tmp1 = self.formData.date.value + " " + self.formData.timeLB.value;
+                            let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
+                            let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                            let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                            console.log(time_LB + " " + time_UB);
                             axios.post('/api/found', {
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
                                 "location": self.formData.location.value,
-                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                "time_interval_LB": time_LB,
+                                "time_interval_UB": time_UB,
                                 "description": self.formData.description.value,
                                 "image": self.formData.image.value,
                                 "deleteHash": self.formData.image.deleteHash
                             })
                             .then(function (response) {
-                                // console.log(response);
+                                console.log(response);
                                 self.feedBack.submited = 1;
                                 // setTimeout(function () {
                                 //     location.reload();
@@ -163,9 +168,9 @@
                             .catch(function (error) {
                                 console.log(error);
                                 self.feedBack.isError = 1;
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 2000);
+                                // setTimeout(function () {
+                                //     location.reload();
+                                // }, 2000);
                             });
                         });
                     }else {
@@ -232,14 +237,18 @@
                     if (this.formIsEmpty(this.formData)) {
                         console.log("有東西");
                         var self = this;
+                        let tmp1 = self.formData.date.value + " " + self.formData.timeLB.value;
+                        let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
+                        let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                        let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
                         if(self.formData.image.value == "ok"){
                             self.imageUpload(self.formData.image.imgData).then((res) => {
                                 axios.patch('/api/lost/' + this.formData.id.value, {
                                     "name": self.formData.name.value,
                                     "classification_id": self.formData.fication.value,
                                     "location": self.formData.location.value,
-                                    "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                    "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                    "time_interval_LB": time_LB,
+                                    "time_interval_UB": time_UB,
                                     "description": self.formData.description.value,
                                     "image": self.formData.image.value,
                                     "deleteHash": self.formData.image.deleteHash
@@ -247,16 +256,16 @@
                                 .then(function (response) {
                                     console.log(response);
                                     self.feedBack.submited = 1;
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 2000);
+                                    // setTimeout(function () {
+                                    //     location.reload();
+                                    // }, 2000);
                                 })
                                 .catch(function (error) {
                                     console.log(error);
                                     self.feedBack.isError = 1;
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 2000);
+                                    // setTimeout(function () {
+                                    //     location.reload();
+                                    // }, 2000);
                                 });
                             });
                         }else {
@@ -264,23 +273,23 @@
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
                                 "location": self.formData.location.value,
-                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                "time_interval_LB": time_LB,
+                                "time_interval_UB": time_UB,
                                 "description": self.formData.description.value
                             })
                             .then(function (response) {
                                 console.log(response);
                                 self.feedBack.submited = 1;
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 2000);
+                                // setTimeout(function () {
+                                //     location.reload();
+                                // }, 2000);
                             })
                             .catch(function (error) {
                                 console.log(error);
                                 self.feedBack.isError = 1;
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 2000);
+                                // setTimeout(function () {
+                                //     location.reload();
+                                // }, 2000);
                             });
                         }
                     } else {
