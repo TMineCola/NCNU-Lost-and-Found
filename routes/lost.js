@@ -42,7 +42,7 @@ function _CheckID(db, id) {
 function _Search(db) {
   return new Promise((resolve, reject) => {
     // 預設由新至舊
-    let sql ="SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image` FROM property_lostwish order by time_interval_LB DESC";
+    let sql ="SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image` FROM `property_lostwish` order by time_interval_LB DESC";
     db.query(sql, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
@@ -59,7 +59,7 @@ function _Search(db) {
 /* 查詢指定ID遺失物 */
 function _SearchID(db, id) {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image` FROM property_lostwish WHERE ID = ?";
+    let sql = "SELECT `ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image` FROM `property_lostwish` WHERE ID = ?";
     db.query(sql, id, function (err, result, fields) {
       if(err) {
         /* 查詢失敗時回傳訊息物件 */
