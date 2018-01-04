@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var config = require('../config/env');
+var moment = require('moment');
 
-/* ISO8601 處理格式 */
+/* ISO8601 處理格式, toISOString = +0標準 */
 Date.prototype.toIsoString = function() {
   var tzo = -this.getTimezoneOffset(),
       dif = tzo >= 0 ? '+' : '-',
@@ -158,12 +159,6 @@ router.post('/', function(req, res, next) {
 
   let time_LB = lostwishObj.time_interval_LB;
   let time_UB = lostwishObj.time_interval_UB;
-  /* 處理時間上下限相反的情況 */
-  if(time_LB > time_UB) {
-    let temp = time_LB;
-    time_LB = time_UB;
-    time_UB = temp;
-  }
 
   let values = {
     "name": lostwishObj.name,
@@ -191,6 +186,12 @@ router.post('/', function(req, res, next) {
     if((values[index] == undefined || values[index] == '') && index != "description" && index != "registered_time") {
       LessObj.message += index + ",";
       CheckNum ++;
+    } else if(index == "time_interval_LB" || index == "time_interval_UB"){
+      // 判斷時間是否符合 ISO8601格式
+      if(!moment(values[index], moment.ISO_8601, true).isValid()) {
+        LessObj.message += index + "(時間格式不符),";
+        CheckNum ++;
+      }
     }
   }
   if(CheckNum != 0) {
@@ -247,6 +248,12 @@ router.patch('/:id', function(req, res, next) {
       if(lostwishObj[index] == undefined && index != "description") {
         LessObj.message += index + ",";
         CheckNum ++;
+      } else if(index == "time_interval_LB" || index == "time_interval_UB"){
+        // 判斷時間是否符合 ISO8601格式
+        if(!moment(values[index], moment.ISO_8601, true).isValid()) {
+          LessObj.message += index + "(時間格式不符),";
+          CheckNum ++;
+        }
       }
     }
     if(CheckNum != 0) {
