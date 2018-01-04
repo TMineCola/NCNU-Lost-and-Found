@@ -44,7 +44,7 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
   passport.use(new FacebookStrategy({
     clientID: auth_config.facebookAuth.clientID,
     clientSecret: auth_config.facebookAuth.clientSecret,
-    callbackURL: 'http://localhost:3000/login/facebook/return',
+    callbackURL: 'http://' + config.HOST_IP + '/login/facebook/return',
     profileFields	:['id', 'email', 'picture', 'displayName']
   },
   function(req, accessToken, refreshToken, profile, done) {
@@ -81,7 +81,7 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
   passport.use(new GoogleStrategy({
     clientID        : auth_config.googleAuth.clientID,
     clientSecret    : auth_config.googleAuth.clientSecret,
-    callbackURL     : 'http://127.0.0.1:3000/login/google/return',
+    callbackURL     : 'http://' + config.HOST_IP + '/login/google/return',
     passReqToCallback : true
   }, function(accessToken, refreshToken, profile, done) {
       process.nextTick(function() {
