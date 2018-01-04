@@ -145,8 +145,7 @@ app.get('/contact', function(req, res) {
 
 app.get('/login/facebook', passport.authenticate('facebook', { scope : ["email"] }));
 app.get('/login/facebook/return', passport.authenticate('facebook', { failureRedirect: '/' }), function(req, res) {
-  //res.redirect('/');
-  res.send(req.user);
+  res.redirect('/');
 });
 app.get('/logout', function(req, res){
   req.logout();
