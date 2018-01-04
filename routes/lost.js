@@ -184,8 +184,9 @@ router.post('/', function(req, res, next) {
     "message": "資料不得為空或缺少資料 ("
   };
   let CheckNum = 0;
+  console.log(lostwishObj);
   for(index in values) {
-    if(lostwishObj[index] == undefined && index != "description" && index != "registered_time") {
+    if((values[index] == undefined || values[index] == '') && index != "description" && index != "registered_time") {
       LessObj.message += index + ",";
       CheckNum ++;
     }
