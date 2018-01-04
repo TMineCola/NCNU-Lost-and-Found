@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var config = require('../config/env');
 
 /* ISO8601 處理格式 */
 Date.prototype.toIsoString = function() {
@@ -176,7 +177,7 @@ router.post('/', function(req, res, next) {
     values['image'] = lostwishObj.image;
     values['deleteHash'] = lostwishObj.deleteHash;
   } else {
-    values['image'] = "http://127.0.0.1:3000/img/null.jpg";
+    values['image'] = "http://" + config.HOST_IP + "/img/null.jpg";
   }
 
   /* 驗證修改資訊 */

@@ -8,6 +8,8 @@ var config = {
     SQL_USER: "",
     SQL_PWD: "",
     SQL_DB: "",
+    // 本機IP位置
+    HOST_IP: ""
 };
 
 module.exports = config;
