@@ -150,6 +150,7 @@ app.get('/login/facebook', passport.authenticate('facebook', { scope : ["email"]
 app.get('/login/facebook/return', passport.authenticate('facebook', { failureRedirect: '/' }), function(req, res) {
   res.redirect('/');
 });
+
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
