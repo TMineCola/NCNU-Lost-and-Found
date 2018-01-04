@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">回報表單</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">修改內容</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name2">請輸入物品名稱</label>
+                        <label for="name2">物品名稱</label>
                         <input type="text" :class="{'is-invalid': formData.name.noValid}" class="form-control" id="name2" v-model.trim="formData.name.value"
                             placeholder="物品名稱...">
                         <div class="invalid-feedback">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="location2">請輸入拾獲地點</label>
+                        <label for="location2">拾獲/遺失地點</label>
                         <input type="text" :class="{'is-invalid': formData.location.noValid}" class="form-control" id="location2" v-model.trim="formData.location.value"
                             placeholder="拾獲地點...">
                         <div class="invalid-feedback">
@@ -53,14 +53,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editDay2">拾獲日期</label>
-                        <input type="text" :class="{'is-invalid': formData.date.noValid}" class="form-control" id="editDay2" :value="formData.date.value" placeholder="ex:2017-12-25">
+                        <label for="editDay">拾獲/遺失日期</label>
+                        <input type="text" :class="{'is-invalid': formData.date.noValid}" class="form-control" id="editDay" :value="formData.date.value" placeholder="ex:2017-12-25">
                         <div class="invalid-feedback">
                             Please provide a valid date.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="time2">拾獲時間(小時)</label>
+                        <label for="time2">拾獲/遺失時段(小時)</label>
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="number" :class="{'is-invalid': formData.timeLB.noValid}" class="form-control" id="time2" v-model.number="formData.timeLB.value"
