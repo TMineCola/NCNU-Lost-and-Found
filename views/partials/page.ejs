@@ -27,10 +27,10 @@
                     <h4 class="card-title">{{ list.name }}</h4>
                     <span class="badge badge-success mb-2">{{ classNumToText(list.classification_id) }}</span>
                     <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
-                    <p>{{ list.time_interval_LB.split(":")[0] }}時 ~ {{ list.time_interval_UB.split(":")[0]
-                        }}時</p>
-                    <!-- <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
+                    <!-- <p>{{ list.time_interval_LB.split(":")[0] }}時 ~ {{ list.time_interval_UB.split(":")[0]
                         }}時</p> -->
+                    <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
+                        }}時</p>
                     <p class="card-text d-none d-md-block">描述: {{ textIsEmpty(list.description) }}</p>
                     <p class="card-text text-truncate d-block d-md-none">
                         <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">描述
