@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="國立暨南國際大學遺失物系統">
+    <title>公開認領</title>
+    <% include ../partials/bootstrap_css %>
+</head>
+
+<body>
+    <% include ../partials/navBar %>
+    <!-- 下面的inclue若出錯可放回container下方，
+        放上來，是因為，loading順序 -->
+    <% include ../partials/bootstrap_js %>
+    <% include ../partials/vue_js %>
+    <% include ../partials/jqueryUi %>
+    <% include ../partials/categories_hide %>
+    <div class="container" style="margin-top: 90px">
+        <h1>公開招領：（7日內限時認領，逾期物品將由行政處置）</h1>
+        <div id="claim">
+            <% include ../partials/editForm %>
+            <% include ../partials/page %>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#claim',
+            data: {
+                lists: '',
+                // 九封格分類
+                chosenClass: 0,
+                // 是否由新到舊(預設為是)
+                timeSort: 1,
+                keyWord: '',
+                formData: {
+                    id: {
+                        // 只有在更新時才會更新
+                        noValid: false,
+                        value: 1
+                    },
+                    name: {
+                        noValid: false,
+                        value: ''
+                    },
+                    location: {
+                        noValid: false,
+                        value: ''
+                    },
+                    description: {
+                        noValid: false,
+                        value: ''
+                    },
+                    fication: {
+                        noValid: false,
+                        value: ''
+                    },
+                    date: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeLB: {
+                        noValid: false,
+                        value: ''
+                    },
+                    timeUB: {
+                        noValid: false,
+                        value: ''
+                    },
+                    image: {
+                        noValid: false,
+                        value: '',
+                        uploading: false,
+                        // 包好的 form data
+                        imgData: {},
+                        deleteHash: ''
+                    }
+                },
+                // 回報表單回饋訊息
+                feedBack: {
+                    submited: 0,
+                    isError: 0
+                }
+            },
+            // 網頁載入完成
+            created: function () {
+                var self = this;
+                axios.get('/api/found/state/5')
+                    .then(function (response) {
+                        console.log(response.data);
+                        self.lists = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // 待加入跳轉到404頁面
+                    });
+            },
+            methods: {
+                textIsEmpty (text) {
+                    return text == null ? "空空如也" : text;
+                },
+                formIsEmpty(obj) {
+                    // 檢查傳入的物件是否有value沒填
+                    // 若為空則將將noValid改為是 反之則否
+                    var check = 1;
+                    for (let key in obj) {
+                        if(key == "image"){
+                            // 不檢查是否上傳圖片
+                            obj[key].noValid = false;
+                        }else if (key == "date") {
+                            // YYYY-MM-DD
+                            var reg = /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/;
+                            if (obj[key].value.match(reg) == null) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        } else if (key != "timeLB" && key != "timeUB") {
+                            if (obj[key].value == '') {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        } else {
+                            if (obj[key].value == '' || obj[key].value < 0 || obj[key].value > 24) {
+                                check = 0;
+                                obj[key].noValid = true;
+                            } else {
+                                obj[key].noValid = false;
+                            }
+                        }
+                    }
+                    return check;
+                },
+                showAll () {
+                    this.chosenClass = 0;
+                    this.formData.fication.value = '';
+                },
+                classNumToText (classId) {
+                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "其他", "全部"];
+                    return text[classId - 1];
+                },
+                stateNumToText (stateId) {
+                    let text = ["待送行政", "找尋失主", "失主領回", "待拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
+                    return text[stateId];
+                },
+                departNumToText (departId) {
+                  if(departId < 1){
+                    return '不詳';
+                  } else {
+                    let text = ["校長室", "秘書室", "主計室", "教務處處本部", "教務處註冊組", "教務處課務組", "學務處生輔組", "圖書館"];
+                    return text[departId];
+                  }
+                },
+                delDetail (id) {
+                    if(confirm("確定要刪除此則遺失物資訊?")){
+                        axios.delete('/api/found/'+id)
+                            .then(function (response) {
+                                console.log(response);
+                                location.reload();
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }
+                },
+                imageDataSave(e) {
+                    // 將上傳前的圖片資訊存起來,等待表單提交時上傳
+                    let imageFile = e.target.files[0];
+                    if (imageFile.type.indexOf('image/') == -1) {
+                        alert('It must be a image');
+                        return;
+                    } else {
+                        // 把圖片編碼存起來
+                        this.formData.image.imgData = imageFile;
+                        // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
+                        this.formData.image.value = "ok";
+                    }
+                },
+                imageUpload(imageFile) {
+                    let formData = new FormData();
+                    formData.append('image', imageFile);
+                    // 正要上傳,狀態改為是
+                    this.formData.image.uploading = true;
+                    return fetch('https://api.imgur.com/3/image', {
+                        method: 'post',
+                        body: formData,
+                        headers: new Headers({
+                            'Authorization': 'Client-ID 3b927010e0363a1'
+                        })
+                    }).then((resp) => {
+                        return resp.json();
+                    }).then((response) => {
+                        if (response.success) {
+                            let imageURL = response.data.link;
+                            let imageDEL = response.data.deletehash;
+                            // console.log(imageURL, imageDEL);
+                            this.formData.image.value = imageURL;
+                            this.formData.image.deleteHash = imageDEL;
+                            // 上傳完成,狀態改為否
+                            this.formData.image.uploading = false;
+                        } else {
+                            console.log(response);
+                            this.feedBack.isError = 1;
+                            this.formData.image.uploading = false;
+                        }
+                    });
+                },
+                editFound() {
+                    this.feedBack.submited = 0;
+                    this.feedBack.isError = 0;
+                    if (this.formIsEmpty(this.formData)) {
+                        console.log("有東西");
+                        var self = this;
+                        let tmp1 = self.formData.date.value + " " + self.formData.timeLB.value;
+                        let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
+                        let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                        let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                        if (self.formData.image.value == "ok") {
+                            self.imageUpload(self.formData.image.imgData).then((res) => {
+                                axios.patch('/api/found/' + this.formData.id.value, {
+                                    "name": self.formData.name.value,
+                                    "classification_id": self.formData.fication.value,
+                                    "location": self.formData.location.value,
+                                    "time_interval_LB": time_LB,
+                                    "time_interval_UB": time_UB,
+                                    "description": self.formData.description.value,
+                                    "image": self.formData.image.value,
+                                    "deleteHash": self.formData.image.deleteHash
+                                })
+                                .then(function (response) {
+                                    console.log(response);
+                                    self.feedBack.submited = 1;
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    self.feedBack.isError = 1;
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                });
+                            });
+                        } else {
+                            axios.patch('/api/found/' + self.formData.id.value, {
+                                "name": self.formData.name.value,
+                                "classification_id": self.formData.fication.value,
+                                "location": self.formData.location.value,
+                                "time_interval_LB": time_LB,
+                                "time_interval_UB": time_UB,
+                                "description": self.formData.description.value
+                            })
+                            .then(function (response) {
+                                console.log(response);
+                                self.feedBack.submited = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                self.feedBack.isError = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        }
+                    } else {
+                        console.log("有東西沒填");
+                    }
+                },
+                autoFillIn (list) {
+                    this.feedBack.submited = 0;
+                    this.feedBack.isError = 0;
+                    console.log(list);
+                    for (let key in this.formData) {
+                        switch (key) {
+                            case "id":
+                                this.formData[key].value = list.ID;
+                                break;
+                            case "name":
+                                this.formData[key].value = list.name;
+                                break;
+                            case "location":
+                                this.formData[key].value = list.location;
+                                break;
+                            case "description":
+                                this.formData[key].value = list.description;
+                                break;
+                            case "fication":
+                                this.formData[key].value = list.classification_id;
+                                break;
+                            case "date":
+                                // 將ISO8601轉本地時間，再取日期，之後將/換成-
+                                let tmp = new Date(list.time_interval_LB).toLocaleString().split(" ")[0];
+                                // 處理取出的日期不滿兩位數不會自動補0
+                                let str = '';
+                                for(let value of tmp.split("/")){
+                                    console.log(value);
+                                    if(value < 10 && value > 0){
+                                        str += "0" + value + "-";
+                                    }else{
+                                        str += value + "-";
+                                    }
+                                }
+                                // 刪除結尾多出的-號
+                                str = str.substring(0, str.length - 1);
+                                this.formData[key].value = str;
+                                break;
+                            case "timeLB":
+                                this.formData[key].value = new Date(list.time_interval_LB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                            case "timeUB":
+                                this.formData[key].value = new Date(list.time_interval_UB).toLocaleString('en-US', { hour12: false }).split(", ")[1].split(":")[0];
+                                break;
+                            case "image":
+                                this.formData[key].value = list.image;
+                                break;
+                        }
+                    }
+                }
+            },
+            computed: {
+                chosenLists () {
+                    // 有分總類
+                    if(this.chosenClass == 9){
+                        return this.lists;
+                    }
+                    if(this.chosenClass != 0){
+                        return this.lists.filter((val) => {
+                            return val.classification_id == this.chosenClass;
+                        });
+                    }
+                },
+                searchKeyWord () {
+                    if (this.chosenClass != 0 && this.keyWord.length == 0) {
+                        // 有劃分總類但沒關鍵字
+                        return this.chosenLists;
+                    } else if (this.chosenClass == 0 && this.keyWord.length == 0) {
+                        // 沒劃分總類也沒關鍵字
+                        return this.lists;
+                    } else if (this.chosenClass == 0 && this.keyWord.length != 0) {
+                        // 沒劃分總類但有關鍵字
+                        let tmp = this.keyWord.split(" ");
+                        let str = '';
+                        return this.lists.filter((val) => {
+                            str = val.name + val.location + val.description;
+                            for (let value of tmp) {
+                                return str.match(value) != null;
+                            }
+                        });
+                    } else if (this.chosenClass != 0 && this.keyWord.length != 0){
+                        // 有劃分總類也有關鍵字
+                        let tmp = this.keyWord.split(" ");
+                        let str = '';
+                        return this.chosenLists.filter((val) => {
+                            str = val.name + val.location + val.description;
+                            for (let value of tmp) {
+                                return str.match(value) != null;
+                            }
+                        });
+                    }
+                },
+                sortByTime () {
+                    if (this.timeSort) {
+                        // 預設
+                        return this.searchKeyWord.sort(function (a, b) { return Date.parse(b.time_interval_LB) - Date.parse(a.time_interval_LB) });
+                    } else {
+                        // 舊到新
+                        return this.searchKeyWord.sort(
+                            function (a, b) {
+                                return Date.parse(a.time_interval_LB) - Date.parse(b.time_interval_LB);
+                            }
+                        );
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

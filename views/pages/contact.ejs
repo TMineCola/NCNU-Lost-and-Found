@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="國立暨南國際大學遺失物系統">
+    <title>逾期物品</title>
+    <% include ../partials/bootstrap_css %>
+</head>
+
+<body>
+    <% include ../partials/vue_js %>
+    <% include ../partials/navBar %>
+    <div class="container">
+      <div id="contact">
+        <table class="table">
+          <thead><td>序</td><td>單位</td><td>分機</td><td>是否有管理遺失物</td></thead>
+          <tr v-for="list in lists"><td>{{list.ID}}</td><td>{{ list.name }}</td><td><a :href="'tel:0492910960;'+list.contact_info">{{list.contact_info}}</a></td><td>{{list.isManagement}}</td></tr>
+        </table>
+        
+        
+      </div>
+    </div>
+    <% include ../partials/bootstrap_js %>
+</body>
+<script>
+  var app = new Vue ({
+    el: '#contact',
+    data: {
+        lists: '123'
+    },
+    created: function () {
+      var self = this;
+      axios.get('/api/contact/')
+          .then(function (response) {
+              console.log(response.data);
+              self.lists = response.data;
+          })
+          .catch(function (error) {
+              console.log(error);
+              // 待加入跳轉到404頁面
+          });
+    }
+  })
+</script>
+</html>

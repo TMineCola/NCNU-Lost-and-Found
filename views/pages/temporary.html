@@ -1,0 +1,28 @@
+<div class="col-4" v-for="list in searchKeyWord">
+  <ul class="itemList">
+    <li>
+      <div class="item">
+        <div class="Img imh_opacity">
+          <img src="https://cdn.shopify.com/s/files/1/0245/2737/products/sds.jpg?v=1469622303" />
+        </div>
+        <div class="Txt">
+          <a class="btn" href="#">
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+          </a>
+          <h3>{{ list.name }}
+            <em>{{ list.state }}</em>
+          </h3>
+          <p class="ellipsis">
+            分類: {{ classNumToText(list.classification_id) }}
+            <br/> 拾獲時間{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }} ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
+            }}
+            <br/> 拾獲地點: {{ detail.list.location }}
+            <br/> 物品描述：{{ textIsEmpty(detail.list.description) }}
+            <br/>
+          </p>
+        </div>
+      </div>
+
+    </li>
+  </ul>
+</div>

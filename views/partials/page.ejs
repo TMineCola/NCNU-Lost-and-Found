@@ -1,0 +1,63 @@
+<div class="col-12">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" @click.prevent="showAll">全部</a>
+            </li>
+            <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
+        </ol>
+    </nav>
+</div>
+<div class="col-12 mb-3">
+    時間排序
+    <select v-model.number="timeSort">
+        <option value=1>新 => 舊</option>
+        <option value=0>舊 => 新</option>
+    </select>
+</div>
+<div class="row">
+    <template v-if="searchKeyWord.length!=0">
+        <div class="col-12" v-for="list in sortByTime">
+            <div class="row border rounded mb-2 p-2">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <!-- <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap"> -->
+                    <img class="border rounded img-fluid" :src="list.image" alt="圖片載入錯誤">
+                </div>
+                <div class="col-md-9">
+                    <h4 class="card-title">{{ list.name }}</h4>
+                    <span class="badge badge-success mb-2">{{ classNumToText(list.classification_id) }}</span>
+                    <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
+                    <!-- <p>{{ list.time_interval_LB.split(":")[0] }}時 ~ {{ list.time_interval_UB.split(":")[0]
+                        }}時</p> -->
+                    <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
+                        }}時</p>
+                    <p class="card-text d-none d-md-block">描述: {{ textIsEmpty(list.description) }}</p>
+                    <p class="card-text text-truncate d-block d-md-none">
+                        <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">描述
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </button>
+                        {{ textIsEmpty(list.description) }}
+                    </p>
+                    <div class="collapse" :id="list.ID">
+                        <div class="card card-body mb-3 bg-light">
+                            {{ textIsEmpty(list.description) }}
+                        </div>
+                    </div>
+                    <p class="card-text text-truncate">拾獲地點: {{ textIsEmpty(list.location) }}</p>
+                    <p class="card-text text-truncate">目前地點: {{ departNumToText(list.department_id) }}</p>
+                    <div class="text-right">
+                        <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
+                        <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template v-else-if="searchKeyWord.length==0">
+        <div class="col-12">
+            <div class="alert alert-info">
+                目前還沒有遺失物喔
+            </div>
+        </div>
+    </template>
+</div>

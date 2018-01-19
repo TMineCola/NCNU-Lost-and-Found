@@ -1,0 +1,86 @@
+<style>
+    .modal-body a {
+        color: white;
+        /* text-align: left; */
+        border-radius: 5px;
+        text-transform: none;
+        /* padding-left: 0; */
+    }
+
+    .modal-body a i {
+        width: 55px;
+        border-right: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .onl_btn-facebook {
+        background: #3b5998;
+        border-color: #172d5e;
+    }
+
+    .onl_btn-facebook:active,
+    .onl_btn-facebook:hover {
+        background: #2d4373;
+    }
+
+    .onl_btn-google {
+        background: #c32f10;
+        border-color: #6b1301;
+    }
+
+    .onl_btn-google:active,
+    .onl_btn-google:hover {
+        background: #971a11;
+    }
+
+    .onl_btn-github {
+        background: #666666;
+        border-color: #333333;
+    }
+
+    .onl_btn-github:active,
+    .onl_btn-github:hover {
+        background: #383838;
+    }
+</style>
+
+<% if(!user) { %>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-info btn-large btn-block" data-toggle="modal" data-target="#loginModal">
+    登錄
+</button>
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">請選擇登錄方式</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
+                    role="button" title="Facebook">
+                    <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
+                    <span>使用&nbsp;Facebook&nbsp;登錄</span>
+                </a>
+                <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
+                    role="button" title="Google">
+                    <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
+                    <span>使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消登錄</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<% } else { %>
+        <a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="http://localhost:3000/logout" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:25px;">
+            <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> " style='border-radius:25px;height:25px;width:25px;'/>
+        </a>
+<% } %>
