@@ -32,10 +32,13 @@
             <ul class="navbar-nav navbar-right ml-auto">
                 <li class="nav-item dropdown">
                   <% include ../partials/login %>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="/editor_found">編輯我的清單</a>
-                      <a class="dropdown-item" href="#">編輯其他問題</a>
-                  </div>
+                  <% if(user) { %>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/editor_found">編輯我的清單</a>
+                        <a class="dropdown-item" href="#">編輯其他問題</a>
+                        <a class="dropdown-item" href="/logout">登出</a>
+                    </div>
+                  <% } %>
                 </li>
             </ul>
         </div>

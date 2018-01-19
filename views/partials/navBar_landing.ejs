@@ -26,9 +26,11 @@
       <ul class="navbar-nav navbar-right ml-auto">
           <li class="nav-item dropdown">
             <% include ../partials/login %>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="/logout">登出</a>
-            </div>
+            <% if(user) { %>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/logout">登出</a>
+              </div>
+            <% } %>
           </li>
       </ul>
 
