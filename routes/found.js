@@ -194,6 +194,8 @@ router.patch('/state', function(req, res, next) {
       info_Object.failure[info_Object.failure.length] = target[i].id;
     });
   }
+
+  res.send(info_Object);
 });
 
 /* 新增拾獲物 */
