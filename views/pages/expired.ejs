@@ -142,7 +142,7 @@
                     this.formData.fication.value = '';
                 },
                 classNumToText (classId) {
-                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "生活", "其他"];
+                    let text = ["衣物", "現金", "書籍", "3C", "文具", "卡片", "雨具", "其他", "全部"];
                     return text[classId - 1];
                 },
                 stateNumToText (stateId) {
@@ -330,6 +330,9 @@
             computed: {
                 chosenLists () {
                     // 有分總類
+                    if(this.chosenClass == 9){
+                        return this.lists;
+                    }
                     if(this.chosenClass != 0){
                         return this.lists.filter((val) => {
                             return val.classification_id == this.chosenClass;
