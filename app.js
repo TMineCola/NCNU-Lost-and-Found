@@ -142,7 +142,13 @@ app.get('/contact', function(req, res) {
 });
 app.get('/editor_found', function(req, res) {
     res.render('pages/editor_found', { user : req.user });
-  });
+});
+app.get('/wishlist_form', function(req, res) {
+    res.render('pages/wishlist_form', { user : req.user });
+});
+app.get('/lost_form', function(req, res) {
+    res.render('pages/lost_form', { user : req.user });
+});
 
 // 驗證路由
 
