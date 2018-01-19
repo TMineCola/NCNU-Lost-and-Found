@@ -108,6 +108,22 @@ function _Update(db, values, id) {
   });
 }
 
+/* 更新指定ID拾獲物狀態 */
+function _UpdateState(db, state, id) {
+  let sql = "UPDATE `property_found` SET `state` = ? WHERE `ID` = ?";
+  return new Promise((resolve, reject) => {
+    db.query(sql, [stats, id], function (err, result) {
+      if(err) {
+        /* 新增失敗時回傳訊息物件 */
+        reject(config.development === true ? {"message": "拾獲物狀態更新失敗 (ID:" + id + ")", err} : {"message": "拾獲物狀態更新失敗 (ID:" + id + ")"});
+      } else {
+        /* 新增成功時回傳訊息物件 */
+        resolve({"message": "拾獲物狀態更新成功 (ID:" + id + ")"});
+      }
+    });
+  });
+}
+
 /* 刪除指定ID拾獲物 */
 function _Delete(db, id) {
   let sql = "DELETE FROM `property_found` WHERE `ID` = ?";
@@ -160,6 +176,24 @@ router.get('/state/:state', function(req, res, next) {
     res.status(404).send(errorObj);
     return;
     });
+});
+
+/* 更新state */
+router.patch('/state', function(req, res, next) {
+  let db = req.dbstatus;
+  let target = req.body;
+  let info_Object = {
+    "success": [],
+    "failure": []
+  };
+
+  for(let i = 0; i < target.length; i++) {
+    _UpdateState(db, target[i].state, target[i].id).then(success => {
+      info_Object.success[info_Object.success.length] = target[i].id;
+    }).catch(error => {
+      info_Object.failure[info_Object.failure.length] = target[i].id;
+    });
+  }
 });
 
 /* 新增拾獲物 */
