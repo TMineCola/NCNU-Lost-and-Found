@@ -6,15 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="國立暨南國際大學遺失物系統">
+    <link href="css/loading.css" rel="stylesheet">
     <title>逾期物品</title>
     <% include ../partials/bootstrap_css %>
 </head>
 
 <body>
-    <% include ../partials/navBar %>
+    <% include ../partials/loading %>
     <!-- 下面的inclue若出錯可放回container下方，
-        放上來，是因為，loading順序 -->
-    <% include ../partials/bootstrap_js %>
+      放上來，是因為，loading順序 -->
+      <% include ../partials/bootstrap_js %>
+      <script>
+        var loading = {
+          start: function () {
+            $('#loading-wrapper').show();
+          },
+          complete: function () {
+            $('#loading-wrapper').hide();
+          }
+        };
+        loading.start();
+        </script>
+    <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
     <% include ../partials/jqueryUi %>
     <% include ../partials/categories_hide %>
@@ -410,6 +423,9 @@
                 }
             }
         })
+    </script>
+    <script>
+      setTimeout("loading.complete()", 1000 );
     </script>
 </body>
 
