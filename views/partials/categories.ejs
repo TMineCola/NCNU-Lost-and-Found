@@ -298,5 +298,20 @@ button.quicklink_link {
         //Hover Off - Hover off doesn't seem to work on iOS
         $(this).css("opacity", "0");
     })
+    // 滑動視窗後自動關閉categories，需要時再打開
+    var run = 0;
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) { //向下滾動數值大於該值時，即出現小火箭
+          $("body").find("#test").removeClass("tool_visible");
+          $("body").find("#blur").removeClass("blur");
+          $("body").find("#test").addClass("tool_invisible");
+          $("body").find("#btn-toggleSetting").remove();
+          while(run!=1){
+          $("body").find("#try").append(
+          '<div id="btn-toggleSetting_open"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>');
+          run++
+          }
+        }
+      });
   });
 </script>
