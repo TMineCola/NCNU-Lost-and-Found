@@ -300,6 +300,7 @@
                     }
                 },
                 imageUpload(imageFile) {
+                    loading.start();
                     let formData = new FormData();
                     formData.append('image', imageFile);
                     // 正要上傳,狀態改為是
