@@ -158,6 +158,42 @@ button.quicklink_link {
       border-bottom-left-radius: 25px;
       border-bottom-right-radius:25px;
     }
+    #btn-toggleSetting_open>i {color: #39f !important;}
+  @-webkit-keyframes colours {
+     0% {color: rgb(255, 255, 255);}
+     25% {color: #868686;}
+     50% {color: #000000;}
+     75% {color: #8a8a8a;}
+    100% {color: rgb(255, 255, 255);}
+    /* 0% {color: rgb(255, 255, 255);}
+     25% {color: #000000;}
+     50% {color: rgb(255, 255, 255);}
+     75% {color: #000000;}
+    100% {color: rgb(255, 255, 255);} */
+
+}
+@-moz-keyframes colours {
+     0% {color: #39f;}
+     25% {color: #8bc5d1;}
+     50% {color: #f8cb4a;}
+     75% {color: #8bc5d1;}
+    100% {color: #39f;}
+
+}
+
+#btn-toggleSetting_open>i {
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: colours;
+    -webkit-animation-timing-function: ease;
+    -moz-animation-direction: normal;
+    -moz-animation-duration: 1s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: colours;
+    -moz-animation-timing-function: ease;
+    font-size:20pt;
+}
   </style>
   <div class="container-fluid" id="blur">
   </div>
@@ -265,6 +301,7 @@ button.quicklink_link {
         $("body").find("#btn-toggleSetting").remove();
         $("body").find("#try").append(
           '<div id="btn-toggleSetting_open"><i class="fa fa-arrow-down text-white" aria-hidden="true"></i></div>');
+        run++
       }
       function showCategories() {
         $("body").find("#test").removeClass("tool_invisible");
@@ -289,7 +326,7 @@ button.quicklink_link {
         //滑動視窗後執行
         $(window).scroll(function () {
         if ($(window).scrollTop() > 50) { //向下滾動數值大於該值時，即出現小火箭
-          if(run!=1){ hideCategories(); run++ }
+          if(run!=1){ hideCategories(); }
         }
       });
       // 當關鍵字輸入後存到vue中做過濾
