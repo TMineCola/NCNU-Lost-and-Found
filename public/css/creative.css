@@ -188,8 +188,13 @@ header.masthead {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  background-attachment: fixed;
 }
-
+@media only screen and (max-device-width: 1366px) {
+    header.masthead {
+        background-attachment: scroll;
+    }
+}
 header.masthead hr {
   margin-top: 30px;
   margin-bottom: 30px;
