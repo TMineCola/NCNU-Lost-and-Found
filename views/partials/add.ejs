@@ -19,13 +19,54 @@
     border-radius: 50%!important;
     cursor: pointer;
 }
+  .rfa:hover {
+    background-color: #555!important;
+  }
 </style>
 
 <ul class="share">
     <!-- <li class="ani d-none d-md-block"> -->
+    <li class="ani" id="myBtn" style="display:none;">
+      <a class="rfa"  style="background-color:rgb(184, 23, 50);" onclick="topFunction()">
+        <i class="fa fa-arrow-up" style="margin-top:0.4em; color:white;"></i>
+      </a>
+    </li>
     <li class="ani">
       <a class="rfa" style="background-color:#17A2B8;" data-toggle="modal" data-target="#reportForm">
         <i class="fa fa-plus" style="margin-top:0.4em; color:white;"></i>
       </a>
     </li>
 </ul>
+<script>
+    $(document).ready(function () {
+      weather.init();
+    });
+  </script>
+  <script>
+    $('.ani').mouseenter(function () {
+      $(this).addClass("animated rubberBand");
+    }).mouseleave(function () {
+      $(this).removeClass("animated rubberBand");
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(window).scrollTop() >= 500) { //向下滾動數值大於該值時，即出現小火箭
+          $('#myBtn').fadeIn(300); //淡入: 越小出現越快
+        } else {
+          $('#myBtn').fadeOut(300); //淡出: 越小消失越快
+        }
+      });
+      $('#myBtn').click(function () {
+        $('html,body').animate({
+          scrollTop: '0px'
+        }, 800);
+      }); //火箭停留時間: 越小消失的越快
+      $('#myBtn2').click(function () {
+        $('html,body').animate({
+          scrollTop: '0px'
+        }, 800);
+      }); //火箭停留時間: 越小消失的越快
+    });
+  </script>
