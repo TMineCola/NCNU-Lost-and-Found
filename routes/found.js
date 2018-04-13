@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config/env');
 var moment = require('moment');
+var controller = require('./middleware/login');
 
 /* 檢測ID是否存在 */
 function _CheckID(db, id) {
@@ -163,10 +164,9 @@ router.get('/state/:state', function(req, res, next) {
 });
 
 /* 新增拾獲物 */
-router.post('/', function(req, res, next) {
+router.post('/',function(req, res, next) {
   let db = req.dbstatus;
   let foundObj = req.body;
-
   let time_LB = foundObj.time_interval_LB;
   let time_UB = foundObj.time_interval_UB;
   /* 處理時間上下限相反的情況 */
@@ -183,6 +183,7 @@ router.post('/', function(req, res, next) {
     "registered_time": moment().toISOString(true),
     "time_interval_LB": time_LB,
     "time_interval_UB": time_UB,
+    /*"registrant_id": req.user.id,*/
     "description": foundObj.description,
     "image": foundObj.image,
     "deleteHash": foundObj.deleteHash
@@ -194,7 +195,7 @@ router.post('/', function(req, res, next) {
   };
   let CheckNum = 0;
   for(index in values) {
-    if(foundObj[index] == undefined && foundObj[index] != '' && index != "description" && index != "registered_time") {
+    if(foundObj[index] == undefined && foundObj[index] != '' && index != "description" && index != "registered_time" /*&& index != "registrant_id"*/) {
       LessObj.message += index + ",";
       CheckNum ++;
     } else if(index == "time_interval_LB" || index == "time_interval_UB"){
@@ -222,7 +223,7 @@ router.post('/', function(req, res, next) {
 });
 
 /* 修改拾獲物資訊 */
-router.patch('/:id', function(req, res, next) {
+router.patch('/:id',function(req, res, next) {
   let db = req.dbstatus;
   let found_id = req.params.id;
   let foundObj = req.body;
