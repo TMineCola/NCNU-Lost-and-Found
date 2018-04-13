@@ -6,15 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="國立暨南國際大學遺失物系統">
+    <link href="css/loading.css" rel="stylesheet">
     <title>拾獲物品</title>
     <% include ../partials/bootstrap_css %>
 </head>
 
 <body>
-    <% include ../partials/navBar %>
+    <% include ../partials/loading %>
     <!-- 下面的inclue若出錯可放回container下方，
-        放上來，是因為，loading順序 -->
-    <% include ../partials/bootstrap_js %>
+      放上來，是因為，loading順序 -->
+      <% include ../partials/bootstrap_js %>
+      <script>
+        var loading = {
+          start: function () {
+            $('#loading-wrapper').show();
+          },
+          complete: function () {
+            $('#loading-wrapper').hide();
+          }
+        };
+        loading.start();
+        </script>
+    <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
     <% include ../partials/jqueryUi %>
     <% include ../partials/categories %>
@@ -27,7 +40,7 @@
             <% include ../partials/page_wishlist %>
         </div>
     </div>
-
+    
     <script>
         var app = new Vue({
             el: '#found',
@@ -214,6 +227,7 @@
                     }
                 },
                 imageUpload (imageFile) {
+                    loading.start();
                     let formData = new FormData();
                     formData.append('image', imageFile);
                     // 正要上傳,狀態改為是
@@ -241,6 +255,7 @@
                             this.formData.image.uploading = false;
                         }
                     });
+                    loading.complete();
                 },
                 editFound() {
                     this.feedBack.submited = 0;
@@ -430,6 +445,9 @@
                 }
             }
         })
+    </script>
+    <script>
+      setTimeout("loading.complete()", 1000 );
     </script>
 </body>
 
