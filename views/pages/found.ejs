@@ -104,6 +104,17 @@
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
                 },
+                timeFormat(time) {
+                    if (time == 12) {
+                        return "12:00 PM";
+                    } else if (time == 0) {
+                        return "00:00 AM";
+                    } else if (time > 12) {
+                        return (time - 12) + ":00 PM";
+                    } else {
+                        return time + ":00 PM";
+                    }
+                },
                 formIsEmpty (obj) {
                     // 檢查傳入的物件是否有value沒填
                     // 若為空則將將noValid改為是 反之則否
