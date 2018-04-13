@@ -123,31 +123,31 @@ app.use(function(req, res, next) {
 
 // 網頁路由
 app.get('/', function(req, res) {
-  res.render('pages/index', { user : req.user });
+  res.render('pages/index', { user : req.user, page_name : 'index' });
 });
 app.get('/found', function(req, res) {
-  res.render('pages/found', { user : req.user });
+  res.render('pages/found', { user : req.user, page_name : 'found' });
 });
 app.get('/lost', function(req, res) {
-  res.render('pages/lost', { user : req.user });
+  res.render('pages/lost', { user : req.user, page_name : 'lost' });
 });
 app.get('/expired', function(req, res) {
-  res.render('pages/expired', { user : req.user });
+  res.render('pages/expired', { user : req.user, page_name : 'expired' });
 });
 app.get('/claim', function(req, res) {
-  res.render('pages/claim', { user : req.user });
+  res.render('pages/claim', { user : req.user, page_name : 'claim' });
 });
 app.get('/contact', function(req, res) {
-  res.render('pages/contact', { user : req.user });
+  res.render('pages/contact', { user : req.user, page_name : 'contact' });
 });
 app.get('/editor_found', function(req, res) {
-    res.render('pages/editor_found', { user : req.user });
+    res.render('pages/editor_found', { user : req.user, page_name : 'editor_found' });
 });
 app.get('/wishlist_form', function(req, res) {
-    res.render('pages/wishlist_form', { user : req.user });
+    res.render('pages/wishlist_form', { user : req.user, page_name : 'wishlish_form' });
 });
 app.get('/lost_form', function(req, res) {
-    res.render('pages/lost_form', { user : req.user });
+    res.render('pages/lost_form', { user : req.user, page_name : 'lost_form' });
 });
 
 // 驗證路由
