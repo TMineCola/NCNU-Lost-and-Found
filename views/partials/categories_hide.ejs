@@ -253,31 +253,42 @@ button.quicklink_link {
   </div>
   <script type="text/javascript">
     $(document).ready(function () {
-      console.log("test");
-      $('#try').on("click", '#btn-toggleSetting', function () {
+    /*
+     * toggle categories 開關 function
+     * <------ Start ----->
+     */
+      function hideCategories() {
         $("body").find("#test").removeClass("tool_visible");
         $("body").find("#blur").removeClass("blur");
         $("body").find("#test").addClass("tool_invisible");
         $("body").find("#btn-toggleSetting").remove();
         $("body").find("#try").append(
           '<div id="btn-toggleSetting_open"><i class="fa fa-arrow-down text-white" aria-hidden="true"></i></div>');
-      });
-      $('#try').on("click", '#btn-toggleSetting_open', function () {
+      }
+      function showCategories() {
         $("body").find("#test").removeClass("tool_invisible");
         $("body").find("#blur").addClass("blur");
         $("body").find("#test").addClass("tool_visible");
         $("body").find("#btn-toggleSetting_open").remove();
         $("body").find("#try").append(
           '<div id="btn-toggleSetting"><i class="fa fa-arrow-up text-white" aria-hidden="true"></i></div>');
-      });
-      $('.quicklink_link').click(function(){
-        console.log("JQUERY ");
-        $("body").find("#test").removeClass("tool_visible");
-        $("body").find("#blur").removeClass("blur");
-        $("body").find("#test").addClass("tool_invisible");
-        $("body").find("#btn-toggleSetting").remove();
-        $("body").find("#try").append(
-          '<div id="btn-toggleSetting_open"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>');
+      }
+      /*
+       * <------ End ----->
+       */
+
+        //點擊toggle執行
+        $('#try').on("click", '#btn-toggleSetting', hideCategories);
+        $('#try').on("click", '#btn-toggleSetting_open', showCategories);
+
+        //點擊categories's link後執行
+        $('.quicklink_link').click(hideCategories);
+        //滑動視窗後執行
+        var run = 0;
+        $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) { //向下滾動數值大於該值時，即出現小火箭
+          while(run!=1){ hideCategories(); run++ }
+        }
       });
       // 當關鍵字輸入後存到vue中做過濾
       $("#keyWordGo").click(function () {
