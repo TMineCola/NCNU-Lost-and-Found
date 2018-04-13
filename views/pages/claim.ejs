@@ -83,7 +83,9 @@
                 feedBack: {
                     submited: 0,
                     isError: 0
-                }
+                },
+                // 分頁索引
+                dataIndex: 1
             },
             // 網頁載入完成
             created: function () {
@@ -101,6 +103,28 @@
             methods: {
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
+                },
+                timeFormat(time) {
+                    if (time == 12) {
+                        return "12:00 PM";
+                    } else if (time == 0) {
+                        return "00:00 AM";
+                    } else if (time > 12) {
+                        return (time - 12) + ":00 PM";
+                    } else {
+                        return time + ":00 PM";
+                    }
+                },
+                checkEnd() {
+                    // 查看下一頁是否已經到最後一頁
+                    let tmp = this.dataIndex + 1;
+                    let tmpp = this.sortByTime.slice((tmp * 10) - 10, tmp * 10);
+                    // console.log(tmpp.length);
+                    if (tmpp.length == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 },
                 formIsEmpty(obj) {
                     // 檢查傳入的物件是否有value沒填
@@ -380,6 +404,9 @@
                             }
                         );
                     }
+                },
+                finalData () {
+                    return this.sortByTime.slice((this.dataIndex * 10) - 10, this.dataIndex * 10);
                 }
             }
         })
