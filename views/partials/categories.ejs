@@ -281,12 +281,14 @@ button.quicklink_link {
     //點擊toggle執行
     $('#try').on("click", '#btn-toggleSetting', hideCategories);
     $('#try').on("click", '#btn-toggleSetting_open', showCategories);
+
     //點擊categories's link後執行
     $('.quicklink_link').click(hideCategories);
+    
     //滑動視窗後執行
     var run = 0;
     $(window).scroll(function () {
-      if ($(window).scrollTop() > 100) { //向下滾動數值大於該值時，即出現小火箭
+      if ($(window).scrollTop() > 50) { //向下滾動數值大於該值時，即出現小火箭
         while(run!=1){ hideCategories(); run++ }
       }
     });
