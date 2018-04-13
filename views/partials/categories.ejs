@@ -253,6 +253,7 @@ button.quicklink_link {
 </div>
 <script type="text/javascript">
   $(document).ready(function () {
+    var run = 0;
     /*
      * toggle categories 開關 function
      * <------ Start ----->
@@ -272,6 +273,7 @@ button.quicklink_link {
       $("body").find("#btn-toggleSetting_open").remove();
       $("body").find("#try").append(
         '<div id="btn-toggleSetting"><i class="fa fa-arrow-up text-white" aria-hidden="true"></i></div>');
+      run = 0;
     }
 
     /*
@@ -286,7 +288,7 @@ button.quicklink_link {
     $('.quicklink_link').click(hideCategories);
     
     //滑動視窗後執行
-    var run = 0;
+    
     $(window).scroll(function () {
       if ($(window).scrollTop() > 50) { //向下滾動數值大於該值時，即出現小火箭
         while(run!=1){ hideCategories(); run++ }
