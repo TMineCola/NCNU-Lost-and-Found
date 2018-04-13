@@ -17,7 +17,7 @@
 </div>
 <div class="row">
     <template v-if="searchKeyWord.length!=0">
-        <div class="col-12" v-for="list in sortByTime">
+        <div class="col-12" v-for="list in finalData">
             <div class="row border rounded mb-2 p-2">
                 <div class="col-md-3 mb-2 mb-md-0">
                     <!-- <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap"> -->
@@ -61,4 +61,23 @@
             </div>
         </div>
     </template>
+    <div class="col-12 text-center mb-3" v-if="finalData.length != 0">
+        <a href="#" class="btn btn-light" @click="dataIndex=dataIndex+1" v-if="dataIndex==1 && (!checkEnd())">下一頁</a>
+        <div v-else-if="dataIndex>1">
+            <a href="#" class="btn btn-light" @click="dataIndex=dataIndex-1">上一頁</a>
+            <span class="text-white bg-info" style="
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            ">第 {{ dataIndex }} 頁</span>
+            <a href="#" class="btn btn-light" @click="dataIndex=dataIndex+1" v-if="(!checkEnd())">下一頁</a>
+        </div>
+    </div>
 </div>
