@@ -9,11 +9,16 @@
     </nav>
 </div>
 <div class="col-12 mb-3">
-    時間排序
-    <select v-model.number="timeSort">
-        <option value=1>新 => 舊</option>
-        <option value=0>舊 => 新</option>
-    </select>
+    <span>
+        約有 {{ searchKeyWord.length }} 筆資料
+    </span>
+    <span>
+        時間排序
+        <select v-model.number="timeSort">
+            <option value=1>新 => 舊</option>
+            <option value=0>舊 => 新</option>
+        </select>
+    </span>
 </div>
 <div class="row">
     <template v-if="searchKeyWord.length!=0">
