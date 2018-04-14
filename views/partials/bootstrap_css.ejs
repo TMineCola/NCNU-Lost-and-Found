@@ -18,9 +18,9 @@
   div.card_shadow {
     box-shadow: 1px 2px 3px #888888;
 }
-  .mobile-view {
+  /* .mobile-view {
     display:none;
-  }
+  } */
 </style>
 
 <style>
@@ -38,18 +38,23 @@
       right: 0;
       width: 100%;
       z-index: 1;
-      transition: all .5s;
+      /* transition: all .5s; */
+      background-image: radial-gradient(ellipse farthest-corner at center bottom, rgba(5, 176, 255, 0.6) 5%, #000 100%);
+      -webkit-transition: all 0.7s ease-in-out;
+       -moz-transition: all 0.7s ease-in-out;
+        -ms-transition: all 0.7s ease-in-out;
+         -o-transition: all 0.7s ease-in-out;
+            transition: all 0.7s ease-in-out;
     }
     .tool_visible {
       top: 0px;
-      background-image: radial-gradient(ellipse farthest-corner at center bottom, rgba(5, 176, 255, 0.6) 5%, #000 100%);
       background-size: 100% 100%;
       background-attachment: fixed;
       /* https://codepen.io/Griggy/pen/ZLpbLB */
+      
     }
   
     .tool_invisible {
-      background-color:rgba(23, 162, 184, 0.6);
       top: -394px;
       /* transition: all .5s; */
       color: white;
@@ -151,6 +156,8 @@
       position:fixed;
       top:0px;
       padding: 0!important;
+      transition: all .5s;
+
     }
     #btn-toggle-board:hover,
     #btn-toggle-board:focus {
@@ -212,7 +219,7 @@
 
 
 <style>
-  @media only screen and (max-width: 576px) {
+  @media only screen and (max-width: 600px) {
     .mobile-view {
       position: fixed;
       bottom: 10px;
