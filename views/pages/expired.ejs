@@ -15,8 +15,8 @@
     <% include ../partials/loading %>
     <!-- 下面的inclue若出錯可放回container下方，
       放上來，是因為，loading順序 -->
-      <% include ../partials/bootstrap_js %>
-      <script>
+    <% include ../partials/bootstrap_js %>
+    <script>
         var loading = {
           start: function () {
             $('#loading-wrapper').show();
@@ -26,10 +26,9 @@
           }
         };
         loading.start();
-        </script>
+    </script>
     <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
-    <% include ../partials/jqueryUi %>
     <% include ../partials/categories_hide %>
     <div class="container" style="margin-top: 90px">
         <h1>逾期清單：（超過6個月後，物品所有權歸拾得人所有喔）</h1>
@@ -38,6 +37,7 @@
             <% include ../partials/page %>
         </div>
     </div>
+    <% include ../partials/jqueryUi %>
 
     <script>
         var app = new Vue({
@@ -368,9 +368,11 @@
                 chosenLists () {
                     // 有分總類
                     if(this.chosenClass == 9){
+                        this.dataIndex = 1;
                         return this.lists;
                     }
                     if(this.chosenClass != 0){
+                        this.dataIndex = 1;
                         return this.lists.filter((val) => {
                             return val.classification_id == this.chosenClass;
                         });

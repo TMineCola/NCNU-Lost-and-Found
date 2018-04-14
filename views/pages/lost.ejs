@@ -322,13 +322,14 @@
                             this.formData.image.deleteHash = imageDEL;
                             // 上傳完成,狀態改為否
                             this.formData.image.uploading = false;
+                            loading.complete();
                         } else {
                             console.log(response);
                             this.feedBack.isError = 1;
                             this.formData.image.uploading = false;
+                            loading.complete();
                         }
                     });
-                    loading.complete();
                 },
                 editFound() {
                     this.feedBack.submited = 0;

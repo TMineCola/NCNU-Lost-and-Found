@@ -29,7 +29,6 @@
     </script>
     <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
-    <% include ../partials/jqueryUi %>
     <% include ../partials/categories_hide %>
     <div class="container" style="margin-top: 90px">
         <h1>公開招領：（7日內限時認領，逾期物品將由行政處置）</h1>
@@ -38,6 +37,7 @@
             <% include ../partials/page %>
         </div>
     </div>
+    <% include ../partials/jqueryUi %>
 
     <script>
         var app = new Vue({
@@ -368,9 +368,11 @@
                 chosenLists () {
                     // 有分總類
                     if(this.chosenClass == 9){
+                        this.dataIndex = 1;
                         return this.lists;
                     }
                     if(this.chosenClass != 0){
+                        this.dataIndex = 1;
                         return this.lists.filter((val) => {
                             return val.classification_id == this.chosenClass;
                         });
