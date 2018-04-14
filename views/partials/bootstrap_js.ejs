@@ -6,3 +6,68 @@
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
 <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+  var run = 0;
+  /*
+   * toggle categories 開關 function
+   * <------ Start ----->
+   */
+    function hideCategories() {
+      $("body").find("#categories_main").removeClass("tool_visible");
+      $("body").find("#blur").removeClass("blur");
+      $("body").find("#categories_main").addClass("tool_invisible");
+      $("body").find("#btn-toggle-up").remove();
+      $("body").find("#btn-toggle-board").append(
+        '<div id="btn-toggle-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>');
+      run++
+    }
+    function showCategories() {
+      $("body").find("#categories_main").removeClass("tool_invisible");
+      $("body").find("#blur").addClass("blur");
+      $("body").find("#categories_main").addClass("tool_visible");
+      $("body").find("#btn-toggle-down").remove();
+      $("body").find("#btn-toggle-board").append(
+        '<div id="btn-toggle-up"><i class="fa fa-arrow-up text-white" aria-hidden="true"></i></div>');
+      run = 0;
+    }
+    /*
+     * <------ End ----->
+     */
+
+      //點擊toggle執行
+      $('#btn-toggle-board').on("click", '#btn-toggle-up', hideCategories);
+      $('#btn-toggle-board').on("click", '#btn-toggle-down', showCategories);
+
+      //點擊categories's link後執行
+      $('.cfc_link').click(hideCategories);
+
+      //滑動視窗後執行
+      $(window).scroll(function () {
+      if ($(window).scrollTop() > 50) { //向下滾動數值大於該值時，即出現小火箭
+        // if(run!=1){ hideCategories(); }
+        while(run!=1){ hideCategories(); }
+      }
+    });
+    // 當關鍵字輸入後存到vue中做過濾
+    $("#keyWordGo").click(function () {
+      app.keyWord = $("#keyWord").val();
+    });
+    $("#keyWord").keyup(function (e) {
+      // enter
+      if(e.keyCode == 13){
+        app.keyWord = $("#keyWord").val();
+      }
+    });
+
+    // Sorry about bad spacing. Also...this is jquery if you didn't notice allready.
+    $(".cfc_hover").hover(function(){
+    //On Hover - Works on ios
+        $(this).css("opacity", "1");
+    }, function(){
+        //Hover Off - Hover off doesn't seem to work on iOS
+        $(this).css("opacity", "0");
+    })
+  });
+</script>
