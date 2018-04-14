@@ -62,7 +62,7 @@
             </div>
         </div>
     </template>
-    <div class="col-12 text-center mb-3 mobile" v-if="finalData.length != 0">
+    <div class="col-12 text-center mb-3 mobile" v-if="searchKeyWord.length != 0">
         <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="dataIndex==1 && (!checkEnd())">下一頁</a>
         <div v-else-if="dataIndex>1">
             <a href="#" class="btn btn-light mobile-view mobile-previous" @click="dataIndex=dataIndex-1">上一頁</a>
