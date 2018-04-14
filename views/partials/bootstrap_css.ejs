@@ -18,6 +18,9 @@
   div.card_shadow {
     box-shadow: 1px 2px 3px #888888;
 }
+  .mobile-view {
+    display:none;
+  }
 </style>
 
 <style>
@@ -149,12 +152,14 @@
       top:0px;
       padding: 0!important;
     }
-    #btn-toggle-board:hover {
+    #btn-toggle-board:hover,
+    #btn-toggle-board:focus {
       /* background-color: #e2e2e2; */
       background-color: #0000007a;
       color: white;
       border-bottom-left-radius: 25px;
       border-bottom-right-radius:25px;
+      cursor: pointer;
     }
     @keyframes colours {
       0% {color: rgb(255, 255, 255);}
@@ -204,3 +209,32 @@
       font-size:20pt;
     }
   </style>
+
+
+<style>
+  @media only screen and (max-width: 576px) {
+    .mobile-view {
+      position: fixed;
+      bottom: 10px;
+      font-size: 8pt !important;
+      line-height: 8pt !important;
+      border-radius: 25px;
+      border: 0px;
+      background-color: rgba(0, 0, 0, 0.5)!important;
+      color: white !important;
+      display:block;
+    }
+    .mobile-next {
+      right: 20%;
+    }
+    .mobile-current {
+      left: 35%;
+      right: 35%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    .mobile-previous {
+      left: 20%;
+    }
+  }
+</style>

@@ -19,8 +19,9 @@
     border-radius: 50%!important;
     cursor: pointer;
 }
-  .rfa:hover {
+  .rfa:hover,.rfa:focus {
     background-color: #555!important;
+    cursor: pointer;
   }
 </style>
 
@@ -103,5 +104,6 @@
           scrollTop: '0px'
         }, 800);
       }); //火箭停留時間: 越小消失的越快
+      document.body.addEventListener('touchstart', function () { });  
     });
   </script>
