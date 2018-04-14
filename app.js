@@ -57,11 +57,8 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
             console.log("Could not find such user, then add");
             let userObj = {
               "id": profile.id,
-              "name": profile.displayName,
+              "name": profile.displayName
             };
-            if(accessToken != undefined || accessToken != '') {
-                userObj['access_token'] = accessToken;
-            }
             if(profile.emails != undefined) {
               userObj['email'] = profile.emails[0].value;
             }
@@ -161,14 +158,6 @@ app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
-// 檢驗是否登入 middle ware
-function isLoggedIn(req, res, next) {
-  if(req.isAuthenticated()) {
-    return next();
-  }
-  res.render('尚未登入');
-}
 
 // API路由
 app.use('/api/lost', lost);
