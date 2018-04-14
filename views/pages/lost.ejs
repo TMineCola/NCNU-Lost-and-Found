@@ -472,7 +472,8 @@
                         return this.lists.filter((val) => {
                             str = val.name + val.location + val.description;
                             for (let value of tmp) {
-                                return str.match(value) != null;
+                              var test1 = new RegExp(value, "i");
+                                return str.match(test1) != null;
                             }
                         });
                     } else if (this.chosenClass != 0 && this.keyWord.length != 0){
@@ -482,7 +483,8 @@
                         return this.chosenLists.filter((val) => {
                             str = val.name + val.location + val.description;
                             for (let value of tmp) {
-                                return str.match(value) != null;
+                              var test1 = new RegExp(value, "i");
+                                return str.match(test1) != null;
                             }
                         });
                     }
