@@ -103,7 +103,7 @@
                 dataIndex: 1
             },
             // 載入前就先發ajax
-            beforeCreate: function () {
+            created: function () {
                 var self = this;
                 axios.get('/api/found/state/0')
                     .then(function (response) {
@@ -126,6 +126,12 @@
                                 // 待加入跳轉到404頁面
                             });
                     });
+            },
+            beforeUpdate: function(){
+                window.loading.start();
+            },
+            updated: function(){
+                window.loading.complete();
             },
             methods: {
                 textIsEmpty (text) {
@@ -510,9 +516,6 @@
                 }
             }
         })
-    </script>
-    <script>
-      setTimeout("loading.complete()", 1000 );
     </script>
 </body>
 

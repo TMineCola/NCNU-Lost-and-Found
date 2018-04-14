@@ -115,6 +115,12 @@
                         // 待加入跳轉到404頁面
                     });
             },
+            beforeUpdate: function () {
+                window.loading.start();
+            },
+            updated: function () {
+                window.loading.complete();
+            },
             methods: {
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
@@ -465,9 +471,6 @@
                 }
             }
         })
-    </script>
-    <script>
-      setTimeout("loading.complete()", 1000 );
     </script>
 </body>
 
