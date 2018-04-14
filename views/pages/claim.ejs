@@ -100,8 +100,8 @@
                 // 分頁索引
                 dataIndex: 1
             },
-            // 網頁載入完成
-            created: function () {
+            // 載入前就先發ajax
+            beforeCreate: function () {
                 var self = this;
                 axios.get('/api/found/state/5')
                     .then(function (response) {
