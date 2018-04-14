@@ -102,8 +102,8 @@
                 // 分頁索引
                 dataIndex: 1
             },
-            // 網頁載入完成
-            created: function () {
+            // 載入前就先發ajax
+            beforeCreate: function () {
                 var self = this;
                 axios.get('/api/lost/')
                     .then(function (response) {
@@ -114,6 +114,12 @@
                         console.log(error);
                         // 待加入跳轉到404頁面
                     });
+            },
+            beforeUpdate: function () {
+                window.loading.start();
+            },
+            updated: function () {
+                window.loading.complete();
             },
             methods: {
                 textIsEmpty (text) {
@@ -262,13 +268,14 @@
                             this.formData.image.deleteHash = imageDEL;
                             // 上傳完成,狀態改為否
                             this.formData.image.uploading = false;
+                            loading.complete();
                         } else {
                             console.log(response);
                             this.feedBack.isError = 1;
                             this.formData.image.uploading = false;
+                            loading.complete();
                         }
                     });
-                    loading.complete();
                 },
                 editFound() {
                     this.feedBack.submited = 0;
@@ -464,9 +471,6 @@
                 }
             }
         })
-    </script>
-    <script>
-      setTimeout("loading.complete()", 1000 );
     </script>
 </body>
 
