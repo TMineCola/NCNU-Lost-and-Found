@@ -29,7 +29,6 @@
     </script>
     <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
-    <% include ../partials/jqueryUi %>
     <% include ../partials/categories %>
     <% include ../partials/add %>
     <div class="container" style="margin-top: 90px">
@@ -40,7 +39,8 @@
             <% include ../partials/page_wishlist %>
         </div>
     </div>
-    
+    <% include ../partials/jqueryUi %>
+
     <script>
         var app = new Vue({
             el: '#found',
@@ -404,9 +404,11 @@
                 chosenLists () {
                     // 有分總類
                     if(this.chosenClass == 9){
+                        this.dataIndex = 1;
                         return this.lists;
                     }
                     else if(this.chosenClass != 0){
+                        this.dataIndex = 1;
                         return this.lists.filter((val) => {
                             return val.classification_id == this.chosenClass;
                         });

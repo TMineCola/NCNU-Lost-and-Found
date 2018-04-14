@@ -6,7 +6,8 @@
     right: 10px;
     z-index: 998;
     list-style: none;
-}
+  }
+
   .rfa {
     display: inline-block;
     border: 0;
@@ -14,96 +15,93 @@
     height: 50px;
     /* text-align:center; */
     font-size: 30px;
-    text-align: center!important;
-    margin: 5px 2px!important;
-    border-radius: 50%!important;
+    text-align: center !important;
+    margin: 5px 2px !important;
+    border-radius: 50% !important;
     cursor: pointer;
-}
-  .rfa:hover,.rfa:focus {
-    background-color: #555!important;
+  }
+
+  .rfa:hover,
+  .rfa:focus {
+    background-color: #555 !important;
     cursor: pointer;
   }
 </style>
 
 <ul class="share">
-    <!-- <li class="ani d-none d-md-block"> -->
-    <li class="ani" id="myBtn" style="display:none;">
-      <a class="rfa"  style="background-color:rgb(184, 23, 50);" onclick="topFunction()">
-        <i class="fa fa-arrow-up" style="margin-top:0.4em; color:white;"></i>
+  <!-- <li class="ani d-none d-md-block"> -->
+  <li class="ani" id="myBtn" style="display:none;">
+    <a class="rfa" style="background-color:rgb(184, 23, 50);" onclick="topFunction()">
+      <i class="fa fa-arrow-up" style="margin-top:0.4em; color:white;"></i>
+    </a>
+  </li>
+  <li class="ani">
+    <% if(!user) { %>
+      <a class="rfa" style="background-color:#17A2B8;" data-toggle="modal" data-target="#loginModal2">
+        <i class="fa fa-plus" style="margin-top:0.4em; color:white;"></i>
       </a>
-    </li>
-    <li class="ani">
-      <% if(!user) { %>
-        <a class="rfa" style="background-color:#17A2B8;" data-toggle="modal" data-target="#loginModal2">
-          <i class="fa fa-plus" style="margin-top:0.4em; color:white;"></i>
-        </a>
-        <!-- Modal -->
-        <div class="modal fade" id="loginModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">請選擇登錄方式</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
-                  role="button" title="Facebook">
-                  <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
-                  <span>使用&nbsp;Facebook&nbsp;登錄</span>
-                </a>
-                <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
-                  role="button" title="Google">
-                  <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
-                  <span>使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
-                </a>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消登錄</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-              </div>
+      <!-- Modal -->
+      <div class="modal fade" id="loginModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">請選擇登錄方式</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
+                role="button" title="Facebook">
+                <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
+                <span>使用&nbsp;Facebook&nbsp;登錄</span>
+              </a>
+              <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
+                role="button" title="Google">
+                <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
+                <span>使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
+              </a>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">取消登錄</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
           </div>
         </div>
+      </div>
       <% } else { %>
         <a class="rfa" style="background-color:#17A2B8;" data-toggle="modal" data-target="#reportForm">
           <i class="fa fa-plus" style="margin-top:0.4em; color:white;"></i>
         </a>
-      <% } %>
-    </li>
+        <% } %>
+  </li>
 </ul>
 <script>
-    $(document).ready(function () {
-      weather.init();
+  $('.ani').mouseenter(function () {
+    $(this).addClass("animated rubberBand");
+  }).mouseleave(function () {
+    $(this).removeClass("animated rubberBand");
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $(window).scroll(function () {
+      if ($(window).scrollTop() >= 500) { //向下滾動數值大於該值時，即出現小火箭
+        $('#myBtn').fadeIn(300); //淡入: 越小出現越快
+      } else {
+        $('#myBtn').fadeOut(300); //淡出: 越小消失越快
+      }
     });
-  </script>
-  <script>
-    $('.ani').mouseenter(function () {
-      $(this).addClass("animated rubberBand");
-    }).mouseleave(function () {
-      $(this).removeClass("animated rubberBand");
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      $(window).scroll(function () {
-        if ($(window).scrollTop() >= 500) { //向下滾動數值大於該值時，即出現小火箭
-          $('#myBtn').fadeIn(300); //淡入: 越小出現越快
-        } else {
-          $('#myBtn').fadeOut(300); //淡出: 越小消失越快
-        }
-      });
-      $('#myBtn').click(function () {
-        $('html,body').animate({
-          scrollTop: '0px'
-        }, 800);
-      }); //火箭停留時間: 越小消失的越快
-      $('#myBtn2').click(function () {
-        $('html,body').animate({
-          scrollTop: '0px'
-        }, 800);
-      }); //火箭停留時間: 越小消失的越快
-      document.body.addEventListener('touchstart', function () { });  
-    });
-  </script>
+    $('#myBtn').click(function () {
+      $('html,body').animate({
+        scrollTop: '0px'
+      }, 800);
+    }); //火箭停留時間: 越小消失的越快
+    $('#myBtn2').click(function () {
+      $('html,body').animate({
+        scrollTop: '0px'
+      }, 800);
+    }); //火箭停留時間: 越小消失的越快
+    document.body.addEventListener('touchstart', function () {});
+  });
+</script>
