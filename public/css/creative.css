@@ -184,6 +184,8 @@ header.masthead {
   padding-bottom: calc(10rem - 56px);
   background-image: url("../img/front1.jpg");
   background-position: center center;
+  /* https://www.webdesigns.com.tw/CSS-Parallax-Scrolling.asp */
+  /* https://www.w3schools.com/ryhow_css_parallax_demo.htm */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

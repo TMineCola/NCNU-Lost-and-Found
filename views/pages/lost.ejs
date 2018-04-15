@@ -29,7 +29,6 @@
         </script>
     <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
-    <% include ../partials/jqueryUi %>
     <% include ../partials/categories %>
     <% include ../partials/add %>
     <div class="container" style="margin-top: 90px">
@@ -40,6 +39,7 @@
             <% include ../partials/page %>
         </div>
     </div>
+    <% include ../partials/jqueryUi %>
 
     <script>
         var app = new Vue({
@@ -102,7 +102,7 @@
                 // 分頁索引
                 dataIndex: 1
             },
-            // 網頁載入完成
+            // 載入前就先發ajax
             created: function () {
                 var self = this;
                 axios.get('/api/found/state/0')
@@ -126,6 +126,12 @@
                                 // 待加入跳轉到404頁面
                             });
                     });
+            },
+            beforeUpdate: function(){
+                window.loading.start();
+            },
+            updated: function(){
+                window.loading.complete();
             },
             methods: {
                 textIsEmpty (text) {
@@ -322,13 +328,14 @@
                             this.formData.image.deleteHash = imageDEL;
                             // 上傳完成,狀態改為否
                             this.formData.image.uploading = false;
+                            loading.complete();
                         } else {
                             console.log(response);
                             this.feedBack.isError = 1;
                             this.formData.image.uploading = false;
+                            loading.complete();
                         }
                     });
-                    loading.complete();
                 },
                 editFound() {
                     this.feedBack.submited = 0;
@@ -450,9 +457,11 @@
                 chosenLists () {
                     // 有分總類
                     if(this.chosenClass == 9){
+                        this.dataIndex = 1;
                         return this.lists;
                     }
                     if(this.chosenClass != 0){
+                        this.dataIndex = 1;
                         return this.lists.filter((val) => {
                             return val.classification_id == this.chosenClass;
                         });
@@ -472,7 +481,8 @@
                         return this.lists.filter((val) => {
                             str = val.name + val.location + val.description;
                             for (let value of tmp) {
-                                return str.match(value) != null;
+                              var test1 = new RegExp(value, "i");
+                                return str.match(test1) != null;
                             }
                         });
                     } else if (this.chosenClass != 0 && this.keyWord.length != 0){
@@ -482,7 +492,8 @@
                         return this.chosenLists.filter((val) => {
                             str = val.name + val.location + val.description;
                             for (let value of tmp) {
-                                return str.match(value) != null;
+                              var test1 = new RegExp(value, "i");
+                                return str.match(test1) != null;
                             }
                         });
                     }
@@ -505,9 +516,6 @@
                 }
             }
         })
-    </script>
-    <script>
-      setTimeout("loading.complete()", 1000 );
     </script>
 </body>
 

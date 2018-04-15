@@ -1,3 +1,4 @@
+
 <div class="col-12">
     <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
@@ -5,15 +6,20 @@
                 <a href="#" @click.prevent="showAll">全部</a>
             </li>
             <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
+            <li class="ml-4"><span class="badge badge-info">共有 {{ searchKeyWord.length }} 筆資料</span></li>
         </ol>
     </nav>
 </div>
 <div class="col-12 mb-3">
-    時間排序
-    <select v-model.number="timeSort">
-        <option value=1>新 => 舊</option>
-        <option value=0>舊 => 新</option>
-    </select>
+  <span class="badge">
+      <img src="../img/sort_logo-01.png"style="max-height:40px;"/>
+      <!-- 時間排序 -->
+      <select v-model.number="timeSort" class="ml-2" style="height:40px;">
+          <option value=1>新 → 舊</option>
+          <option value=0>舊 → 新</option>
+      </select>
+      <!-- <template v-bind="timeSort.value=1"><img src="../img/sort_asc-01.png" style="max-height:40px;"/></template> -->
+  </span>
 </div>
 <div class="row">
     <template v-if="searchKeyWord.length!=0">
@@ -27,10 +33,10 @@
                     <h4 class="card-title">{{ list.name }}</h4>
                     <span class="badge badge-success mb-2">{{ classNumToText(list.classification_id) }}</span>
                     <span class="badge badge-secondary mb-2">{{ stateNumToText(list.state) }}</span>
-                    <p>{{ list.time_interval_LB.slice(0, 10).replace(/-/g,"/") }} <span class="badge badge-light">{{ timeFormat(list.time_interval_LB.slice(11, 13)) }}</span> ~ {{ list.time_interval_UB.slice(0, 10).replace(/-/g,"/") }} <span class="badge badge-light">{{ timeFormat(list.time_interval_UB.slice(11, 13)) }}</span></p>
+                    <p><span class="badge">{{ list.time_interval_LB.slice(0, 10).replace(/-/g,"/") }}</span> <span class="badge badge-light">{{ timeFormat(list.time_interval_LB.slice(11, 13)) }}</span> ~ <span class="badge">{{ list.time_interval_UB.slice(0, 10).replace(/-/g,"/") }} </span><span class="badge badge-light">{{ timeFormat(list.time_interval_UB.slice(11, 13)) }}</span></p>
                     <!-- <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
                         }}時</p> -->
-                    <p class="card-text d-none d-md-block">描述: {{ textIsEmpty(list.description) }}</p>
+                    <p class="card-text d-none d-md-block text-truncate "><span class="badge list_title">描述:</span><span class="badge ">{{ textIsEmpty(list.description) }}</span></span></p>
                     <p class="card-text text-truncate d-block d-md-none">
                         <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">描述
                             <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -42,8 +48,8 @@
                             {{ textIsEmpty(list.description) }}
                         </div>
                     </div>
-                    <p class="card-text text-truncate">拾獲地點: {{ textIsEmpty(list.location) }}</p>
-                    <p class="card-text text-truncate">目前地點: {{ departNumToText(list.department_id) }}</p>
+                    <p class="card-text text-truncate"><span class="badge list_title">拾獲地點:</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></span></p>
+                    <p class="card-text text-truncate"><span class="badge list_title">目前地點:</span> <span class="badge">{{ departNumToText(list.department_id) }}</span></span></p>
                     <% if(user) { %>
                     <div class="text-right">
                         <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
@@ -61,11 +67,11 @@
             </div>
         </div>
     </template>
-    <div class="col-12 text-center mb-3" v-if="finalData.length != 0">
-        <a href="#" class="btn btn-light" @click="dataIndex=dataIndex+1" v-if="dataIndex==1 && (!checkEnd())">下一頁</a>
+    <div class="col-12 text-center mb-3 mobile" v-if="searchKeyWord.length != 0">
+        <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="dataIndex==1 && (!checkEnd())">下一頁</a>
         <div v-else-if="dataIndex>1">
-            <a href="#" class="btn btn-light" @click="dataIndex=dataIndex-1">上一頁</a>
-            <span class="text-white bg-info" style="
+            <a href="#" class="btn btn-light mobile-view mobile-previous" @click="dataIndex=dataIndex-1">上一頁</a>
+            <span class="text-white bg-info mobile-view mobile-current" style="
             display: inline-block;
             font-weight: 400;
             text-align: center;
@@ -77,7 +83,7 @@
             font-size: 1rem;
             line-height: 1.5;
             ">第 {{ dataIndex }} 頁</span>
-            <a href="#" class="btn btn-light" @click="dataIndex=dataIndex+1" v-if="(!checkEnd())">下一頁</a>
+            <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="(!checkEnd())">下一頁</a>
         </div>
     </div>
 </div>
