@@ -164,8 +164,10 @@ var moment = require('moment');
   router.get('/:id', function(req, res, next) {
     if(req.params.id == "state") {
       res.status(404).send({"message": "未指定查詢狀態"});
+      return;
     } else if(req.params.id == "author") {
       res.status(404).send({"message": "未指定查詢建立者"});
+      return;
     }
     let db = req.dbstatus;
     let id = req.params.id;
@@ -329,6 +331,7 @@ var moment = require('moment');
       return;
     }).catch(errorObj => {
       res.status(404).send(errorObj);
+      return;
     });
   });
 
