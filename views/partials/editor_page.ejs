@@ -36,7 +36,7 @@
                     <p><span class="badge">{{ list.time_interval_LB.slice(0, 10).replace(/-/g,"/") }}</span> <span class="badge badge-light">{{ timeFormat(list.time_interval_LB.slice(11, 13)) }}</span> ~ <span class="badge">{{ list.time_interval_UB.slice(0, 10).replace(/-/g,"/") }} </span><span class="badge badge-light">{{ timeFormat(list.time_interval_UB.slice(11, 13)) }}</span></p>
                     <!-- <p>{{ new Date(list.time_interval_LB).toLocaleString().split(":")[0] }}時 ~ {{ new Date(list.time_interval_UB).toLocaleString().split(":")[0]
                         }}時</p> -->
-                    <p class="card-text d-none d-md-block text-truncate "><span class="badge list_title">描述:</span><span class="badge ">{{ textIsEmpty(list.description) }}</span></span></p>
+                    <p class="card-text d-none d-md-block"><span class="badge list_title">描述:</span><span class="badge" style="white-space: normal">{{ textIsEmpty(list.description) }}</span></p>
                     <p class="card-text text-truncate d-block d-md-none">
                         <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">描述
                             <i class="fa fa-caret-down" aria-hidden="true"></i>

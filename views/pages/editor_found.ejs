@@ -30,7 +30,7 @@
     <% include ../partials/categories %>
     <% include ../partials/add %>
     <div class="container" style="margin-top: 90px">
-        <h1>我的拾獲清單</h1>
+        <h1>我拾獲的物品</h1>
         <div id="lost">
             <% include ../partials/reportForm %>
             <% include ../partials/editForm %>
@@ -103,7 +103,7 @@
             // 載入前就先發ajax
             created: function () {
                 var self = this;
-                axios.get('/api/found/state/0')
+                axios.get('/api/found/author/<%= user.id %>')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
@@ -111,18 +111,6 @@
                     .catch(function (error) {
                         console.log(error);
                         // 待加入跳轉到404頁面
-                    }).then((res) => {
-                        axios.get('/api/found/state/1')
-                            .then(function (response) {
-                                console.log(response.data);
-                                for(let val of response.data){
-                                    self.lists.push(val);
-                                }
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                                // 待加入跳轉到404頁面
-                            });
                     });
             },
             beforeUpdate: function(){
