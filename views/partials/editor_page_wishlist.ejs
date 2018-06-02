@@ -37,7 +37,7 @@
                         }}</span>
                         <span class="badge badge-light">{{ timeFormat(list.time_interval_UB.slice(11, 13)) }}</span>
                     </p>
-                    <p class="card-text d-none d-md-block"><span class="badge list_title">描述:</span> <span class="badge" style="white-space: normal">{{ textIsEmpty(list.description) }}</span></p>
+                    <p class="card-text d-none d-md-block"><span class="badge list_title">描述:</span> <span class="badge" style="white-space: normal; text-align: left">{{ textIsEmpty(list.description) }}</span></p>
                     <p class="card-text text-truncate d-block d-md-none">
                         <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false"><span class="badge list_title">描述
 </span>                            <i class="fa fa-caret-down" aria-hidden="true"></i>
