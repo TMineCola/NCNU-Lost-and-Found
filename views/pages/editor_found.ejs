@@ -6,29 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="國立暨南國際大學遺失物系統">
-    <title>公開認領</title>
+    <title>我的清單</title>
     <% include ../partials/bootstrap_css %>
 </head>
-
 <body>
-    <% include ../partials/navBar %>
+    <% include ../partials/loading %>
     <!-- 下面的inclue若出錯可放回container下方，
-        放上來，是因為，loading順序 -->
-    <% include ../partials/bootstrap_js %>
+      放上來，是因為，loading順序 -->
+      <% include ../partials/bootstrap_js %>
+      <script>
+        var loading = {
+          start: function () {
+            $('#loading-wrapper').show();
+          },
+          complete: function () {
+            $('#loading-wrapper').hide();
+          }
+        };
+        loading.start();
+        </script>
+    <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
-    <% include ../partials/jqueryUi %>
-    <% include ../partials/categories_hide %>
+    <% include ../partials/categories %>
+    <% include ../partials/add %>
     <div class="container" style="margin-top: 90px">
-        <h1>管理者編輯清單：</h1>
-        <div id="editor">
+        <h1>我的拾獲清單</h1>
+        <div id="lost">
+            <% include ../partials/reportForm %>
             <% include ../partials/editForm %>
-            <% include ../partials/page %>
+            <% include ../partials/editor_page.ejs %>
         </div>
     </div>
+    <% include ../partials/jqueryUi %>
 
     <script>
         var app = new Vue({
-            el: '#editor',
+            el: '#lost',
             data: {
                 lists: '',
                 // 九封格分類
@@ -83,12 +96,14 @@
                 feedBack: {
                     submited: 0,
                     isError: 0
-                }
+                },
+                // 分頁索引
+                dataIndex: 1
             },
-            // 網頁載入完成
+            // 載入前就先發ajax
             created: function () {
                 var self = this;
-                axios.get('/api/found/')
+                axios.get('/api/found/state/0')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
@@ -96,11 +111,51 @@
                     .catch(function (error) {
                         console.log(error);
                         // 待加入跳轉到404頁面
+                    }).then((res) => {
+                        axios.get('/api/found/state/1')
+                            .then(function (response) {
+                                console.log(response.data);
+                                for(let val of response.data){
+                                    self.lists.push(val);
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                // 待加入跳轉到404頁面
+                            });
                     });
+            },
+            beforeUpdate: function(){
+                window.loading.start();
+            },
+            updated: function(){
+                window.loading.complete();
             },
             methods: {
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
+                },
+                timeFormat (time) {
+                    if(time == 12){
+                        return "12:00 PM";
+                    }else if(time == 0){
+                        return "00:00 AM";
+                    }else if(time > 12) {
+                        return (time - 12) + ":00 PM";
+                    }else{
+                        return time + ":00 PM";
+                    }
+                },
+                checkEnd() {
+                    // 查看下一頁是否已經到最後一頁
+                    let tmp = this.dataIndex + 1;
+                    let tmpp = this.sortByTime.slice((tmp * 10) - 10, tmp * 10);
+                    // console.log(tmpp.length);
+                    if (tmpp.length == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 },
                 formIsEmpty(obj) {
                     // 檢查傳入的物件是否有value沒填
@@ -136,6 +191,72 @@
                         }
                     }
                     return check;
+                },
+                createFound () {
+                    this.feedBack.submited = 0;
+                    this.feedBack.isError = 0;
+                    if(this.formIsEmpty(this.formData)){
+                        console.log("有東西");
+                        var self = this;
+                        let tmp1 = self.formData.date.value + " " + self.formData.timeLB.value;
+                        let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
+                        let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                        let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                        var self = this;
+                        if(self.formData.image.value == "ok"){
+                            self.imageUpload(self.formData.image.imgData).then((res) => {
+                                axios.post('/api/lost', {
+                                    "name": self.formData.name.value,
+                                    "classification_id": self.formData.fication.value,
+                                    "location": self.formData.location.value,
+                                    "time_interval_LB": time_LB,
+                                    "time_interval_UB": time_UB,
+                                    "description": self.formData.description.value,
+                                    "image": self.formData.image.value,
+                                    "deleteHash": self.formData.image.deleteHash
+                                })
+                                .then(function (response) {
+                                    console.log(response);
+                                    self.feedBack.submited = 1;
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    self.feedBack.isError = 1;
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                });
+                            });
+                        }else {
+                            axios.post('/api/lost', {
+                                "name": self.formData.name.value,
+                                "classification_id": self.formData.fication.value,
+                                "location": self.formData.location.value,
+                                "time_interval_LB": time_LB,
+                                "time_interval_UB": time_UB,
+                                "description": self.formData.description.value
+                            })
+                            .then(function (response) {
+                                console.log(response);
+                                self.feedBack.submited = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                self.feedBack.isError = 1;
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        }
+                    }else {
+                        console.log("有東西沒填");
+                    }
                 },
                 showAll () {
                     this.chosenClass = 0;
@@ -183,6 +304,7 @@
                     }
                 },
                 imageUpload(imageFile) {
+                    loading.start();
                     let formData = new FormData();
                     formData.append('image', imageFile);
                     // 正要上傳,狀態改為是
@@ -204,10 +326,12 @@
                             this.formData.image.deleteHash = imageDEL;
                             // 上傳完成,狀態改為否
                             this.formData.image.uploading = false;
+                            loading.complete();
                         } else {
                             console.log(response);
                             this.feedBack.isError = 1;
                             this.formData.image.uploading = false;
+                            loading.complete();
                         }
                     });
                 },
@@ -217,14 +341,18 @@
                     if (this.formIsEmpty(this.formData)) {
                         console.log("有東西");
                         var self = this;
+                        let tmp1 = self.formData.date.value + " " + self.formData.timeLB.value;
+                        let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
+                        let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
+                        let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
                         if (self.formData.image.value == "ok") {
                             self.imageUpload(self.formData.image.imgData).then((res) => {
                                 axios.patch('/api/found/' + this.formData.id.value, {
                                     "name": self.formData.name.value,
                                     "classification_id": self.formData.fication.value,
                                     "location": self.formData.location.value,
-                                    "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                    "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                    "time_interval_LB": time_LB,
+                                    "time_interval_UB": time_UB,
                                     "description": self.formData.description.value,
                                     "image": self.formData.image.value,
                                     "deleteHash": self.formData.image.deleteHash
@@ -249,8 +377,8 @@
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
                                 "location": self.formData.location.value,
-                                "time_interval_LB": self.formData.date.value + "T" + self.formData.timeLB.value + ":00:00.000Z",
-                                "time_interval_UB": self.formData.date.value + "T" + self.formData.timeUB.value + ":00:00.000Z",
+                                "time_interval_LB": time_LB,
+                                "time_interval_UB": time_UB,
                                 "description": self.formData.description.value
                             })
                             .then(function (response) {
@@ -326,7 +454,12 @@
             computed: {
                 chosenLists () {
                     // 有分總類
+                    if(this.chosenClass == 9){
+                        this.dataIndex = 1;
+                        return this.lists;
+                    }
                     if(this.chosenClass != 0){
+                        this.dataIndex = 1;
                         return this.lists.filter((val) => {
                             return val.classification_id == this.chosenClass;
                         });
@@ -375,6 +508,9 @@
                             }
                         );
                     }
+                },
+                finalData () {
+                    return this.sortByTime.slice((this.dataIndex * 10) - 10, this.dataIndex * 10);
                 }
             }
         })

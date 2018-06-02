@@ -50,6 +50,12 @@
                         </div>
                     </div>
                     <p class="card-text text-truncate"><span class="badge list_title">地點:</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></p>
+                    <% if(user) { %>
+                    <div class="text-right">
+                        <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
+                        <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>

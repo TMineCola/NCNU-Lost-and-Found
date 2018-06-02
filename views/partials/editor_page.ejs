@@ -1,26 +1,25 @@
-<div class="row">
-    <div class="col-12">
-        <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="#" @click.prevent="showAll">全部</a>
-                </li>
-                <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
-                <li class="ml-4"><span class="badge badge-info">共有 {{ searchKeyWord.length }} 筆資料</span></li>
-            </ol>
-        </nav>
-    </div>
-    <div class="col-12 mb-3">
-      <span class="badge">
-          <img src="../img/sort_logo-01.png"style="max-height:40px;"/>
-          <!-- 時間排序 -->
-          <select v-model.number="timeSort" class="ml-2" style="height:40px;">
-              <option value=1>新 → 舊</option>
-              <option value=0>舊 → 新</option>
-          </select>
-          <!-- <template v-bind="timeSort.value=1"><img src="../img/sort_asc-01.png" style="max-height:40px;"/></template> -->
-      </span>
-    </div>
+
+<div class="col-12">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" @click.prevent="showAll">全部</a>
+            </li>
+            <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
+            <li class="ml-4"><span class="badge badge-info">共有 {{ searchKeyWord.length }} 筆資料</span></li>
+        </ol>
+    </nav>
+</div>
+<div class="col-12 mb-3">
+  <span class="badge">
+      <img src="../img/sort_logo-01.png"style="max-height:40px;"/>
+      <!-- 時間排序 -->
+      <select v-model.number="timeSort" class="ml-2" style="height:40px;">
+          <option value=1>新 → 舊</option>
+          <option value=0>舊 → 新</option>
+      </select>
+      <!-- <template v-bind="timeSort.value=1"><img src="../img/sort_asc-01.png" style="max-height:40px;"/></template> -->
+  </span>
 </div>
 <div class="row">
     <template v-if="searchKeyWord.length!=0">
@@ -51,6 +50,12 @@
                     </div>
                     <p class="card-text text-truncate"><span class="badge list_title">拾獲地點:</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></span></p>
                     <p class="card-text text-truncate"><span class="badge list_title">目前地點:</span> <span class="badge">{{ departNumToText(list.department_id) }}</span></span></p>
+                    <% if(user) { %>
+                    <div class="text-right">
+                        <a href="#" class="btn btn-secondary" @click.prevent="autoFillIn(list)" data-toggle="modal" data-target="#editForm">編輯</a>
+                        <a href="#" class="btn btn-danger" @click.prevent="delDetail(list.ID)">刪除</a>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>
