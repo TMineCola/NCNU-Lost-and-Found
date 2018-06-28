@@ -142,6 +142,9 @@ app.get('/contact', function(req, res) {
 app.get('/editor_found', function(req, res) {
     res.render('pages/editor_found', { user : req.user, page_name : 'editor_found' });
 });
+app.get('/editor_lost', function(req, res) {
+    res.render('pages/editor_lost', { user : req.user, page_name : 'editor_lost' });
+});
 app.get('/wishlist_form', function(req, res) {
     res.render('pages/wishlist_form', { user : req.user, page_name : 'wishlish_form' });
 });

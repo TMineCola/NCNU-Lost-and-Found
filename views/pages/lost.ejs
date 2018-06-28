@@ -32,7 +32,12 @@
     <% include ../partials/categories %>
     <% include ../partials/add %>
     <div class="container" style="margin-top: 90px">
-        <h1>招領清單：（你東西不見了嗎？希望能幫到你）</h1>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h1>東西不見了嗎</h1>
+                <div>回報前先看看有沒有人撿到您的東西吧 ^_^</div>
+            </div>
+        </div>
         <div id="lost">
             <% include ../partials/reportForm %>
             <% include ../partials/editForm %>
@@ -90,7 +95,7 @@
                         value: '',
                         uploading: false,
                         // 包好的 form data
-                        imgData: {},
+                        imgData: '',
                         deleteHash: ''
                     }
                 },
@@ -292,28 +297,26 @@
                             });
                     }
                 },
-                imageDataSave(e) {
-                    // 將上傳前的圖片資訊存起來,等待表單提交時上傳
-                    let imageFile = e.target.files[0];
-                    if (imageFile.type.indexOf('image/') == -1) {
-                        alert('It must be a image');
-                        return;
-                    } else {
-                        // 把圖片編碼存起來
-                        this.formData.image.imgData = imageFile;
-                        // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
-                        this.formData.image.value = "ok";
-                    }
-                },
+                // imageDataSave(e) {
+                //     // 將上傳前的圖片資訊存起來,等待表單提交時上傳
+                //     let imageFile = e.target.files[0];
+                //     if (imageFile.type.indexOf('image/') == -1) {
+                //         alert('It must be a image');
+                //         return;
+                //     } else {
+                //         // 把圖片編碼存起來
+                //         this.formData.image.imgData = imageFile;
+                //         // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
+                //         this.formData.image.value = "ok";
+                //     }
+                // },
                 imageUpload(imageFile) {
                     loading.start();
-                    let formData = new FormData();
-                    formData.append('image', imageFile);
                     // 正要上傳,狀態改為是
                     this.formData.image.uploading = true;
                     return fetch('https://api.imgur.com/3/image', {
                         method: 'post',
-                        body: formData,
+                        body: this.formData.image.imgData,
                         headers: new Headers({
                             'Authorization': 'Client-ID 3b927010e0363a1'
                         })
@@ -517,6 +520,7 @@
             }
         })
     </script>
+    <% include ../partials/local-resize-img %>
 </body>
 
 </html>
