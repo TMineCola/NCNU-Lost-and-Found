@@ -18,14 +18,14 @@ var con = mysql.createConnection({
   database: config.SQL_DB
 });
 
-  con.connect(function(err) {
-    if(err) {
-      console.log("MySQL連線失敗");
-      console.error(err);
-      return;
-    }
-    console.log("MySQL連線成功");
-  });
+con.connect(function(err) {
+  if(err) {
+    console.log("MySQL連線失敗");
+    console.error(err);
+    return;
+  }
+  console.log("MySQL連線成功");
+});
 
 /* 載入passport及facebook驗證 */
 var passport = require('passport');
@@ -89,6 +89,8 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 var lost = require('./routes/lost');
 var found = require('./routes/found');
 var contact = require('./routes/contact');
+var admin = require('./routes/admin');
+var account = require('./routes/account');
 
 var app = express();
 
@@ -163,6 +165,8 @@ app.get('/logout', function(req, res){
 app.use('/api/lost', lost);
 app.use('/api/found', found);
 app.use('/api/contact', contact);
+app.use('/api/admin', admin);
+app.use('/api/account', account);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
