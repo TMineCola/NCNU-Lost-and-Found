@@ -8,19 +8,22 @@
     <meta name="description" content="國立暨南國際大學遺失物系統">
     <title>逾期物品</title>
     <% include ../partials/bootstrap_css %>
+    <style>
+    [v-cloak] {
+      display: none;
+    }
+    </style>
 </head>
 
 <body>
     <% include ../partials/vue_js %>
     <% include ../partials/navBar %>
     <div class="container">
-      <div id="contact">
+      <div v-cloak id="contact">
         <table class="table">
-          <thead><td>序</td><td>單位</td><td>分機</td><td>是否有管理遺失物</td></thead>
+          <thead><td style="width:5%;">序</td><td style="width:60%;">單位</td><td style="width:20%;">分機</td><td style="width:15%;">是否有管理遺失物</td></thead>
           <tr v-for="list in lists"><td>{{list.ID}}</td><td>{{ list.name }}</td><td><a :href="'tel:0492910960;'+list.contact_info">{{list.contact_info}}</a></td><td>{{list.isManagement}}</td></tr>
         </table>
-        
-        
       </div>
     </div>
     <% include ../partials/bootstrap_js %>
