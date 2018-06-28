@@ -225,6 +225,7 @@ var moment = require('moment');
       "classification_id": lostwishObj.classification_id,
       "location": lostwishObj.location,
       "registered_time": moment().toISOString(true),
+      "wisher_id": req.user.id,
       "time_interval_LB": time_LB,
       "time_interval_UB": time_UB,
       "description": lostwishObj.description

@@ -226,7 +226,7 @@ var controller = require('./middleware/login');
       "registered_time": moment().toISOString(true),
       "time_interval_LB": time_LB,
       "time_interval_UB": time_UB,
-      /*"registrant_id": req.user.id,*/
+      "registrant_id": req.user.id,
       "description": foundObj.description,
       "image": foundObj.image,
       "deleteHash": foundObj.deleteHash
