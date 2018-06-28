@@ -260,28 +260,26 @@
                     let text = ["待送行政", "找尋失主", "失主領回", "待拾得人領回", "拾得人領回", "公開招領", "已認領", "行政處置"];
                     return text[stateId];
                 },
-                imageDataSave (e) {
-                    // 將上傳前的圖片資訊存起來,等待表單提交時上傳
-                    let imageFile = e.target.files[0];
-                    if (imageFile.type.indexOf('image/') == -1) {
-                        alert('It must be a image');
-                        return;
-                    } else {
-                        // 把圖片編碼存起來
-                        this.formData.image.imgData = imageFile;
-                        // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
-                        this.formData.image.value = "ok";
-                    }
-                },
+                // imageDataSave (e) {
+                //     // 將上傳前的圖片資訊存起來,等待表單提交時上傳
+                //     let imageFile = e.target.files[0];
+                //     if (imageFile.type.indexOf('image/') == -1) {
+                //         alert('It must be a image');
+                //         return;
+                //     } else {
+                //         // 把圖片編碼存起來
+                //         this.formData.image.imgData = imageFile;
+                //         // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
+                //         this.formData.image.value = "ok";
+                //     }
+                // },
                 imageUpload (imageFile) {
                     loading.start();
-                    let formData = new FormData();
-                    formData.append('image', imageFile);
                     // 正要上傳,狀態改為是
                     this.formData.image.uploading = true;
                     return fetch('https://api.imgur.com/3/image', {
                         method: 'post',
-                        body: formData,
+                        body: this.formData.image.imgData,
                         headers: new Headers({
                             'Authorization': 'Client-ID 3b927010e0363a1'
                         })
@@ -498,6 +496,7 @@
             }
         })
     </script>
+    <% include ../partials/local-resize-img %>
 </body>
 
 </html>
