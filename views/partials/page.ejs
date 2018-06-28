@@ -26,6 +26,16 @@
     <template v-if="searchKeyWord.length!=0">
         <div class="col-12" v-for="list in finalData">
             <div class="row border rounded mb-4 p-2 card_shadow">
+                <!-- <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-img-top" v-bind:style="{ 'background-image': 'url(' + list.image + ')' }">
+                        </div>
+                        <div class="card-body px-4">
+                            <div class="d-flex card-title"><h4 class="mr-auto">{{ list.name }}</h4><div class="card_zone_text">{{ classNumToText(list.classification_id) }}</div></div>
+                            <div class="card-text"><i class="fa fa-tags"></i></div>
+                        </div>
+                    </div>
+                </div> -->
                 <div class="col-md-3 mb-2 mb-md-0">
                     <!-- <img class="border rounded img-fluid" src="http://media.viralcham.com/wp-content/uploads/2017/08/10124047/ecoforestwbbrevjs5.png" alt="Card image cap"> -->
                     <img class="border rounded img-fluid" :src="list.image" alt="圖片載入錯誤">
