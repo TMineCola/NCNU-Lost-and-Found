@@ -246,6 +246,12 @@
 html , body {
   background-color: #EBEBEB;
 }
+div .card {
+  border-radius: 1.5rem;
+}
+div .card > *{
+  font-size: 15pt;
+}
 div .card-title {
     /* 讓文字往上移動到圖片中 */
     margin-top: -75px;
@@ -265,8 +271,13 @@ div .card-title div {
     line-height: 36px;
 } */
 div .card-img-top {
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
     height: 300px;
     background-size: cover;
     background-position: center center;
+}
+.breadcrumb {
+  background-color: #FFFFFF;
 }
 </style>
