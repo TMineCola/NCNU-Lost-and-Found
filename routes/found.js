@@ -238,7 +238,7 @@ var controller = require('./middleware/login');
     };
     let CheckNum = 0;
     for(index in values) {
-      if(foundObj[index] == undefined && foundObj[index] != '' && index != "description" && index != "registered_time" /*&& index != "registrant_id"*/) {
+      if(foundObj[index] == undefined && foundObj[index] != '' && index != "description" && index != "registered_time" && index != "registrant_id") {
         LessObj.message += index + ",";
         CheckNum ++;
       } else if(index == "time_interval_LB" || index == "time_interval_UB"){
