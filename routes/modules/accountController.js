@@ -24,12 +24,26 @@ module.exports = function () {
 
     var module = {};
 
-    module.searchEmail = function (email) {
+    module.searchAccount = function (email) {
         return new Promise((resolve, reject) => {
             let sql = "SELECT COUNT(*) FROM `register` WHERE `email` = ?";
             db.query(sql, email, function (err, result) {
                 if (err) throw err;
                 if(result[0]['COUNT(*)'] == 1) {
+                    resolve(true);
+                } else {
+                    reject(false);
+                }
+            });
+        });
+    }
+
+    module.verifyAccount = function (email, password) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT `password` FROM `register` WHERE `email` = ?";
+            db.query(sql, email, function (err, result) {
+                if (err) throw err;
+                if(result[0]['password'] == sha256(password)) {
                     resolve(true);
                 } else {
                     reject(false);
