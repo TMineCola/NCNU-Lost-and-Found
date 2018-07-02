@@ -52,11 +52,17 @@
     });
     // 當關鍵字輸入後存到vue中做過濾
     $("#keyWordGo").click(function () {
+      if(app.dataIndex){
+        app.dataIndex = 1;
+      }
       app.keyWord = $("#keyWord").val();
     });
     $("#keyWord").keyup(function (e) {
       // enter
       if(e.keyCode == 13){
+        if(app.dataIndex){
+          app.dataIndex = 1;
+        }
         app.keyWord = $("#keyWord").val();
       }
     });
