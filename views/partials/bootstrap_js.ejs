@@ -19,7 +19,7 @@
       $("body").find("#blur").removeClass("blur");
       $("body").find("#categories_main").addClass("tool_invisible");
       $("body").find("#btn-toggle-up").remove();
-      $("body").find("#btn-toggle-board").append(
+      $("body").find("#btn-toggle-board").html(
         '<div id="btn-toggle-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>');
       run++
     }
@@ -28,7 +28,7 @@
       $("body").find("#blur").addClass("blur");
       $("body").find("#categories_main").addClass("tool_visible");
       $("body").find("#btn-toggle-down").remove();
-      $("body").find("#btn-toggle-board").append(
+      $("body").find("#btn-toggle-board").html(
         '<div id="btn-toggle-up"><i class="fa fa-arrow-up text-white" aria-hidden="true"></i></div>');
       run = 0;
     }
@@ -68,6 +68,25 @@
     }, function(){
         //Hover Off - Hover off doesn't seem to work on iOS
         $(this).css("opacity", "0");
-    })
+    });
+
+    $(".ori").click(function(){
+      $(".list_title").closest("button").toggleClass('collapsed')
+    //On Hover - Works on ios
+    console.log((event.target).prevUntil(".ori").find(".ori").html());
+        // $(this).css("opacity", "1");
+    });
+    $( "body" ).click(function( event ) {
+      var value = $(event.target).val();
+      var nearestTd = $(event.target).closest('span');
+      var test = event.target.nodeName;
+      console.log(value);
+      console.log(nearestTd);
+      console.log(test);
+      console.log(event.target.closest("span").find(".ori").html());
+    // console.log(event.target.nodeName );
+    // console.log(event.target.className );
+    // console.log(event.target.childElementCount);
+});
   });
 </script>
