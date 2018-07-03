@@ -41,6 +41,23 @@
     .onl_btn-github:hover {
         background: #383838;
     }
+    .onl_hrOr {
+	background-color: #cdcdcd;
+	height: 1px;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+    }
+    .onl_spanOr {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: -0.6em;
+        margin-left: -1.5em;
+        background-color: white;
+        width: 3em;
+        text-align: center;
+    }			
+    .hide {display:none;}
 </style>
 
 <% if(!user) { %>
@@ -51,7 +68,7 @@
 </button>
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog userLogin" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">請選擇登錄方式</h5>
@@ -60,27 +77,84 @@
                 </button>
             </div>
             <div class="modal-body">
-                <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
-                    role="button" title="Facebook">
-                    <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
-                    <span>使用&nbsp;Facebook&nbsp;登錄</span>
-                </a>
-                <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
-                    role="button" title="Google">
-                    <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
-                    <span>使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
-                </a>
+                <div class="col-12">
+                    <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
+                        role="button" title="Facebook">
+                        <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
+                        <span class="m-auto">使用&nbsp;&nbsp;Facebook&nbsp;&nbsp;登錄</span>
+                    </a>
+                </div>
+                <div class="col-12 mt-3 mb-3">
+                    <hr class="onl_hrOr">
+                    <span class="onl_spanOr">or</span>
+                </div>
+                <div class="col-12 mt-3 mb-3">
+                    <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
+                        role="button" title="Google">
+                        <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
+                        <span class="m-auto">使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登錄</span>
+                    </a>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消登錄</button>
+                <button type="button" class="btn btn-outline-danger" id="admin_login">管理者登錄</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#loginModal1">取消登錄</button>
                 <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>
 </div>
 
+<div class="adminLogin hide">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">管理者登錄</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="col-12">	
+                <form class="onl_loginForm" action="" autocomplete="off" method="POST">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        <input type="text" class="form-control" name="username" placeholder="Username">
+                    </div>
+                    <span class="help-block"></span>
+                                        
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        <input  type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <button class="mt-3 btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-sign-in"></i> Login</button>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-warning" id="user_login">使用者登錄</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消登錄</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+    </div>
+</div>
+
 <% } else { %>
         <a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="http://localhost:3000/logout" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:25px;">
-            <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> " style='border-radius:25px;height:25px;width:25px;'/>
+            <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> " style=\'border-radius:25px;height:25px;width:25px;'/>
         </a>
 <% } %>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var user = $(".userLogin").html();
+        var admin = $(".adminLogin").html();
+        $(document).on('click', '#admin_login', function() {
+        // $("#admin_login").click( function() {
+            $(this).parents().parents().find(".modal-dialog").html(admin);
+        });
+        $(document).on('click', '#user_login', function() {
+        // $("#user_login").click( function() {
+            $(this).parents().parents().find(".modal-dialog").html(user);
+        });
+    });
+</script>
