@@ -1,3 +1,4 @@
+<% if(user) { %>
 <!DOCTYPE html>
 <html lang="zh-TW">
 
@@ -29,7 +30,7 @@
     </script>
     <% include ../partials/navBar %>
     <% include ../partials/vue_js %>
-    <% include ../partials/categories %>
+    <% include ../partials/categories_hide %>
     <% include ../partials/add %>
     <div class="container" style="margin-top: 90px">
         <h1 class="mb-3">我遺失的物品</h1>
@@ -498,5 +499,7 @@
     </script>
     <% include ../partials/local-resize-img %>
 </body>
-
 </html>
+<% } else {%>
+    <script type='text/javascript'> window.alert('請先登錄！'); window.location.href='http://localhost:3000'; </script>
+<% } %>
