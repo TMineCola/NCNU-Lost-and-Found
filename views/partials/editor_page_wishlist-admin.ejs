@@ -39,22 +39,18 @@
                             ~
                             <span class="badge">{{list.time_interval_UB.slice(5, 10).replace(/-/g,"/")}}</span><span class="badge badge-light">{{timeFormat(list.time_interval_UB.slice(11, 13))}}</span>
                             <div class="card-text text-truncate"><span class="badge list_title">地點：</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></div>
-                            <div class="card-text text-truncate d-block d-md-block">
-                                <a data-toggle="collapse" :data-target="'#a'+list.ID" >
-                                    <button style="cursor: pointer" class=" btn btn-light btn-md mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">
-                                        <span class="badge list_title">描述</span>
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </button>
-                                </a>
-                                <div class="collapse text-truncate show" :id="'a'+list.ID">
-                                    <span class="badge" :id="'a'+list.ID">{{ textIsEmpty(list.description) }}</span>
-                                </div>
+                            <div class="card-text d-none d-md-block"><span class="badge list_title">描述：</span> <span class="badge" style="white-space: normal; text-align: left">{{ textIsEmpty(list.description) }}</span></div>
+                            <div class="card-text text-truncate d-block d-md-none">
+                                <button style="cursor: pointer" class="btn btn-light btn-sm mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">
+                                    <span class="badge list_title">描述</span>
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </button>
+                                <span class="badge">{{ textIsEmpty(list.description) }}</span>
                             </div>
                             <div class="collapse" :id="list.ID">
-                                <!-- <div class="card card-body mb-3 bg-light"> -->
-                                    <span class="wraptext badge badge-light">{{ textIsEmpty(list.description) }}</span>
-                                    <!-- {{ textIsEmpty(list.description) }} -->
-                                <!-- </div> -->
+                                <div class="card card-body mb-3 bg-light">
+                                    {{ textIsEmpty(list.description) }}
+                                </div>
                             </div>
                             <% if(user) { %>
                             <div class="text-right">
@@ -75,14 +71,23 @@
             </div>
         </div>
     </template>
-</div>
-<div class="container mobile" v-if="searchKeyWord.length != 0">
-    <div class="col-4 offset-8" v-if="dataIndex==1 && (!checkEnd())">
-        <a class="mobile-view text-left" href="#" @click="dataIndex=dataIndex+1" >></a>
-    </div>
-    <div class="row"v-else-if="dataIndex>1">
-        <div class="col-4 text-right" href="#" ><a class="btn mobile-view" @click="dataIndex=dataIndex-1"><</a></div>
-        <div class="col-4 text-center "><a class="btn mobile-view">第{{ dataIndex }}頁</a></div>
-        <div class="col-4 text-left" href="#" v-if="(!checkEnd())"><a class="btn mobile-view" @click="dataIndex=dataIndex+1" >></a></div>
+    <div class="col-12 text-center mb-3 mobile" v-if="searchKeyWord.length != 0">
+        <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="dataIndex==1 && (!checkEnd())">下一頁</a>
+        <div v-else-if="dataIndex>1">
+            <a href="#" class="btn btn-light mobile-view mobile-previous" @click="dataIndex=dataIndex-1">上一頁</a>
+            <span class="text-white bg-info mobile-view mobile-current" style="
+                display: inline-block;
+                font-weight: 400;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                user-select: none;
+                border: 1px solid transparent;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                ">第 {{ dataIndex }} 頁</span>
+            <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="(!checkEnd())">下一頁</a>
+        </div>
     </div>
 </div>

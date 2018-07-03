@@ -20,13 +20,29 @@
       </select>
       <!-- <template v-bind="timeSort.value=1"><img src="../img/sort_asc-01.png" style="max-height:40px;"/></template> -->
   </span>
+  <span class="badge">
+      <!-- 更換狀態 -->
+      <span>更新狀態</span>
+      <select v-model.number="changeStateNum" class="ml-2" style="height:40px;">
+            <option disabled value=-1>請選擇</option>
+            <option value=0>待送行政</option>
+            <option value=1>找尋失主</option>
+            <option value=2>失主領回</option>
+            <option value=3>待拾得人領</option>
+            <option value=4>拾得人領回</option>
+            <option value=5>公開招領</option>
+            <option value=6>已認領</option>
+            <option value=7>行政處置</option>
+      </select>
+      <button class="btn btn-info" @click.prevent="changeState">修改狀態</button>
+  </span>
 </div>
 <div class="row">
     <template v-if="searchKeyWord.length!=0">
         <div class="col-md-6 mb-4"v-for="list in finalData">
             <div class="card">
                 <div class="card-img-top" v-bind:style="{ 'background-image': 'url(' + list.image + ')' }" style="position: relative">
-                    <input class="form-check-input" type="checkbox" style="position: absolute; top: 5px; left: 35px">
+                    <input class="form-check-input" type="checkbox" style="position: absolute; top: 5px; left: 35px" @click="addStateId(list.ID)">
                 </div>
                 <div class="card-body px-4">
                     <div class="d-flex card-title">
