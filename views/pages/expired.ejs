@@ -119,6 +119,9 @@
             updated: function () {
                 window.loading.complete();
             },
+            created: function () {
+                window.loading.complete();
+            },
             methods: {
                 textIsEmpty (text) {
                     return text == null ? "空空如也" : text;
