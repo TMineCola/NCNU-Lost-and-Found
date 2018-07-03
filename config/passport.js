@@ -10,6 +10,7 @@ module.exports = function (passport, config, auth_config, con) {
     });
 
     passport.deserializeUser(function (user, done) {
+        console.log(user);
         done(null, user);
     });
 
@@ -28,10 +29,10 @@ module.exports = function (passport, config, auth_config, con) {
                     console.log('不存在');
                     return accountControl.create(username, password).then((id) => {
                         let profile = {
-                            "id": id,
-                            "email": username,
-                            "picture": null,
-                            "name": username
+                            'id': id,
+                            'emails': [{'value': username}],
+                            'photos': [{'value':'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png'}],
+                            'displayName': username
                         }
                         console.log('新增');
                         return done(null, profile);
@@ -57,23 +58,23 @@ module.exports = function (passport, config, auth_config, con) {
                     console.log('存在');
                     return accountControl.verifyAccount(username, password).then((id) => {
                         let profile = {
-                            "id": id,
-                            "email": username,
-                            "picture": null,
-                            "name": username
+                            'id': id,
+                            'emails': [{'value': username}],
+                            'photos': [{'value':'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png'}],
+                            'displayName': username
                         }
                         console.log('驗證成功');
                         return done(null, profile);
                     }).catch(()=> {
                         console.log('驗證失敗');
-                        return done(null, false, req.flash('error', '帳號驗證失敗'));
+                        return done(null, false);
                     })
                 } else {
                     console.log('不存在');
-                    return done(null, false, req.flash('error', '該帳號已存在'));
+                    return done(null, false);
                 }
             }).catch(() => {
-                return done(null, false, req.flash('error', '伺服器錯誤'));
+                return done(null, false);
             });
         })
     );
@@ -89,22 +90,22 @@ module.exports = function (passport, config, auth_config, con) {
         console.log(profile);
         process.nextTick(function () {
             if(!req.user) {
-                let sql = "SELECT * FROM `user` WHERE id = ?";
+                let sql = 'SELECT * FROM `user` WHERE id = ?';
                 con.query(sql, profile.id, function (err, result) {
                     if (err) throw err;
                     if (result.length == 0) {
-                        console.log("Could not find such user, then add");
+                        console.log('Could not find such user, then add');
                         let userObj = {
-                            "id": profile.id,
-                            "name": profile.displayName,
+                            'id': profile.id,
+                            'name': profile.displayName,
                         };
                         if (profile.emails != undefined) {
                             userObj['email'] = profile.emails[0].value;
                         }
-                        sql = "INSERT INTO `user` SET ?";
+                        sql = 'INSERT INTO `user` SET ?';
                         con.query(sql, userObj);
                     } else {
-                        console.log("User already exists in database");
+                        console.log('User already exists in database');
                     }
                 });
                 return done(null, profile);
