@@ -19,7 +19,7 @@
       $("body").find("#blur").removeClass("blur");
       $("body").find("#categories_main").addClass("tool_invisible");
       $("body").find("#btn-toggle-up").remove();
-      $("body").find("#btn-toggle-board").append(
+      $("body").find("#btn-toggle-board").html(
         '<div id="btn-toggle-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>');
       run++
     }
@@ -28,7 +28,7 @@
       $("body").find("#blur").addClass("blur");
       $("body").find("#categories_main").addClass("tool_visible");
       $("body").find("#btn-toggle-down").remove();
-      $("body").find("#btn-toggle-board").append(
+      $("body").find("#btn-toggle-board").html(
         '<div id="btn-toggle-up"><i class="fa fa-arrow-up text-white" aria-hidden="true"></i></div>');
       run = 0;
     }
@@ -59,12 +59,12 @@
     });
     $("#keyWord").keyup(function (e) {
       // enter
-      if(e.keyCode == 13){
+      // if(e.keyCode == 13){
         if(app.dataIndex){
           app.dataIndex = 1;
         }
         app.keyWord = $("#keyWord").val();
-      }
+      // }
     });
 
     // Sorry about bad spacing. Also...this is jquery if you didn't notice allready.
@@ -74,6 +74,16 @@
     }, function(){
         //Hover Off - Hover off doesn't seem to work on iOS
         $(this).css("opacity", "0");
-    })
+    });
+    $( ".cfc_box" ).hover(
+      function() {
+        ($(this).find(".cfc_default").css('display','none'));
+        ($(this).find(".cfc_hover").css('opacity','1'));
+      }, function() {
+        ($(this).find(".cfc_default").css('display','block'));
+        ($(this).find(".cfc_hover").css('opacity','0'));
+      }
+    );
+    $(".cfc_box").click(hideCategories);
   });
 </script>

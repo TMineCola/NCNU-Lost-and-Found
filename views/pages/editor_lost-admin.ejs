@@ -37,7 +37,7 @@
         <div id="found">
             <% include ../partials/reportForm %>
             <% include ../partials/editForm %>
-            <% include ../partials/editor_page_wishlist.ejs %>
+            <% include ../partials/editor_page_wishlist-admin.ejs %>
         </div>
     </div>
     <% include ../partials/jqueryUi %>
@@ -101,12 +101,12 @@
                     isError: 0
                 },
                 // 分頁索引
-                dataIndex: 1
+                dataIndex: 1,
             },
             // 載入前就先發ajax
             beforeCreate: function () {
                 var self = this;
-                axios.get('/api/lost/author/<%= user.id %>')
+                axios.get('/api/lost/')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;

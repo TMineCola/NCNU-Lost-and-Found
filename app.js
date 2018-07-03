@@ -93,6 +93,12 @@ app.get('/editor_found', function (req, res) {
 app.get('/editor_lost', function (req, res) {
     res.render('pages/editor_lost', { user: req.user, page_name: 'editor_lost' });
 });
+app.get('/editor_found-admin', function (req, res) {
+    res.render('pages/editor_found-admin', { user: req.user, page_name: 'editor_found-admin' });
+});
+app.get('/editor_lost-admin', function (req, res) {
+    res.render('pages/editor_lost-admin', { user: req.user, page_name: 'editor_lost-admin' });
+});
 app.get('/wishlist_form', function (req, res) {
     res.render('pages/wishlist_form', { user: req.user, page_name: 'wishlish_form' });
 });

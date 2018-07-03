@@ -1,5 +1,5 @@
 <style>
-    .quicklink_box {
+  .quicklink_box {
     position: relative;
     min-width: 110px;
     height: 110px;
@@ -8,24 +8,25 @@
     /* padding-top: 10px; */
   }
 
-.quicklink {
+  .quicklink {
     width: 110px;
     height: 110px;
-}
+  }
 
-a.quicklink_link>img.quicklink_hover {
+  a.quicklink_link>img.quicklink_hover {
     display: none;
     width: 110px;
     height: 110px;
-}
-/* try fixed, but no hover
+  }
+
+  /* try fixed, but no hover
 img.quicklink_hover {
   display: none;
     width: 110px;
     height: 110px;
 } */
 
-a.quicklink_link:hover>img.quicklink_hover {
+  a.quicklink_link:hover>img.quicklink_hover {
     position: absolute;
     display: block;
     top: 0;
@@ -33,124 +34,128 @@ a.quicklink_link:hover>img.quicklink_hover {
     margin-left: 2px;
     width: 110px;
     height: 110px;
-}
+  }
 
-/* .quicklink_title {
+  /* .quicklink_title {
     position: absolute;
     bottom: 15px;
     width: 70px;
 } */
-a.quicklink_link:hover>.quicklink_title {
+
+  a.quicklink_link:hover>.quicklink_title {
     background-color: rgba(118, 22, 20, 0.8);
-    color:white;
+    color: white;
     padding-left: 0.1em;
     padding-right: 0.1em;
     border-radius: 10px;
-}
-@media (min-width:992px){.modal-lg{max-width:500px}}
+  }
 
+  @media (min-width:992px) {
+    .modal-lg {
+      max-width: 500px
+    }
+  }
 </style>
 
 
-  <div class="container">
-    <!-- <h2>Modal Example</h2> -->
-    <!-- Button to Open the Modal -->
-    <!-- <button type="button" class="btn btn-primary" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#myModal">
+<div class="container">
+  <!-- <h2>Modal Example</h2> -->
+  <!-- Button to Open the Modal -->
+  <!-- <button type="button" class="btn btn-primary" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#myModal">
       Open modal
     </button> -->
 
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">愛的分類</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <!-- Modal body -->
-          <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR" >
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-01.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-01.png"/>
-                        </a>
-                      </div>
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-02.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-02.png"/>
-                        </a>
-                      </div>
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-03.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-03.png"/>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR">
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-04.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-04.png"/>
-                        </a>
-                      </div>
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-05.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-05.png"/>
-                        </a>
-                      </div>
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-06.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-06.png"/>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR">
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-07.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-07.png"/>
-                        </a>
-                      </div>
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-08.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-08.png"/>
-                        </a>
-                      </div>
-                      <div class="quicklink_box d-flex justify-content-center">
-                        <a class="quicklink_link" href="#"></a>
-                          <img class="quicklink" src="../img/icon/icon-09.png"/>
-                          <img class="quicklink_hover" src="../img/icon/icon_hover-09.png"/>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-          </div>
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">愛的分類</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR">
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-01.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-01.png" />
+                </a>
+              </div>
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-02.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-02.png" />
+                </a>
+              </div>
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-03.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-03.png" />
+                </a>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR">
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-04.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-04.png" />
+                </a>
+              </div>
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-05.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-05.png" />
+                </a>
+              </div>
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-06.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-06.png" />
+                </a>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-around mb-4 cancelPaddingLR">
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-07.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-07.png" />
+                </a>
+              </div>
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-08.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-08.png" />
+                </a>
+              </div>
+              <div class="quicklink_box d-flex justify-content-center">
+                <a class="quicklink_link" href="#"></a>
+                <img class="quicklink" src="../img/icon/icon-09.png" />
+                <img class="quicklink_hover" src="../img/icon/icon_hover-09.png" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
       </div>
     </div>
-
   </div>
 
-<script>
-// $('#myModal').modal({backdrop: 'static', keyboard: false})  
-// $(document).click(function(event) {
-//   //if you click on anything except the modal itself or the "open modal" link, close the modal
-//   if (!$(event.target).closest(".modal-content,.container").length) {
-//     $("body").find(".modal-content").removeClass("visible");
-//   }
-// });
-</script>
+</div>
 
+<script>
+  // $('#myModal').modal({backdrop: 'static', keyboard: false})  
+  // $(document).click(function(event) {
+  //   //if you click on anything except the modal itself or the "open modal" link, close the modal
+  //   if (!$(event.target).closest(".modal-content,.container").length) {
+  //     $("body").find(".modal-content").removeClass("visible");
+  //   }
+  // });
+</script>

@@ -1,26 +1,32 @@
-<script src="vendor/local-resize-img/LocalResizeIMG.js"></script>
-<script src="vendor/local-resize-img/patch/mobileBUGFix.mini.js"></script>
+<!-- <script src="vendor/local-resize-img/LocalResizeIMG.js"></script> -->
+<!-- <script src="vendor/local-resize-img/patch/mobileBUGFix.mini.js"></script> -->
+<script src="vendor/local-resize-img/lrz.all.bundle.js"></script>
 <script>
-    $('#image').localResizeIMG({
-        width: 800,
-        quality: 0.8,
-        success: function (result) {
+    $('#image').change(function (){
+        lrz(this.files[0], {quality: 0.5,width:0.5})
+        .then(function (result) {
+            // console.log(result);
             // console.log(result.base64);
             // 把圖片編碼存起來
             app.formData.image.imgData = result.base64.replace(/.*,/, '');
             // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
             app.formData.image.value = "ok";
-        }
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
     });
-    $('#image2').localResizeIMG({
-        width: 800,
-        quality: 0.8,
-        success: function (result) {
-            // console.log(result.base64);
+    $('#image2').change(function (){
+        lrz(this.files[0], {width: 800})
+        .then(function (result) {
+            // console.log(result);
             // 把圖片編碼存起來
             app.formData.image.imgData = result.base64.replace(/.*,/, '');
             // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空
             app.formData.image.value = "ok";
-        }
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
     });
 </script>

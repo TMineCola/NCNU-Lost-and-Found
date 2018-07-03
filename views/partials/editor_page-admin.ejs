@@ -1,31 +1,48 @@
-<div class="row">
-    <div class="col-12">
-        <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="#" @click.prevent="showAll">全部</a>
-                </li>
-                <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
-                <li class="ml-4"><span class="badge badge-info">共有 {{ searchKeyWord.length }} 筆資料</span></li>
-            </ol>
-        </nav>
-    </div>
-    <div class="col-12 mb-3">
-        <span class="badge">
-            <img src="../img/sort_logo-01.png"style="max-height:40px;"/>
-            <!-- 時間排序 -->
-            <select v-model.number="timeSort" class="ml-2" style="height:40px;">
-                <option value=1>新 → 舊</option>
-                <option value=0>舊 → 新</option>
-            </select>
-        </span>
-    </div>
+
+<div class="col-12">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" @click.prevent="showAll">全部</a>
+            </li>
+            <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
+            <li class="ml-4"><span class="badge badge-info">共有 {{ searchKeyWord.length }} 筆資料</span></li>
+        </ol>
+    </nav>
+</div>
+<div class="col-12 mb-3">
+  <span class="badge">
+      <img src="../img/sort_logo-01.png"style="max-height:40px;"/>
+      <!-- 時間排序 -->
+      <select v-model.number="timeSort" class="ml-2" style="height:40px;">
+          <option value=1>新 → 舊</option>
+          <option value=0>舊 → 新</option>
+      </select>
+      <!-- <template v-bind="timeSort.value=1"><img src="../img/sort_asc-01.png" style="max-height:40px;"/></template> -->
+  </span>
+  <span class="badge">
+      <!-- 更換狀態 -->
+      <span>更新狀態</span>
+      <select v-model.number="changeStateNum" class="ml-2" style="height:40px;">
+            <option disabled value=-1>請選擇</option>
+            <option value=0>待送行政</option>
+            <option value=1>找尋失主</option>
+            <option value=2>失主領回</option>
+            <option value=3>待拾得人領</option>
+            <option value=4>拾得人領回</option>
+            <option value=5>公開招領</option>
+            <option value=6>已認領</option>
+            <option value=7>行政處置</option>
+      </select>
+      <button class="btn btn-info" @click.prevent="changeState">修改狀態</button>
+  </span>
 </div>
 <div class="row">
     <template v-if="searchKeyWord.length!=0">
         <div class="col-md-6 mb-4"v-for="list in finalData">
             <div class="card">
-                <div class="card-img-top" v-bind:style="{ 'background-image': 'url(' + list.image + ')' }">
+                <div class="card-img-top" v-bind:style="{ 'background-image': 'url(' + list.image + ')' }" style="position: relative">
+                    <input class="form-check-input" type="checkbox" style="position: absolute; top: 5px; left: 35px" @click="addStateId(list.ID)">
                 </div>
                 <div class="card-body px-4">
                     <div class="d-flex card-title">
@@ -33,16 +50,19 @@
                     </div>
                     <div class="card-text">
                         <div class="mb-2">
-                            <span class="mt-2 p-2 float-right badge badge-success mb-2"><i class="fa fa-tag"></i>&nbsp;&nbsp;{{ classNumToText(list.classification_id) }}</span>
-                            <span class="badge list_title">時間:</span><br/>
-                            <span class="badge ">{{list.time_interval_LB.slice(5, 10).replace(/-/g,"/") }}</span><span class="badge badge-light">{{ timeFormat(list.time_interval_LB.slice(11, 13)) }}</span>
+                            <span class="mt-2 p-2 float-right badge badge-success mb-1"><i class="fa fa-tag"></i>&nbsp;&nbsp;{{ classNumToText(list.classification_id) }}</span>
+                            <span class="mr-2 mt-2 p-2 float-right badge badge-secondary mb-1">{{ stateNumToText(list.state) }}</span>
+                            <span class="mt-2 badge list_title">拾獲時間:</span><br/>
+                            <span class="badge">{{list.time_interval_LB.slice(5, 10).replace(/-/g,"/") }}</span><span class="badge badge-light">{{ timeFormat(list.time_interval_LB.slice(11, 13)) }}</span>
                             ~
                             <span class="badge">{{list.time_interval_UB.slice(5, 10).replace(/-/g,"/")}}</span><span class="badge badge-light">{{timeFormat(list.time_interval_UB.slice(11, 13))}}</span>
-                            <div class="card-text text-truncate"><span class="badge list_title">地點：</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></div>
+                            <!-- <div class="card-text text-truncate"><span class="badge list_title">地點：</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></div> -->
+                            <div class="card-text text-truncate"><span class="badge list_title">拾獲地點:</span> <span class="badge">{{ textIsEmpty(list.location) }}</span></span></div>
+                            <div class="card-text text-truncate"><span class="badge list_title">目前地點:</span> <span class="badge">{{ departNumToText(list.department_id) }}</span></span></div>
                             <div class="card-text text-truncate d-block d-md-block">
                                 <a data-toggle="collapse" :data-target="'#a'+list.ID" >
                                     <button style="cursor: pointer" class=" btn btn-light btn-md mr-1" data-toggle="collapse" :data-target="'#'+list.ID" aria-expanded="false">
-                                        <span class="badge list_title">描述</span>
+                                        <span class="badge list_title">失物描述</span>
                                         <i class="fa fa-caret-down" aria-hidden="true"></i>
                                     </button>
                                 </a>

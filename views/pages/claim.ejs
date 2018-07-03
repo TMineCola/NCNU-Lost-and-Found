@@ -113,6 +113,9 @@
                         // 待加入跳轉到404頁面
                     });
             },
+            created: function () {
+                window.loading.complete();
+            },
             beforeUpdate: function () {
                 window.loading.start();
             },
