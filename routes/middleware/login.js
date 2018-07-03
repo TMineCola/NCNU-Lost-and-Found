@@ -57,7 +57,8 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) {
         return next();
     }
-    res.status(401).send({"message": "尚未登入"});
+    req.session.returnTo = req.path;
+    res.redirect('/');
     return;
 }
 

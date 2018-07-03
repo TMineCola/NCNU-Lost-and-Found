@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var controller = require('./middleware/login');
+var middleware = require('./middleware/login');
 var db = require('./modules/objectController');
 
 router.post('/changeState/found', function(req, res, next) {

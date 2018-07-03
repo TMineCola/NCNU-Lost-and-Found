@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config/env');
 var moment = require('moment');
-var controller = require('./middleware/login');
+var middleware = require('./middleware/login');
 
 /* Function */
 
