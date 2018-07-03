@@ -69,23 +69,14 @@
             </div>
         </div>
     </template>
-    <div class="col-12 text-center mb-3 mobile" v-if="searchKeyWord.length != 0">
-        <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="dataIndex==1 && (!checkEnd())">下一頁</a>
-        <div v-else-if="dataIndex>1">
-            <a href="#" class="btn btn-light mobile-view mobile-previous" @click="dataIndex=dataIndex-1">上一頁</a>
-            <span class="text-white bg-info mobile-view mobile-current" style="
-                display: inline-block;
-                font-weight: 400;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                user-select: none;
-                border: 1px solid transparent;
-                padding: .375rem .75rem;
-                font-size: 1rem;
-                line-height: 1.5;
-                ">第 {{ dataIndex }} 頁</span>
-            <a href="#" class="btn btn-light mobile-view mobile-next" @click="dataIndex=dataIndex+1" v-if="(!checkEnd())">下一頁</a>
-        </div>
+</div>
+<div class="container mobile" v-if="searchKeyWord.length != 0">
+    <div class="col-4 offset-8" v-if="dataIndex==1 && (!checkEnd())">
+        <a class="mobile-view text-left" href="#" @click="dataIndex=dataIndex+1" >></a>
+    </div>
+    <div class="row"v-else-if="dataIndex>1">
+        <div class="col-4 text-right" href="#" ><a class="btn mobile-view" @click="dataIndex=dataIndex-1"><</a></div>
+        <div class="col-4 text-center "><a class="btn mobile-view">第{{ dataIndex }}頁</a></div>
+        <div class="col-4 text-left" href="#" v-if="(!checkEnd())"><a class="btn mobile-view" @click="dataIndex=dataIndex+1" >></a></div>
     </div>
 </div>
