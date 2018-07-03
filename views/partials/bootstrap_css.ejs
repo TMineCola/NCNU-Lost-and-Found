@@ -211,11 +211,11 @@
 
 
 <style>
-  @media only screen and (max-width: 600px) {
+  /* @media only screen and (max-width: 600px) { */
     .mobile {
       position: fixed;
       bottom : 20px;
-      max-width: 100%;
+      /* max-width: 100%; */
       /* height:10px; */
       /* display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -241,7 +241,10 @@
     .mobile-view:hover{
       text-decoration: none;
     }
-  }
+    .mobile > .row > .col-4 {
+      padding: 0!important;
+    }
+  /* } */
 </style>
 
 <style>
