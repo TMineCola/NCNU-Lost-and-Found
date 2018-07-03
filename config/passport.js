@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var accountControl = require('../routes/modules/accountController');
 
 module.exports = function (passport, config, auth_config, con) {
 
@@ -13,21 +14,79 @@ module.exports = function (passport, config, auth_config, con) {
     });
 
     // Local Login
-    passport.use(new LocalStrategy({
+    passport.use('local-signup', new LocalStrategy({
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true
+        },
+        function(req, username, password, done) {
+            accountControl.searchAccount(username).then((bool) => {
+                if(bool) {
+                    console.log('存在');
+                    return done(null, false, req.flash('error', '該帳號已存在'));
+                } else {
+                    console.log('不存在');
+                    return accountControl.create(username, password).then((id) => {
+                        let profile = {
+                            "id": id,
+                            "email": username,
+                            "picture": null,
+                            "name": username
+                        }
+                        console.log('新增');
+                        return done(null, profile);
+                    }).catch(()=> {
+                        return done(null, false, req.flash('error', '帳號新增失敗'));
+                    })
+                }
+            }).catch(() => {
+                return done(null, false, req.flash('error', '伺服器錯誤'));
+            });
+        }
+    ));
 
-    },
-    function() {
-
-    }));
+    // Local Login
+    passport.use('local-login', new LocalStrategy({
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true
+        },
+        function(req, username, password, done) {
+            accountControl.searchAccount(username).then((bool) => {
+                if(bool) {
+                    console.log('存在');
+                    return accountControl.verifyAccount(username, password).then((id) => {
+                        let profile = {
+                            "id": id,
+                            "email": username,
+                            "picture": null,
+                            "name": username
+                        }
+                        console.log('驗證成功');
+                        return done(null, profile);
+                    }).catch(()=> {
+                        console.log('驗證失敗');
+                        return done(null, false, req.flash('error', '帳號驗證失敗'));
+                    })
+                } else {
+                    console.log('不存在');
+                    return done(null, false, req.flash('error', '該帳號已存在'));
+                }
+            }).catch(() => {
+                return done(null, false, req.flash('error', '伺服器錯誤'));
+            });
+        })
+    );
 
     // Facebook Login
-    passport.use(new FacebookStrategy({
+    passport.use('facebook', new FacebookStrategy({
         clientID: auth_config.facebookAuth.clientID,
         clientSecret: auth_config.facebookAuth.clientSecret,
         callbackURL: 'http://' + config.HOST_IP + '/login/facebook/return',
         profileFields: ['id', 'email', 'picture', 'displayName']
     },
     function (req, accessToken, refreshToken, profile, done) {
+        console.log(profile);
         process.nextTick(function () {
             if(!req.user) {
                 let sql = "SELECT * FROM `user` WHERE id = ?";
@@ -56,7 +115,7 @@ module.exports = function (passport, config, auth_config, con) {
     }));
 
     // Google Login
-    passport.use(new GoogleStrategy({
+    passport.use('google',new GoogleStrategy({
         clientID: auth_config.googleAuth.clientID,
         clientSecret: auth_config.googleAuth.clientSecret,
         callbackURL: 'http://' + config.HOST_IP + '/login/google/return',
