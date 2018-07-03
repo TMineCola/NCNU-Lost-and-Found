@@ -252,6 +252,24 @@
                             });
                     }
                 },
+                changeState () {
+                    axios.post('api/admin/changeState/found', {
+                            "ID": this.changeStateIDs,
+                            "state": this.changeState
+                        })
+                        .then(function (response) {
+                            console.log(response);
+                            self.feedBack.submited = 1;
+                            location.reload();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            alert("Something error");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        });
+                },
                 // imageDataSave(e) {
                 //     // 將上傳前的圖片資訊存起來,等待表單提交時上傳
                 //     let imageFile = e.target.files[0];
