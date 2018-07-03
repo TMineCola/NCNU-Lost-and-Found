@@ -106,31 +106,24 @@ app.get('/lost_form', function (req, res) {
     res.render('pages/lost_form', { user: req.user, page_name: 'lost_form' });
 });
 
-app.post('/register/admin', passport.authenticate('local-signup', {
-    successRedirect : '/', // redirect to the secure profile section
-    failureRedirect : '/', // redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
-}));
-
 // 驗證路由
 
-app.post('/login/admin', passport.authenticate('local-login', {
-        successRedirect : '/',
-        failureRedirect : '/',
-        failureFlash : true }),function(req, res) {
+app.post('/register/admin', passport.authenticate('local-signup'));
+app.post('/login/admin', passport.authenticate('local-login'), function(req, res) {
     res.redirect(req.session.returnTo || '/');
-    res.redirect('/');
+    delete req.session.returnTo;
 });
 
 app.get('/login/facebook', passport.authenticate('facebook', { scope: ["email"] }));
-app.get('/login/facebook/return', passport.authenticate('facebook', { failureRedirect: '/' }), function (req, res) {
+app.get('/login/facebook/return', passport.authenticate('facebook'), function (req, res) {
     res.redirect(req.session.returnTo || '/');
     delete req.session.returnTo;
 });
 
 app.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
 });
 
 // API路由

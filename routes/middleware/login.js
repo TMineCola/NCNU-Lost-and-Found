@@ -54,11 +54,9 @@ function _findAdmin(db, email) {
 /* Export */
 
 function isLoggedIn(req, res, next) {
-    req.session.returnTo = req.path;
     if(req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/');
     return;
 }
 
