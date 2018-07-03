@@ -5,6 +5,9 @@ var db = require('./modules/objectController');
 
 router.post('/changeState/found', function(req, res, next) {
     let object = req.body;
+    if(typeof(object['state']) != "number" || object['state'] < 0 || object['state'] > 7) {
+        res.status(500).send({"failed": "非正確狀態"});
+    }
     let response = {
         failed: []
     };
@@ -21,6 +24,9 @@ router.post('/changeState/found', function(req, res, next) {
 
 router.post('/changeState/lost', function(req, res, next) {
     let object = req.body;
+    if(typeof(object['state']) != "number" || object['state'] < 0 || object['state'] > 7) {
+        res.status(500).send({"failed": "非正確狀態"});
+    }
     let response = {
         failed: []
     };
