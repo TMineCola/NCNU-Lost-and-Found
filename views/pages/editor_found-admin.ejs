@@ -100,7 +100,10 @@
                     isError: 0
                 },
                 // 分頁索引
-                dataIndex: 1
+                dataIndex: 1,
+                // 物品狀態
+                changeStateIds: [],
+                changeStateNum: -1
             },
             // 載入前就先發ajax
             created: function () {
@@ -253,22 +256,41 @@
                     }
                 },
                 changeState () {
-                    axios.post('api/admin/changeState/found', {
-                            "ID": this.changeStateIDs,
-                            "state": this.changeState
-                        })
-                        .then(function (response) {
-                            console.log(response);
-                            self.feedBack.submited = 1;
-                            location.reload();
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            alert("Something error");
-                            setTimeout(function () {
-                                location.reload();
-                            }, 2000);
-                        });
+                    if(this.changeStateIds.length != 0 && this.changeStateNum != -1){
+                        if(confirm("確定要更新選中的" + this.changeStateIds.length + "筆資料嗎?")){
+                            axios.post('api/admin/changeState/found', {
+                                    "ID": this.changeStateIds,
+                                    "state": this.changeStateNum
+                                })
+                                .then(function (response) {
+                                    // console.log(response);
+                                    location.reload();
+                                })
+                                .catch(function (error) {
+                                    // console.log(error);
+                                    alert("Something error");
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                });
+                        }
+                    }else{
+                        this.changeStateNum = -1;
+                        if(this.changeStateIds.length != 0){
+                            alert("請選擇要更新的狀態");
+                        }else {
+                            alert("請先選擇要更換狀態的物品");
+                        }
+                    }
+                },
+                addStateId (id) {
+                    if(this.changeStateIds.indexOf(id) == -1){
+                        this.changeStateIds.push(id);
+                    }else{
+                        // 若是已經有，代表使用者取消選取
+                        this.changeStateIds.splice(this.changeStateIds.indexOf(id), 1);
+                    }
+                    // console.log(this.changeStateIds)
                 },
                 // imageDataSave(e) {
                 //     // 將上傳前的圖片資訊存起來,等待表單提交時上傳

@@ -5,9 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
 var config = require('./config/env');
 var auth_config = require('./config/auth_config');
 var mysql = require('mysql');
+var middleware = require('./routes/middleware/login');
 
 /* 連接MySQL */
 var con = mysql.createConnection({
@@ -54,6 +56,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -103,11 +106,26 @@ app.get('/lost_form', function (req, res) {
     res.render('pages/lost_form', { user: req.user, page_name: 'lost_form' });
 });
 
+app.post('/register/admin', passport.authenticate('local-signup', {
+    successRedirect : '/', // redirect to the secure profile section
+    failureRedirect : '/', // redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+}));
+
 // 驗證路由
+
+app.post('/login/admin', passport.authenticate('local-login', {
+        successRedirect : '/',
+        failureRedirect : '/',
+        failureFlash : true }),function(req, res) {
+    res.redirect(req.session.returnTo || '/');
+    res.redirect('/');
+});
 
 app.get('/login/facebook', passport.authenticate('facebook', { scope: ["email"] }));
 app.get('/login/facebook/return', passport.authenticate('facebook', { failureRedirect: '/' }), function (req, res) {
-    res.redirect('/');
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
 });
 
 app.get('/logout', function (req, res) {
