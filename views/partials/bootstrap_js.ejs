@@ -86,4 +86,20 @@
     );
     $(".cfc_box").click(hideCategories);
   });
+  
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+      var user = $(".userLogin").html();
+      var admin = $(".adminLogin").html();
+      $(document).on('click', '#admin_login', function() {
+      // $("#admin_login").click( function() {
+          $(this).parents().parents().find(".modal-dialog").html(admin);
+      });
+      $(document).on('click', '#user_login', function() {
+      // $("#user_login").click( function() {
+          $(this).parents().parents().find(".modal-dialog").html(user);
+      });
+  });
 </script>

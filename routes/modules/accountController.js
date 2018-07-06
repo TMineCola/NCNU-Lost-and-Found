@@ -28,11 +28,14 @@ module.exports = function () {
         return new Promise((resolve, reject) => {
             let sql = "SELECT COUNT(*) FROM `register` WHERE `email` = ?";
             db.query(sql, email, function (err, result) {
-                if (err) throw err;
+                if (err) {
+                    reject(err);
+                    throw err;
+                }
                 if(result[0]['COUNT(*)'] == 1) {
                     resolve(true);
                 } else {
-                    reject(false);
+                    resolve(false);
                 }
             });
         });
