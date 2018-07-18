@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- 主機: localhost
--- 產生時間： 2018 年 01 月 04 日 23:54
--- 伺服器版本: 10.1.25-MariaDB
--- PHP 版本： 5.6.31
+-- Host: localhost
+-- Generation Time: Jul 18, 2018 at 09:20 AM
+-- Server version: 5.7.22-0ubuntu0.16.04.1
+-- PHP Version: 7.0.30-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `lost_found`
+-- Database: `lost_found`
 --
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `classification`
+-- Table structure for table `classification`
 --
 
 CREATE TABLE `classification` (
@@ -35,7 +33,7 @@ CREATE TABLE `classification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `classification`
+-- Dumping data for table `classification`
 --
 
 INSERT INTO `classification` (`ID`, `name`, `description`) VALUES
@@ -52,7 +50,7 @@ INSERT INTO `classification` (`ID`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `department`
+-- Table structure for table `department`
 --
 
 CREATE TABLE `department` (
@@ -66,7 +64,7 @@ CREATE TABLE `department` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `department`
+-- Dumping data for table `department`
 --
 
 INSERT INTO `department` (`ID`, `name`, `contact_info`, `contact_info2`, `contact_info3`, `description`, `isManagement`) VALUES
@@ -89,7 +87,7 @@ INSERT INTO `department` (`ID`, `name`, `contact_info`, `contact_info2`, `contac
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `property_found`
+-- Table structure for table `property_found`
 --
 
 CREATE TABLE `property_found` (
@@ -108,10 +106,41 @@ CREATE TABLE `property_found` (
   `deleteHash` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `property_found`
+--
+
+INSERT INTO `property_found` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `department_id`, `registrant_id`, `description`, `state`, `image`, `deleteHash`) VALUES
+(3, '自我文章測試 修改', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, 1526756964111456, '看圖', 2, 'https://i.imgur.com/8yBKvTF.jpg', 'E5lL3QFm387nw1I'),
+(4, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, 1526756964111456, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(5, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, 10208434226493678, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(6, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-01-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, 10208434226493678, '看圖', 3, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(7, '李禹叡', 1, '管257', '2018-06-28T13:22:20.416+08:00', '2018-06-14T08:00:00.000+08:00', '2018-06-14T12:00:00.000+08:00', NULL, 10208434226493678, '王俊傑', 0, 'https://i.imgur.com/yuLJrdw.jpg', 'rb04ETuRtPCGgw8'),
+(8, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, 10208434226493678, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(9, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, 10208434226493678, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(10, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(11, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-01-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 3, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(12, '李禹叡', 1, '管257', '2018-06-28T13:22:20.416+08:00', '2018-06-14T08:00:00.000+08:00', '2018-06-14T12:00:00.000+08:00', NULL, NULL, '王俊傑', 0, 'https://i.imgur.com/yuLJrdw.jpg', 'rb04ETuRtPCGgw8'),
+(13, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(14, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(15, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(16, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-01-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 3, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(17, '李禹叡', 1, '管257', '2018-06-28T13:22:20.416+08:00', '2018-06-14T08:00:00.000+08:00', '2018-06-14T12:00:00.000+08:00', NULL, NULL, '王俊傑', 0, 'https://i.imgur.com/yuLJrdw.jpg', 'rb04ETuRtPCGgw8'),
+(18, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(19, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(20, '123', 5, '管237', '2018-01-28T11:39:02.316+08:00', '2018-06-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 1, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(21, '123', 5, '管237', '2018-06-28T11:39:02.316+08:00', '2018-01-28T16:00:00.000+08:00', '2018-06-28T18:00:00.000+08:00', NULL, NULL, '看圖', 3, 'https://i.imgur.com/l9mEGAH.png', '9m4mEnATA7uMAUG'),
+(22, '李禹叡', 1, '管257', '2018-06-28T13:22:20.416+08:00', '2018-06-14T08:00:00.000+08:00', '2018-06-14T12:00:00.000+08:00', NULL, NULL, '王俊傑', 0, 'https://i.imgur.com/yuLJrdw.jpg', 'rb04ETuRtPCGgw8'),
+(23, '最終測試 慢3G found', 2, 'moli', '2018-06-28T15:00:11.990+08:00', '2018-06-28T22:00:00.000+08:00', '2018-06-28T23:00:00.000+08:00', NULL, NULL, 'test', 0, 'https://i.imgur.com/DCoLzTj.jpg', 'GpV56PT3y6Y99vz'),
+(24, 'hk4g4', 1, 'ewsd', '2018-06-28T15:55:27.111+08:00', '2018-06-28T22:00:00.000+08:00', '2018-06-28T23:00:00.000+08:00', NULL, NULL, 'fuck', 0, 'https://i.imgur.com/OVD7W6t.jpg', 'P9A7u6DhaeAFyrs'),
+(25, 'Mike Sam', 1, 'MOLi', '2018-06-29T00:08:38.316+08:00', '2018-06-29T12:00:00.000+08:00', '2018-06-29T14:00:00.000+08:00', NULL, 1223101501168152, '123', 0, 'https://i.imgur.com/xE6dlhq.jpg', 'xVwBgnidI86pLwN'),
+(27, 'ewerwr', 1, 'www', '2018-07-02T12:28:01.467+08:00', '2018-07-02T20:00:00.000+08:00', '2018-07-02T21:00:00.000+08:00', NULL, 1526756964111456, 'qqq', 5, 'https://i.imgur.com/KcnLtgm.jpg', '3X6mssrm3JsrSUm'),
+(28, '測試 slow 3G', 2, '測試', '2018-07-02T13:26:30.276+08:00', '2018-07-02T21:00:00.000+08:00', '2018-07-02T22:00:00.000+08:00', NULL, 1526756964111456, '長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長長度最好87長', 2, 'https://i.imgur.com/Nwk6iDU.jpg', 'bu5jl3Cixvdb8HM');
+
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `property_lostwish`
+-- Table structure for table `property_lostwish`
 --
 
 CREATE TABLE `property_lostwish` (
@@ -129,10 +158,31 @@ CREATE TABLE `property_lostwish` (
   `deleteHash` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `property_lostwish`
+--
+
+INSERT INTO `property_lostwish` (`ID`, `name`, `classification_id`, `location`, `registered_time`, `time_interval_LB`, `time_interval_UB`, `wisher_id`, `description`, `state`, `image`, `deleteHash`) VALUES
+(13, '123', 7, '管237', '2018-06-28T11:38:26.825+08:00', '2018-06-28T14:00:00.000+08:00', '2018-06-28T16:00:00.000+08:00', NULL, '看圖', 2, 'https://i.imgur.com/N914CAS.png', 'MPIlKpc4EvVl9yS'),
+(14, '123', 1, '管241', '2018-06-28T13:21:22.031+08:00', '2018-06-28T14:00:00.000+08:00', '2018-06-28T16:00:00.000+08:00', NULL, '123', 0, 'https://i.imgur.com/dFk5jOw.png', '3UgciF2rrVYIOWz'),
+(15, '操 圖片能夠壓縮', 1, 'moli', '2018-06-28T14:45:38.541+08:00', '2018-06-28T21:00:00.000+08:00', '2018-06-28T22:00:00.000+08:00', NULL, '狗', 0, 'https://i.imgur.com/6kupOPf.jpg', '4VAHeHCs9WLdl1E'),
+(16, '最終測試 慢3G Lost', 2, 'moli', '2018-06-28T14:59:01.847+08:00', '2018-06-28T02:00:00.000+08:00', '2018-06-28T03:00:00.000+08:00', NULL, 'test', 0, 'https://i.imgur.com/rqx02ai.jpg', 'vLsnN64qwUSgMct'),
+(17, '王俊傑', 2, 'moli', '2018-06-28T23:54:36.899+08:00', '2018-06-28T12:00:00.000+08:00', '2018-06-28T14:00:00.000+08:00', 10208434226493678, '123', 0, 'https://i.imgur.com/877MDIl.jpg', 'EVcWgjpPv5QSh0H'),
+(18, '幹 還出bug阿', 2, 'Sam家', '2018-07-02T10:34:52.044+08:00', '2018-07-02T18:00:00.000+08:00', '2018-07-02T19:00:00.000+08:00', 1526756964111456, '還不修好你', 0, 'https://i.imgur.com/FyfeTWX.jpg', 'WonPdrMIVSG2FJN'),
+(19, '沒壓縮呢！', 2, '桃南路', '2018-07-02T18:49:20.214+08:00', '2018-07-02T12:00:00.000+08:00', '2018-07-02T13:00:00.000+08:00', 10208434226493678, '測試', 0, 'https://i.imgur.com/jAfchPp.jpg', '5oNGUyoRxBNOpAu'),
+(20, '測試3G', 1, '洮南', '2018-07-02T18:50:11.477+08:00', '2018-07-02T12:00:00.000+08:00', '2018-07-02T14:00:00.000+08:00', 10208434226493678, '測試', 0, 'https://i.imgur.com/Kek6guy.jpg', 'e2rZjnHpnid1IH2'),
+(21, '新壓縮測試', 3, '測試', '2018-07-02T10:51:14.620+08:00', '2018-07-02T02:00:00.000+08:00', '2018-07-02T03:00:00.000+08:00', 1526756964111456, '測試', 0, 'https://i.imgur.com/0HNspaS.jpg', '5DTgRZi0nU8Ei5r'),
+(22, '帶入參數 不唬爛', 1, 'Sam家', '2018-07-02T10:58:03.317+08:00', '2018-07-02T18:00:00.000+08:00', '2018-07-02T19:00:00.000+08:00', 1526756964111456, '修正壓縮不夠', 0, 'https://i.imgur.com/rac84EA.jpg', 'fL2epOAa5mpiBws'),
+(23, '這次真的不唬爛 壓縮催下去', 1, '山姆家', '2018-07-02T11:07:07.635+08:00', '2018-07-02T19:00:00.000+08:00', '2018-07-02T20:00:00.000+08:00', 1526756964111456, 'QQ', 0, 'https://i.imgur.com/cd4HJlA.jpg', 'to51LS1C2OqifTp'),
+(24, '禹叡說乾話', 9, '不懂', '2018-07-02T19:10:32.493+08:00', '2018-07-02T19:00:00.000+08:00', '2018-07-02T20:00:00.000+08:00', 10208434226493678, '明明就髒', 0, 'https://i.imgur.com/chnQawV.jpg', 'UeA8S6NWnuals1F'),
+(25, '禹叡又說幹話', 9, '神奇豆豆', '2018-07-02T19:11:34.623+08:00', '2018-07-02T19:00:00.000+08:00', '2018-07-02T20:00:00.000+08:00', 10208434226493678, '見證正常速度', 0, 'https://i.imgur.com/dZxJvCS.jpg', '3CDAbMpUWuQi3NH'),
+(26, 'dddd', 1, 'dddd', '2018-07-02T12:24:42.182+08:00', '2018-07-02T19:00:00.000+08:00', '2018-07-02T19:00:00.000+08:00', 1526756964111456, 'wer', 0, 'https://i.imgur.com/KKfLjXA.jpg', 'DdJYNzRUAy4EaDp'),
+(27, '壓到800', 1, '家裡', '2018-07-02T12:30:01.881+08:00', '2018-07-02T20:00:00.000+08:00', '2018-07-02T21:00:00.000+08:00', 1526756964111456, 'QQ', 0, 'https://i.imgur.com/MuyUIto.jpg', '6RIpaPLBcMkp2Ma');
+
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `property_state`
+-- Table structure for table `property_state`
 --
 
 CREATE TABLE `property_state` (
@@ -141,7 +191,7 @@ CREATE TABLE `property_state` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `property_state`
+-- Dumping data for table `property_state`
 --
 
 INSERT INTO `property_state` (`ID`, `state`) VALUES
@@ -157,210 +207,134 @@ INSERT INTO `property_state` (`ID`, `state`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `register`
+-- Table structure for table `register`
 --
 
 CREATE TABLE `register` (
   `ID` bigint(20) UNSIGNED NOT NULL,
-  `identity` tinyint(4) NOT NULL,
-  `email` text NOT NULL,
-  `password` text NOT NULL,
-  `registered_time` datetime NOT NULL,
-  `isManager` tinyint(1) NOT NULL,
-  `isMaintainer` tinyint(1) NOT NULL,
-  `register_check` tinyint(1) NOT NULL
+  `email` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `password` varchar(256) CHARACTER SET utf8 NOT NULL,
+  `departmentID` tinyint(4) DEFAULT NULL,
+  `registered_time` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `isManager` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `register`
+-- Dumping data for table `register`
 --
 
-INSERT INTO `register` (`ID`, `identity`, `email`, `password`, `registered_time`, `isManager`, `isMaintainer`, `register_check`) VALUES
-(1, 2, 'test', 'test', '2017-11-25 22:41:42', 0, 0, 0),
-(2, 3, 'test2', 'test2', '2017-11-25 22:44:01', 0, 0, 0),
-(3, 3, 'test@mail.com', 'test', '2017-11-26 23:34:33', 0, 0, 0),
-(6, 3, 'test2@gmail.com', 'test', '2017-11-27 22:24:12', 0, 0, 0),
-(8, 2, 'test1@mail.com', 'test', '2017-11-28 00:08:28', 0, 0, 0),
-(9, 2, 'test3@gmail.com', 'test', '2017-11-28 00:09:06', 0, 0, 0);
+INSERT INTO `register` (`ID`, `email`, `password`, `departmentID`, `registered_time`, `isManager`) VALUES
+(1, 'test', '6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090', NULL, '2017-11-25 22:41:42', 0),
+(23, 'wang.minecola@gmail.com', '6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090', NULL, '2018-07-03T20:49:53.048+08:00', 0);
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `student`
---
-
-CREATE TABLE `student` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `register_id` bigint(20) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  `grade` tinyint(4) NOT NULL,
-  `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `contact_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `contact_info2` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `contact_info3` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `image` text,
-  `info_check` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- 資料表的匯出資料 `student`
---
-
-INSERT INTO `student` (`ID`, `register_id`, `department_id`, `grade`, `name`, `contact_info`, `contact_info2`, `contact_info3`, `image`, `info_check`) VALUES
-(1, 6, 49, 11, 'testname', 'tset', '', '', '', 1);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `teacher_staff`
---
-
-CREATE TABLE `teacher_staff` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `register_id` bigint(20) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `contact_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `contact_info2` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `contact_info3` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `image` text,
-  `info_check` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- 資料表的匯出資料 `teacher_staff`
---
-
-INSERT INTO `teacher_staff` (`ID`, `register_id`, `department_id`, `name`, `contact_info`, `contact_info2`, `contact_info3`, `image`, `info_check`) VALUES
-(1, 3, 1, '丁乙己', '0912345678', NULL, NULL, NULL, 0),
-(2, 5, -1, '未填寫', '未填寫', NULL, NULL, NULL, 0),
-(3, 9, 1, '未填寫', '未填寫', NULL, NULL, NULL, 0);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
   `id` varchar(255) NOT NULL,
-  `access_token` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `session_key` varchar(255) DEFAULT NULL
+  `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 已匯出資料表的索引
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`) VALUES
+('10208434226493678', 'Mike Sam', 'samson9565@gmail.com'),
+('1223101501168152', 'Wang Jiun-Jie', 'wang.minecola@gmail.com'),
+('1526756964111456', '李禹叡', 'felicity332@hotmail.com');
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- 資料表索引 `classification`
+-- Indexes for table `classification`
 --
 ALTER TABLE `classification`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
 --
--- 資料表索引 `department`
+-- Indexes for table `department`
 --
 ALTER TABLE `department`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
 --
--- 資料表索引 `property_found`
+-- Indexes for table `property_found`
 --
 ALTER TABLE `property_found`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
 --
--- 資料表索引 `property_lostwish`
+-- Indexes for table `property_lostwish`
 --
 ALTER TABLE `property_lostwish`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
 --
--- 資料表索引 `property_state`
+-- Indexes for table `property_state`
 --
 ALTER TABLE `property_state`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`);
 
 --
--- 資料表索引 `register`
+-- Indexes for table `register`
 --
 ALTER TABLE `register`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `ID` (`ID`);
+  ADD UNIQUE KEY `ID` (`ID`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
--- 資料表索引 `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `ID` (`ID`);
-
---
--- 資料表索引 `teacher_staff`
---
-ALTER TABLE `teacher_staff`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `ID` (`ID`);
-
---
--- 資料表索引 `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- 在匯出的資料表使用 AUTO_INCREMENT
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- 使用資料表 AUTO_INCREMENT `classification`
+-- AUTO_INCREMENT for table `classification`
 --
 ALTER TABLE `classification`
   MODIFY `ID` tinyint(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
--- 使用資料表 AUTO_INCREMENT `department`
+-- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
   MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
--- 使用資料表 AUTO_INCREMENT `property_found`
+-- AUTO_INCREMENT for table `property_found`
 --
 ALTER TABLE `property_found`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
--- 使用資料表 AUTO_INCREMENT `property_lostwish`
+-- AUTO_INCREMENT for table `property_lostwish`
 --
 ALTER TABLE `property_lostwish`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
--- 使用資料表 AUTO_INCREMENT `property_state`
+-- AUTO_INCREMENT for table `property_state`
 --
 ALTER TABLE `property_state`
   MODIFY `ID` tinyint(2) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
--- 使用資料表 AUTO_INCREMENT `register`
+-- AUTO_INCREMENT for table `register`
 --
 ALTER TABLE `register`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- 使用資料表 AUTO_INCREMENT `student`
---
-ALTER TABLE `student`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- 使用資料表 AUTO_INCREMENT `teacher_staff`
---
-ALTER TABLE `teacher_staff`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
-
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
