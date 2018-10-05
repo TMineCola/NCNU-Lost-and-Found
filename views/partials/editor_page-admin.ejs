@@ -42,7 +42,7 @@
     <template v-if="searchKeyWord.length!=0">
         <div class="col-md-6 mb-4" v-for="list in finalData">
             <div class="card">
-                <label class="card-img-top d-flex justify-content-center align-items-center imgHover" v-bind:style="{ 'background-image': 'url(' + list.image + ')' }" style="cursor: pointer;">
+                <label class="card-img-top d-flex justify-content-center align-items-center imgHover" :class="{'imgOpacity': changeStateIds.indexOf(list.ID) != -1}" v-bind:style="{ 'background-image': 'url(' + list.image + ')' }" style="cursor: pointer;">
                     <!-- <input class="form-check-input" type="checkbox" style="position: absolute; top: 5px; left: 35px" @click="addStateId(list.ID)"> -->
                     <div class="chk-container">
                         <input :id="'check'+list.ID" class="form-check-input" type="checkbox" @click="addStateId(list.ID)">
