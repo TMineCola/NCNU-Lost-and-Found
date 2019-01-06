@@ -10,6 +10,7 @@ var config = require('./config/env');
 var auth_config = require('./config/auth_config');
 var mysql = require('mysql');
 var helmet = require('helmet');
+var csurf = require('csurf');
 var middleware = require('./routes/middleware/login');
 
 /* 連接MySQL */
@@ -129,6 +130,7 @@ app.get('/logout', function (req, res) {
 });
 
 // API路由
+
 app.use('/api/lost', lost);
 app.use('/api/found', found);
 app.use('/api/contact', contact);
@@ -143,6 +145,14 @@ app.use(function (req, res, next) {
 });
 
 // error handler
+app.use(function (err, req, res, next) {
+    if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+    // handle CSRF token errors here
+    res.status(403)
+    res.send('csrfToken not found');
+});
+
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
