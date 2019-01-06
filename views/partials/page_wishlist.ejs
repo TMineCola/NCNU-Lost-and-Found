@@ -7,18 +7,14 @@
                 </li>
                 <li v-if="chosenClass!=0" class="breadcrumb-item active" aria-current="page">{{ classNumToText(chosenClass) }}</li>
                 <li class="ml-4"><span class="badge badge-info">共有 {{ searchKeyWord.length }} 筆資料</span></li>
+                <li class="ml-auto">
+                    <select v-model.number="timeSort" style="height:25px;">
+                        <option value=1>新 → 舊</option>
+                        <option value=0>舊 → 新</option>
+                    </select>
+                </li>
             </ol>
         </nav>
-    </div>
-    <div class="col-12 mb-3">
-        <span class="badge">
-            <img src="../img/sort_logo-01.png"style="max-height:40px;"/>
-            <!-- 時間排序 -->
-            <select v-model.number="timeSort" class="ml-2" style="height:40px;">
-                <option value=1>新 → 舊</option>
-                <option value=0>舊 → 新</option>
-            </select>
-        </span>
     </div>
 </div>
 <div class="row">
