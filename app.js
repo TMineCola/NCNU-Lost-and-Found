@@ -9,6 +9,7 @@ var flash = require('connect-flash');
 var config = require('./config/env');
 var auth_config = require('./config/auth_config');
 var mysql = require('mysql');
+var helmet = require('helmet');
 var middleware = require('./routes/middleware/login');
 
 /* 連接MySQL */
@@ -45,6 +46,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(helmet());
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
