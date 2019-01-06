@@ -155,6 +155,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
+    console.log(err.message);
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = config.development === true ? err : { "message": "Page not found" };
