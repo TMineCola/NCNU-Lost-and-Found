@@ -234,7 +234,8 @@
                                 "time_interval_UB": time_UB,
                                 "description": self.formData.description.value,
                                 "image": self.formData.image.value,
-                                "deleteHash": self.formData.image.deleteHash
+                                "deleteHash": self.formData.image.deleteHash,
+                                "_csrf": "<%= csrfToken =>"
                             })
                             .then(function (response) {
                                 console.log(response);
