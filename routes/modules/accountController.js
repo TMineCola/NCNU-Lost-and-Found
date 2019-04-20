@@ -56,6 +56,22 @@ module.exports = function () {
         });
     }
 
+    module.getList = function () {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT `email` FROM `register`";
+            db.query(sql, function (err, result) {
+                if (err) {
+                    reject(err);
+                }
+                let accountList = { 'account': [] };
+                for(let i in result) {
+                    accountList.account.push(result[i]['email']);
+                }
+                resolve(accountList);
+            });
+        });
+    }
+
     module.create = function (email, password) {
         return new Promise((resolve, reject) => {
             let sql = "INSERT INTO `register` (email, password, registered_time, isManager) VALUES (?, ?, ?, 0)";

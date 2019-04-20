@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="z-index:10;">
     <div class="container">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="./">
             <img src="img/lost-items.png" width="32px" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
@@ -11,22 +11,22 @@
             <ul class="navbar-nav">
                 <!-- 看到的是招領清單 -->
                 <li class="nav-item <% if (page_name === 'lost') { %>active <% } %>" >
-                    <a class="nav-link" href="/lost">尋找
+                    <a class="nav-link" href="./lost">尋找
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <!-- 看到的是願望清單 -->
                 <li class="nav-item <% if (page_name === 'found') { %>active <% } %>" >
-                    <a class="nav-link" href="/found">拾獲</a>
+                    <a class="nav-link" href="./found">拾獲</a>
                 </li>
                 <li class="nav-item <% if (page_name === 'expired') { %>active <% } %>" >
-                    <a class="nav-link" href="/expired">逾期</a>
+                    <a class="nav-link" href="./expired">逾期</a>
                 </li>
                 <li class="nav-item <% if (page_name === 'claim') { %>active <% } %>" >
-                    <a class="nav-link" href="/claim">公開認領</a>
+                    <a class="nav-link" href="./claim">公開認領</a>
                 </li>
                 <li class="nav-item <% if (page_name === 'contact') { %>active <% } %>" >
-                    <a class="nav-link" href="/contact">聯絡</a>
+                    <a class="nav-link" href="./contact">聯絡</a>
                 </li>
                 <% if(user) { %>
                     <li class="nav-item <% if (page_name === 'account') { %>active <% } %>" >
@@ -40,11 +40,11 @@
                   <!-- 這邊到時候要再依照登入身分過濾顯示的選項 -->
                   <% if(user) { %>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/editor_lost">編輯我的協尋清單</a>
-                        <a class="dropdown-item" href="/editor_found">編輯我的拾獲清單</a>
-                        <a class="dropdown-item" href="/editor_lost-admin">編輯神的協尋清單</a>
-                        <a class="dropdown-item" href="/editor_found-admin">編輯神的拾獲清單</a>
-                        <a class="dropdown-item" href="/logout">登出</a>
+                        <a class="dropdown-item" href="./editor_lost">編輯我的協尋清單</a>
+                        <a class="dropdown-item" href="./editor_found">編輯我的拾獲清單</a>
+                        <a class="dropdown-item" href="./editor_lost-admin">編輯神的協尋清單</a>
+                        <a class="dropdown-item" href="./editor_found-admin">編輯神的拾獲清單</a>
+                        <a class="dropdown-item" href="./logout">登出</a>
                     </div>
                   <% } %>
                 </li>

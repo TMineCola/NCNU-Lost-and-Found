@@ -3,7 +3,13 @@ var router = express.Router();
 var middleware = require('./middleware/login');
 var db = require('./modules/accountController');
 
-router.get('/', function(req, res, next) {
+router.get('/list', function(req, res, next) {
+    db.getList().then((result) => {
+        res.status(200).send(result);
+    })
+});
+
+router.get('/check', function(req, res, next) {
     let account = req.body;
     if(!account || !account.email) {
         res.status(406).send({ "error": "should provide email" });

@@ -76,7 +76,7 @@ module.exports = function (passport, config, auth_config, con) {
     passport.use('facebook', new FacebookStrategy({
         clientID: auth_config.facebookAuth.clientID,
         clientSecret: auth_config.facebookAuth.clientSecret,
-        callbackURL: 'http://' + config.HOST_IP + '/login/facebook/return',
+        callbackURL: config.HOST_IP + '/login/facebook/return',
         profileFields: ['id', 'email', 'picture', 'displayName']
     },
     function (req, accessToken, refreshToken, profile, done) {
@@ -112,7 +112,7 @@ module.exports = function (passport, config, auth_config, con) {
     passport.use('google',new GoogleStrategy({
         clientID: auth_config.googleAuth.clientID,
         clientSecret: auth_config.googleAuth.clientSecret,
-        callbackURL: 'http://' + config.HOST_IP + '/login/google/return',
+        callbackURL: config.HOST_IP + '/login/google/return',
         profileFields: ['id', 'email', 'picture', 'https://www.googleapis.com/auth/userinfo.profile'],
         passReqToCallback: true
     },
