@@ -10,43 +10,9 @@ module.exports = function (passport, config, auth_config, con) {
     });
 
     passport.deserializeUser(function (user, done) {
-        console.log(user);
+        user.displayName = (user.displayName) ? user.displayName : user.emails[0].value;
         done(null, user);
     });
-
-    // Local Signup
-    /*
-    passport.use('local-signup', new LocalStrategy({
-            usernameField : 'username',
-            passwordField : 'password',
-            passReqToCallback : true
-        },
-        function(req, username, password, done) {
-            accountControl.searchAccount(username).then((bool) => {
-                if(bool) {
-                    console.log('存在');
-                    return done(null, false, req.flash('error', '該帳號已存在'));
-                } else {
-                    console.log('不存在');
-                    return accountControl.create(username, password).then((id) => {
-                        let profile = {
-                            'id': id,
-                            'emails': [{'value': username}],
-                            'photos': [{'value':'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png'}],
-                            'displayName': username
-                        }
-                        console.log('新增');
-                        return done(null, profile);
-                    }).catch(()=> {
-                        return done(null, false, req.flash('error', '帳號新增失敗'));
-                    })
-                }
-            }).catch(() => {
-                return done(null, false, req.flash('error', '伺服器錯誤'));
-            });
-        }
-    ));
-    */
 
     // Local Login
     passport.use('local-login', new LocalStrategy({
@@ -80,7 +46,6 @@ module.exports = function (passport, config, auth_config, con) {
         profileFields: ['id', 'email', 'picture', 'displayName']
     },
     function (req, accessToken, refreshToken, profile, done) {
-        console.log(profile);
         process.nextTick(function () {
             if(!req.user) {
                 let sql = 'SELECT * FROM `user` WHERE id = ?';
@@ -126,11 +91,9 @@ module.exports = function (passport, config, auth_config, con) {
                         console.log('Could not find such user, then add');
                         let userObj = {
                             'id': profile.id,
+                            'name': (profile.displayName) ? profile.displayName : profile.emails[0].value,
+                            'email': profile.emails[0].value
                         };
-                        if (!profile.displayName) {
-                            profile.displayName = profile.emails[0].value;
-                            userObj['name'] = profile.emails[0].value;
-                        }
                         sql = 'INSERT INTO `user` SET ?';
                         con.query(sql, userObj);
                     } else {
@@ -139,9 +102,6 @@ module.exports = function (passport, config, auth_config, con) {
                 });
                 return done(null, profile);
             } else {
-                if (!profile.displayName) {
-                    profile.displayName = profile.emails[0].value;
-                }
                 return done(null, profile);
             }
         });
