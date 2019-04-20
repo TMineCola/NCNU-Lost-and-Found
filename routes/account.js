@@ -27,6 +27,7 @@ router.patch('/', function(req, res, next) {
 });
 
 router.delete('/', function(req, res, next) {
+    let account = req.body;
     db.searchEmail(account.email).then(() => {
         return db.modify(account.email, account.password);
     }).then(() => {
