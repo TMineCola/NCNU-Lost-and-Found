@@ -41,12 +41,14 @@
     .onl_btn-github:hover {
         background: #383838;
     }
+
     .onl_hrOr {
-	background-color: #cdcdcd;
-	height: 1px;
-	margin-top: 0px !important;
-	margin-bottom: 0px !important;
+        background-color: #cdcdcd;
+        height: 1px;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
     }
+
     .onl_spanOr {
         display: block;
         position: absolute;
@@ -57,7 +59,10 @@
         width: 3em;
         text-align: center;
     }
-    .hide {display:none;}
+
+    .hide {
+        display: none;
+    }
 </style>
 
 <% if(!user) { %>
@@ -67,7 +72,8 @@
     登入
 </button>
 <!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog userLogin" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,7 +84,8 @@
             </div>
             <div class="modal-body">
                 <div class="col-12">
-                    <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
+                    <a href="/login/facebook"
+                        class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
                         role="button" title="Facebook">
                         <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
                         <span class="m-auto">使用&nbsp;&nbsp;Facebook&nbsp;&nbsp;登入</span>
@@ -89,7 +96,8 @@
                     <span class="onl_spanOr">or</span>
                 </div>
                 <div class="col-12 mt-3 mb-3">
-                    <a href="#" class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
+                    <a href="/login/google"
+                        class="pl-md-0 btn btn-lg btn-block onl_btn-google d-flex justify-content-md-start justify-content-center align-items-center"
                         role="button" title="Google">
                         <i class="d-none d-md-inline-block fa fa-google fa-2x mr-2"></i>
                         <span class="m-auto">使用&nbsp;&nbsp;&nbsp;&nbsp;Google&nbsp;&nbsp;&nbsp;&nbsp;登入</span>
@@ -115,17 +123,20 @@
         </div>
         <div class="modal-body">
             <div class="col-12">
-                <form class="onl_loginForm" action="./login/admin" autocomplete="off" method="POST">
+                <form class="onl_loginForm" autocomplete="off" method="POST">
                     <div class="input-group mb-3">
                         <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                        <input type="text" class="form-control" name="username" placeholder="Administrator's ID">
+                        <input type="text" id="username" class="form-control" name="username"
+                            placeholder="Administrator's ID">
                     </div>
                     <span class="help-block"></span>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><span class="fa fa-lock"></span></span>
-                        <input  type="password" class="form-control" name="password" placeholder="Administrator's Password">
+                        <input type="password" id="userpassword" class="form-control" name="userpassword"
+                            placeholder="Administrator's Password">
                     </div>
-                    <button class="mt-3 btn btn-lg btn-primary btn-block p-2" style="border-radius:5px;"type="submit"><i class="fa fa-sign-in"></i> Login</button>
+                    <button id="loginBtn" class="mt-3 btn btn-lg btn-primary btn-block p-2"
+                        style="border-radius:5px;"><i class="fa fa-sign-in"></i> Login</button>
                 </form>
             </div>
         </div>
@@ -138,7 +149,10 @@
 </div>
 
 <% } else { %>
-    <a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="http://localhost:3000/logout" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:25px;">
-        <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> " style='border-radius:25px;height:25px;width:25px;'/>
-    </a>
+<a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="http://localhost:3000/logout"
+    id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+    style="border-radius:25px;">
+    <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> "
+        style='border-radius:25px;height:25px;width:25px;' />
+</a>
 <% } %>

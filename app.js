@@ -137,7 +137,6 @@ app.get('/login/google/return', passport.authenticate('google'), function (req, 
     delete req.session.returnTo;
 });
 
-
 app.get('/logout', function (req, res) {
     req.logout();
     res.redirect(req.session.returnTo || '/');

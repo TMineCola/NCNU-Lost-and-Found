@@ -9,11 +9,11 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-  var run = 0;
-  /*
-   * toggle categories 開關 function
-   * <------ Start ----->
-   */
+    var run = 0;
+    /*
+     * toggle categories 開關 function
+     * <------ Start ----->
+     */
     function hideCategories() {
       $("body").find("#categories_main").removeClass("tool_visible");
       $("body").find("#blur").removeClass("blur");
@@ -23,6 +23,7 @@
         '<div id="btn-toggle-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>');
       run++
     }
+
     function showCategories() {
       $("body").find("#categories_main").removeClass("tool_invisible");
       $("body").find("#blur").addClass("blur");
@@ -36,23 +37,25 @@
      * <------ End ----->
      */
 
-      //點擊toggle執行
-      $('#btn-toggle-board').on("click", '#btn-toggle-up', hideCategories);
-      $('#btn-toggle-board').on("click", '#btn-toggle-down', showCategories);
+    //點擊toggle執行
+    $('#btn-toggle-board').on("click", '#btn-toggle-up', hideCategories);
+    $('#btn-toggle-board').on("click", '#btn-toggle-down', showCategories);
 
-      //點擊categories's link後執行
-      $('.cfc_link').click(hideCategories);
+    //點擊categories's link後執行
+    $('.cfc_link').click(hideCategories);
 
-      //滑動視窗後執行
-      $(window).scroll(function () {
+    //滑動視窗後執行
+    $(window).scroll(function () {
       if ($(window).scrollTop() > 50) { //向下滾動數值大於該值時，即出現小火箭
         // if(run!=1){ hideCategories(); }
-        while(run!=1){ hideCategories(); }
+        while (run != 1) {
+          hideCategories();
+        }
       }
     });
     // 當關鍵字輸入後存到vue中做過濾
     $("#keyWordGo").click(function () {
-      if(app.dataIndex){
+      if (app.dataIndex) {
         app.dataIndex = 1;
       }
       app.keyWord = $("#keyWord").val();
@@ -60,46 +63,68 @@
     $("#keyWord").keyup(function (e) {
       // enter
       // if(e.keyCode == 13){
-        if(app.dataIndex){
-          app.dataIndex = 1;
-        }
-        app.keyWord = $("#keyWord").val();
+      if (app.dataIndex) {
+        app.dataIndex = 1;
+      }
+      app.keyWord = $("#keyWord").val();
       // }
     });
 
     // Sorry about bad spacing. Also...this is jquery if you didn't notice allready.
-    $(".cfc_hover").hover(function(){
-    //On Hover - Works on ios
-        $(this).css("opacity", "1");
-    }, function(){
-        //Hover Off - Hover off doesn't seem to work on iOS
-        $(this).css("opacity", "0");
+    $(".cfc_hover").hover(function () {
+      //On Hover - Works on ios
+      $(this).css("opacity", "1");
+    }, function () {
+      //Hover Off - Hover off doesn't seem to work on iOS
+      $(this).css("opacity", "0");
     });
-    $( ".cfc_box" ).hover(
-      function() {
-        ($(this).find(".cfc_default").css('display','none'));
-        ($(this).find(".cfc_hover").css('opacity','1'));
-      }, function() {
-        ($(this).find(".cfc_default").css('display','block'));
-        ($(this).find(".cfc_hover").css('opacity','0'));
+    $(".cfc_box").hover(
+      function () {
+        ($(this).find(".cfc_default").css('display', 'none'));
+        ($(this).find(".cfc_hover").css('opacity', '1'));
+      },
+      function () {
+        ($(this).find(".cfc_default").css('display', 'block'));
+        ($(this).find(".cfc_hover").css('opacity', '0'));
       }
     );
     $(".cfc_box").click(hideCategories);
   });
-  
 </script>
 
 <script type="text/javascript">
   $(document).ready(function () {
-      var user = $(".userLogin").html();
-      var admin = $(".adminLogin").html();
-      $(document).on('click', '#admin_login', function() {
-      // $("#admin_login").click( function() {
-          $(this).parents().parents().find(".modal-dialog").html(admin);
-      });
-      $(document).on('click', '#user_login', function() {
-      // $("#user_login").click( function() {
-          $(this).parents().parents().find(".modal-dialog").html(user);
-      });
+    var user = $(".userLogin").html();
+    var admin = $(".adminLogin").html();
+    $(document).on('click', '#admin_login', function () {
+      $(this).parents().parents().find(".modal-dialog").html(admin);
+    });
+    $(document).on('click', '#user_login', function () {
+      $(this).parents().parents().find(".modal-dialog").html(user);
+    });
+    $(document).on('click', '#loginBtn', function (e) {
+      e.preventDefault();
+      var username = $("#username").val();
+      var userpassword = $("#userpassword").val();
+      if (username == "" || userpassword == "") {
+        alert("帳號/密碼不得為空!");
+        return;
+      }
+      fetch('./login/admin', {
+        method: 'post',
+        body: JSON.stringify({
+          'username': username,
+          'userpassword': userpassword
+        }),
+        headers: new Headers({
+          'CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute(
+            'content')
+        })
+      }).then((resp) => {
+        return resp.json();
+      }).then((response) => {
+        console.log(response);
+      })
+    });
   });
 </script>
