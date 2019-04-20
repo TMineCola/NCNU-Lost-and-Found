@@ -48,6 +48,7 @@
     <% include ../partials/jqueryUi %>
 
     <script>
+        axios.defaults.headers.common['CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content') || "";
         var app = new Vue({
             el: '#lost',
             data: {
@@ -221,8 +222,7 @@
                                     "time_interval_UB": time_UB,
                                     "description": self.formData.description.value,
                                     "image": self.formData.image.value,
-                                    "deleteHash": self.formData.image.deleteHash,
-                                    "_csrf": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                    "deleteHash": self.formData.image.deleteHash
                                 })
                                 .then(function (response) {
                                     console.log(response);
@@ -246,8 +246,7 @@
                                 "location": self.formData.location.value,
                                 "time_interval_LB": time_LB,
                                 "time_interval_UB": time_UB,
-                                "description": self.formData.description.value,
-                                "_csrf": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                "description": self.formData.description.value
                             })
                             .then(function (response) {
                                 console.log(response);
