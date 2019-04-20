@@ -28,6 +28,11 @@
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="/found">協尋清單</a>
         </li>
+        <% if(user) { %>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/account">帳號管理</a>
+          </li>
+        <% } %>
       </ul>
       <ul class="navbar-nav navbar-right ml-auto">
           <li class="nav-item dropdown">

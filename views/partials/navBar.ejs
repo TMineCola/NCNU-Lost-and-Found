@@ -28,6 +28,11 @@
                 <li class="nav-item <% if (page_name === 'contact') { %>active <% } %>" >
                     <a class="nav-link" href="/contact">聯絡</a>
                 </li>
+                <% if(user) { %>
+                    <li class="nav-item <% if (page_name === 'account') { %>active <% } %>" >
+                        <a class="nav-link" href="/account">帳號管理</a>
+                    </li>
+                <% } %>
             </ul>
             <ul class="navbar-nav navbar-right ml-auto">
                 <li class="nav-item dropdown">

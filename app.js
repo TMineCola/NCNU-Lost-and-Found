@@ -91,6 +91,9 @@ app.get('/claim', function (req, res) {
 app.get('/contact', function (req, res) {
     res.render('pages/contact', { user: req.user, page_name: 'contact', csrfToken: req.csrfToken()});
 });
+app.get('/account', function (req, res) {
+    res.render('pages/account', { user: req.user, page_name: 'account', csrfToken: req.csrfToken()});
+});
 app.get('/editor_found', function (req, res) {
     res.render('pages/editor_found', { user: req.user, page_name: 'editor_found', csrfToken: req.csrfToken()});
 });
