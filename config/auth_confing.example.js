@@ -3,14 +3,12 @@
 var auth_config = {
     'facebookAuth' :{
         'clientID'      : '',
-        'clientSecret'  : '',
-        'callbackURL'   : ''
+        'clientSecret'  : ''
     },
 
     'googleAuth' :{
         'clientID'      : '',
-        'clientSecret'  : '',
-        'callbackURL'   : ''
+        'clientSecret'  : ''
     }
 };
 
