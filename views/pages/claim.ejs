@@ -103,7 +103,7 @@
             // 載入前就先發ajax
             beforeCreate: function () {
                 var self = this;
-                axios.get('/api/found/state/5')
+                axios.get('./api/found/state/5')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
@@ -205,7 +205,7 @@
                 },
                 delDetail (id) {
                     if(confirm("確定要刪除此則遺失物資訊?")){
-                        axios.delete('/api/found/'+id)
+                        axios.delete('./api/found/'+id)
                             .then(function (response) {
                                 console.log(response);
                                 location.reload();
@@ -267,7 +267,7 @@
                         let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
                         if (self.formData.image.value == "ok") {
                             self.imageUpload(self.formData.image.imgData).then((res) => {
-                                axios.patch('/api/found/' + this.formData.id.value, {
+                                axios.patch('./api/found/' + this.formData.id.value, {
                                     "name": self.formData.name.value,
                                     "classification_id": self.formData.fication.value,
                                     "location": self.formData.location.value,
@@ -293,7 +293,7 @@
                                 });
                             });
                         } else {
-                            axios.patch('/api/found/' + self.formData.id.value, {
+                            axios.patch('./api/found/' + self.formData.id.value, {
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
                                 "location": self.formData.location.value,

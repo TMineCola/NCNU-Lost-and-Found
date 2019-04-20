@@ -111,7 +111,7 @@
             // 載入前就先發ajax
             created: function () {
                 var self = this;
-                axios.get('/api/found/')
+                axios.get('./api/found/')
                     .then(function (response) {
                         console.log(response.data);
                         self.lists = response.data;
@@ -196,7 +196,7 @@
                             let tmp2 = self.formData.date.value + " " + self.formData.timeUB.value;
                             let time_LB = moment(tmp1 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
                             let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
-                            axios.post('/api/found', {
+                            axios.post('./api/found', {
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
                                 "location": self.formData.location.value,
@@ -248,7 +248,7 @@
                 },
                 delDetail (id) {
                     if(confirm("確定要刪除此則遺失物資訊?")){
-                        axios.delete('/api/found/'+id)
+                        axios.delete('./api/found/'+id)
                             .then(function (response) {
                                 console.log(response);
                                 location.reload();
@@ -350,7 +350,7 @@
                         let time_UB = moment(tmp2 + "+0000", "YYYY-MM-DD HH Z").toISOString(true);
                         if (self.formData.image.value == "ok") {
                             self.imageUpload(self.formData.image.imgData).then((res) => {
-                                axios.patch('/api/found/' + this.formData.id.value, {
+                                axios.patch('./api/found/' + this.formData.id.value, {
                                     "name": self.formData.name.value,
                                     "classification_id": self.formData.fication.value,
                                     "location": self.formData.location.value,
@@ -376,7 +376,7 @@
                                 });
                             });
                         } else {
-                            axios.patch('/api/found/' + self.formData.id.value, {
+                            axios.patch('./api/found/' + self.formData.id.value, {
                                 "name": self.formData.name.value,
                                 "classification_id": self.formData.fication.value,
                                 "location": self.formData.location.value,
