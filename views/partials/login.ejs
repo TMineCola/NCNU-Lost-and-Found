@@ -78,7 +78,7 @@
             </div>
             <div class="modal-body">
                 <div class="col-12">
-                    <a href="/login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
+                    <a href="./login/facebook" class="pl-md-0 btn btn-lg btn-block onl_btn-facebook d-flex justify-content-md-start justify-content-center align-items-center"
                         role="button" title="Facebook">
                         <i class="d-none d-md-inline-block fa fa-facebook fa-2x mr-2"></i>
                         <span class="m-auto">使用&nbsp;&nbsp;Facebook&nbsp;&nbsp;登入</span>
@@ -138,7 +138,7 @@
 </div>
 
 <% } else { %>
-    <a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="http://localhost:3000/logout" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:25px;">
+    <a class="btn btn-info btn-large btn-block nav-link dropdown-toggle" href="./logout" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:25px;">
         <%= user.displayName %><img class="ml-2" src="<%= user.photos[0].value %> " style='border-radius:25px;height:25px;width:25px;'/>
     </a>
 <% } %>
