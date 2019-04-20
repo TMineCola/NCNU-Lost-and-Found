@@ -7,7 +7,7 @@
         // lrz(this.files[0], {quality: 0.5,width:0.5})
         .then(function (result) {
             // console.log(result);
-            console.log(result.base64);
+            // console.log(result.base64);
             // 把圖片編碼存起來
             app.formData.image.imgData = result.base64.replace(/.*,/, '');
             // 確定是圖片後先把 value 改掉, 讓送出驗證時不為空

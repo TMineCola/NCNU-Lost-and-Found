@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="<%=csrfToken%>">
     <meta name="description" content="國立暨南國際大學遺失物系統">
     <title>回報表單</title>
     <% include ../partials/bootstrap_css %>
@@ -236,7 +237,8 @@
                                     "time_interval_UB": time_UB,
                                     "description": self.formData.description.value,
                                     "image": self.formData.image.value,
-                                    "deleteHash": self.formData.image.deleteHash
+                                    "deleteHash": self.formData.image.deleteHash,
+                                    "_csrf": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                                 })
                                 .then(function (response) {
                                     console.log(response);
@@ -261,7 +263,8 @@
                                 "location": self.formData.location.value,
                                 "time_interval_LB": time_LB,
                                 "time_interval_UB": time_UB,
-                                "description": self.formData.description.value
+                                "description": self.formData.description.value,
+                                "_csrf": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             })
                             .then(function (response) {
                                 console.log(response);
