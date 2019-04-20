@@ -117,29 +117,29 @@ app.get('/lost_form', function (req, res) {
 
 app.post('/register/admin', passport.authenticate('local-signup'));
 app.post('/login/admin', passport.authenticate('local-login'), function(req, res) {
-    res.redirect(req.session.returnTo || '/lnf');
+    res.redirect(req.session.returnTo || config.HOST_IP);
     delete req.session.returnTo;
 });
 
 app.get('/login/facebook', passport.authenticate('facebook', { scope: ["email"] }));
 app.get('/login/facebook/return', passport.authenticate('facebook'), function (req, res) {
-    res.redirect(req.session.returnTo || '/lnf');
+    res.redirect(req.session.returnTo || config.HOST_IP);
     delete req.session.returnTo;
 });
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
-    res.redirect(req.session.returnTo || '/lnf');
+    res.redirect(req.session.returnTo || config.HOST_IP);
     delete req.session.returnTo;
 });
 app.get('/login/google', passport.authenticate('google', { scope: ["email"] }));
 app.get('/login/google/return', passport.authenticate('google'), function (req, res) {
-    res.redirect(req.session.returnTo || '/lnf');
+    res.redirect(req.session.returnTo || config.HOST_IP);
     delete req.session.returnTo;
 });
 
 app.get('/logout', function (req, res) {
     req.logout();
-    res.redirect(req.session.returnTo || '/lnf');
+    res.redirect(req.session.returnTo || config.HOST_IP);
     delete req.session.returnTo;
 });
 
