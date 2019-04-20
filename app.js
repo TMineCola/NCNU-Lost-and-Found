@@ -127,6 +127,17 @@ app.get('/login/facebook/return', passport.authenticate('facebook'), function (r
     delete req.session.returnTo;
 });
 
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
+});
+app.get('/login/google', passport.authenticate('google', { scope: ["email"] }));
+app.get('/login/google/return', passport.authenticate('google'), function (req, res) {
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
+});
+
+
 app.get('/logout', function (req, res) {
     req.logout();
     res.redirect(req.session.returnTo || '/');

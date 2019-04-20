@@ -48,7 +48,7 @@ module.exports = function () {
                     reject(err);
                 }
                 if(result[0]['password'] == sha256(password)) {
-                    resolve();
+                    resolve(result[0]);
                 } else {
                     reject("Password error!");
                 }
