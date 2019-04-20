@@ -30,7 +30,6 @@ module.exports = function () {
             db.query(sql, email, function (err, result) {
                 if (err) {
                     reject(err);
-                    throw err;
                 }
                 if(result[0]['COUNT(*)'] == 1) {
                     resolve(true);
@@ -45,11 +44,13 @@ module.exports = function () {
         return new Promise((resolve, reject) => {
             let sql = "SELECT `password` FROM `register` WHERE `email` = ?";
             db.query(sql, email, function (err, result) {
-                if (err) throw err;
+                if (err) {
+                    reject(err);
+                }
                 if(result[0]['password'] == sha256(password)) {
-                    resolve(true);
+                    resolve();
                 } else {
-                    reject(false);
+                    reject("Password error!");
                 }
             });
         });
@@ -59,11 +60,13 @@ module.exports = function () {
         return new Promise((resolve, reject) => {
             let sql = "INSERT INTO `register` (email, password, registered_time, isManager) VALUES (?, ?, ?, 0)";
             db.query(sql, [email, sha256(password), moment().toISOString(true)], function (err, result) {
-                if (err) throw err;
+                if (err) {
+                    reject(err);
+                }
                 if(result['affectedRows'] == 1) {
-                    resolve(result['insertId']);
+                    resolve();
                 } else {
-                    reject(false);
+                    reject("Fail to create account");
                 }
             });
         });
@@ -71,13 +74,31 @@ module.exports = function () {
 
     module.modify = function (oldemail, newemail, password) {
         return new Promise((resolve, reject) => {
-            let sql = "UPDATE `register` SET `email` = ?, `password` = ? WHERE `email` = ?";
-            db.query(sql, [newemail, sha256(password), oldemail], function (err, result) {
-                if (err) throw err;
+            let sql = "UPDATE `register` SET `email` = ? WHERE `email` = ? AND `password` = ?";
+            db.query(sql, [newemail, oldemail, sha256(password)], function (err, result) {
+                if (err) {
+                    reject(err);
+                }
                 if(result['affectedRows'] == 1) {
-                    resolve(true);
+                    resolve();
                 } else {
-                    reject(false);
+                    reject("Fail to modify email");
+                }
+            });
+        });
+    }
+
+    module.changePassword = function (email, password, newPassword) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE `register` SET `password` = ? WHERE `email` = ? AND `password` = ?";
+            db.query(sql, [newPassword, email, sha256(password)], function (err, result) {
+                if (err) {
+                    reject(err);
+                }
+                if(result['affectedRows'] == 1) {
+                    resolve();
+                } else {
+                    reject("Fail to change password");
                 }
             });
         });
@@ -87,12 +108,13 @@ module.exports = function () {
         return new Promise((resolve, reject) => {
             let sql = "DELETE FROM `register` WHERE `email` = ? AND `password` = ?";
             db.query(sql, [email, sha256(password)], function (err, result) {
-                if (err) throw err;
-                console.log(result);
+                if (err) {
+                    reject(err);
+                }
                 if(result['affectedRows'] == 1) {
-                    resolve(true);
+                    resolve();
                 } else {
-                    reject(false);
+                    reject("Fail to delete account");
                 }
             });
         });

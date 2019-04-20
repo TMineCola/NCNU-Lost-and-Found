@@ -4,21 +4,49 @@ var router = express.Router();
 var middleware = require('./middleware/login');
 var db = require('./modules/accountController');
 
+router.get('/', function(req, res, next) {
+    let account = req.body;
+    db.searchAccount(account.email).then((status) => {
+        if(status) {
+            res.status(403).send({ "error": "already enroll"});
+            return;
+        } else {
+            res.status(200).send({ "success": "you can enroll" });
+            return;
+        }
+    }).catch((err) => {
+        res.status(500).send({ "error": err });
+        return;
+    });
+});
+
 router.post('/', function(req, res, next) {
     let account = req.body;
-    db.searchEmail(account.email).then(() => {
-        return db.create(account.email, account.password);
-    }).then((insertID) => {
-        return res.status(200).send({ "insertID": insertID });
-    }).catch(() => {
-        return res.status(500).send({ "error": "insertError" });
+    db.searchAccount(account.email).then((status) => {
+        if(status) {
+            res.status(403).send({ "error": "already enroll"});
+            return;
+        } else {
+            return db.create(account.email, account.password);
+        }
+    }).then(() => {
+        return res.status(200).send({ "success": "insert success" });
+    }).catch((err) => {
+        return res.status(500).send({ "error": err });
     })
 });
 
 router.patch('/', function(req, res, next) {
     let account = req.body;
-    db.searchEmail(account.email).then(() => {
-        return db.modify(account.newemail, account.password, account.oldemail);
+    db.searchAccount(account.email).then((status) => {
+        if(status) {
+            return db.verifyAccount(account.email, account.password);
+        } else {
+            res.status(403).sned({ "error": "not enroll"});
+            return;
+        }
+    }).then(() => {
+        return db.modify(account.newemail, account.password, account.email);
     }).then(() => {
         return res.status(200).send({ "success": "modifySuccess" });
     }).catch(() => {
@@ -28,8 +56,15 @@ router.patch('/', function(req, res, next) {
 
 router.delete('/', function(req, res, next) {
     let account = req.body;
-    db.searchEmail(account.email).then(() => {
-        return db.modify(account.email, account.password);
+    db.searchAccount(account.email).then((status) => {
+        if(status) {
+            return db.verifyAccount(account.email, account.password);
+        } else {
+            res.status(403).sned({ "error": "not enroll"});
+            return;
+        }
+    }).then(() => {
+        return db.delete(account.email, account.password);
     }).then(() => {
         return res.status(200).send({ "success": "deleteSuccess" });
     }).catch(() => {
