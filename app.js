@@ -12,27 +12,28 @@ var mysql = require('mysql');
 var helmet = require('helmet');
 var csurf = require('csurf');
 var middleware = require('./routes/middleware/login');
+var conn = require('./ConnectionString');
 
 /* 連接MySQL */
-var con = mysql.createConnection({
-    host: config.SQL_HOST,
-    user: config.SQL_USER,
-    password: config.SQL_PWD,
-    database: config.SQL_DB
-});
+// var con = mysql.getConnection({
+//     host: config.SQL_HOST,
+//     user: config.SQL_USER,
+//     password: config.SQL_PWD,
+//     database: config.SQL_DB
+// });
 
-con.connect(function (err) {
-    if (err) {
-        console.log("MySQL連線失敗");
-        console.error(err);
-        return;
-    }
-    console.log("MySQL連線成功");
-});
+// con.connect(function (err) {
+//     if (err) {
+//         console.log("MySQL連線失敗");
+//         console.error(err);
+//         return;
+//     }
+//     console.log("MySQL連線成功");
+// });
 
 /* 載入passport */
 var passport = require('passport');
-require('./config/passport')(passport, config, auth_config, con);
+// require('./config/passport')(passport, config, auth_config, con);
 
 /* 預載路由處理方式 */
 var lost = require('./routes/lost');
@@ -68,13 +69,30 @@ app.use(csurf({ cookie: true }));
 
 // 將資料庫連線狀態帶入
 app.use(function (req, res, next) {
-    req.dbstatus = con;
+    req.dbstatus = conn;
     next();
 });
-
+  
 // 網頁路由
 app.get('/', function (req, res) {
-    res.render('pages/index', { user: req.user, page_name: 'index', csrfToken: req.csrfToken()});
+    console.log(conn.getConnection);
+    conn.getConnection(
+        function (err, client) {
+
+            client.query('SELECT * FROM department', function(err, rows) {
+                // And done with the connection.
+                if(err){
+                    console.log('Query Error');
+                }
+                console.log('success');
+                res.json(rows);
+                client.release();
+
+                // Don't use the connection here, it has been returned to the pool.
+            });
+            console.log('目前');
+    });
+    // res.render('pages/index', { user: req.user, page_name: 'index', csrfToken: req.csrfToken()});
 });
 app.get('/found', function (req, res) {
     res.render('pages/found', { user: req.user, page_name: 'found', csrfToken: req.csrfToken()});
@@ -178,4 +196,11 @@ app.use(function (err, req, res, next) {
     res.json(res.locals.error);
 });
 
+process.on('uncaughtException', function(err) {
+    if(err.message = 'read ECONNRESET'){
+        console.log('我們應該重新連線了！');
+    }
+    console.log(err.stack);
+    console.log('Not exit...');
+});
 module.exports = app;
